@@ -15,7 +15,7 @@
     <TargetFrameworks>net461;net47;net472</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Lucidtech.Las</PackageId>
-    <PackageVersion>1.0.2</PackageVersion>
+    <PackageVersion>1.1.0</PackageVersion>
     <Title>Lucidtech AI Services</Title>
     <Authors>Lucidtech AS</Authors>
     <Description>SDK for accessing Lucidtech AI Services</Description>
@@ -24,7 +24,7 @@
     <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/LucidtechAI/las-sdk-net</RepositoryUrl>
     <PackageTags>las Lucidtech invoice receipt intelligentOCR Automation MachineLearing OCR Document DataExtraction</PackageTags>
-    <PackageReleaseNotes>A few minor fixes</PackageReleaseNotes>
+    <PackageReleaseNotes>Renaming Credentials and a few minor fixes</PackageReleaseNotes>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
