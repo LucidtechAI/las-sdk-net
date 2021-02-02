@@ -154,19 +154,32 @@ namespace Lucidtech.Las
         /// <param name="batchId"> The batch id that contains the documents of interest </param>
         /// <param name="consentId"> An identifier to mark the owner of the document handle </param>
         /// <returns> Documents from REST API contained in batch </returns>
-        public object ListDocuments(string? batchId = null, string? consentId = null)
+        public object ListDocuments(
+            string? batchId = null, 
+            string? consentId = null, 
+            int? maxResults = null, 
+            string? nextToken = null
+        )
         {
-            var body = new Dictionary<string, string?>();
+            var queryParams = new Dictionary<string, object?>();
 
             if (!string.IsNullOrEmpty(batchId)) {
-                body.Add("batchId", batchId);
+                queryParams.Add("batchId", batchId);
             }
 
             if (!string.IsNullOrEmpty(consentId)) {
-                body.Add("consentId", consentId);
+                queryParams.Add("consentId", consentId);
             }
 
-            RestRequest request = ClientRestRequest(Method.GET, "/documents", body);
+            if (maxResults != null) {
+                queryParams.Add("maxResults", maxResults.ToString());
+            }
+
+            if (nextToken != null) {
+                queryParams.Add("nextToken", nextToken);
+            }
+
+            RestRequest request = ClientRestRequest(Method.GET, "/documents", null, queryParams);
             return ExecuteRequestResilient(RestSharpClient, request);
         } 
         
@@ -324,7 +337,7 @@ namespace Lucidtech.Las
                 queryParams.Add("nextToken", nextToken);
             }
 
-            RestRequest request = ClientRestRequest(Method.GET, "/predictions");
+            RestRequest request = ClientRestRequest(Method.GET, "/predictions", null, queryParams);
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 

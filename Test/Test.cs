@@ -68,19 +68,13 @@ namespace Test
             CheckKeys(new [] {"assetId"}, response);
         }
 
-        [Test]
-        public void TestListAssets() {
-            var response = Toby.ListAssets();
-            CheckKeys(new [] {"assets"}, response);
+        [TestCase("foo", 3)]
+        [TestCase(null, null)]
+        public void TestListAssets(string nextToken, int maxResults) {
+            var response = Toby.ListAssets(nextToken: nextToken, maxResults: maxResults);
+            CheckKeys(new [] {"nextToken", "assets"}, response);
         }
 
-        [Test]
-        public void TestListAssetsWithPagination() {
-            int maxResults = new Random().Next(1, 100);
-            var response = Toby.ListAssets(maxResults);
-            var expectedKeys = new [] {"assets", "nextToken"};
-            CheckKeys(expectedKeys, response);
-        }
 
         [Test]
         public void TestGetAssetById() {
@@ -189,17 +183,19 @@ namespace Test
             CheckKeys(expectedKeys, response);
         }
 
-        [Test]
-        public void TestListModels() {
-            var response = Toby.ListModels();
+        [TestCase("foo", 3)]
+        [TestCase(null, null)]
+        public void TestListModels(string nextToken, int maxResults) {
+            var response = Toby.ListModels(nextToken: nextToken, maxResults: maxResults);
             var expectedKeys = new [] {"models"};
             CheckKeys(expectedKeys, response);
         }
 
 
-        [Test]
-        public void TestListPredictions() {
-            var response = Toby.ListPredictions();
+        [TestCase("foo", 3)]
+        [TestCase(null, null)]
+        public void TestListPredictions(string nextToken, int maxResults) {
+            var response = Toby.ListPredictions(nextToken: nextToken, maxResults: maxResults);
             var expectedKeys = new [] {"predictions"};
             CheckKeys(expectedKeys, response);
         }
@@ -215,9 +211,10 @@ namespace Test
             CheckKeys(expectedKeys, response); 
         }
 
-        [Test]
-        public void TestListSecrets() {
-            var response = Toby.ListSecrets();
+        [TestCase("foo", 3)]
+        [TestCase(null, null)]
+        public void TestListSecrets(string nextToken, int maxResults) {
+            var response = Toby.ListSecrets(nextToken: nextToken, maxResults: maxResults);
             var expectedKeys = new [] {"secrets"};
             CheckKeys(expectedKeys, response);
         }
@@ -408,10 +405,10 @@ namespace Test
             CheckKeys(new [] {"email", "userId"}, response);
         }
 
-        [Test]
-        public void TestListUsers() {
-            int maxResults = new Random().Next(1, 100);
-            var response = Toby.ListUsers(maxResults: maxResults);
+        [TestCase("foo", 3)]
+        [TestCase(null, null)]
+        public void TestListUsers(string nextToken, int maxResults) {
+            var response = Toby.ListUsers(nextToken: nextToken, maxResults: maxResults);
             CheckKeys(new [] {"nextToken", "users"}, response);
         }
 
