@@ -34,7 +34,7 @@ namespace Test
         [OneTimeSetUp]
         public void InitClient()
         {
-          var mockCreds = new Mock<AmazonCredentials>("test", "test", "test", "test", "http://localhost:4010");
+          var mockCreds = new Mock<Credentials>("test", "test", "test", "test", "http://localhost:4010");
 
           mockCreds
             .Protected()
@@ -552,9 +552,9 @@ namespace Test
         public static string ModelId() { return "las:model:abc123def456abc123def456abc123de"; }
         public static string Endpoint() { return "http://127.0.0.1:4010"; }
         public static string DocPath() { return Environment.ExpandEnvironmentVariables("Test/Files/example.jpeg"); }
-        public static AmazonCredentials Creds() 
+        public static Credentials Creds() 
         {
-            return new AmazonCredentials("foo", "bar", "baz", "baaz", "http://127.0.0.1:4010"); 
+            return new Credentials("foo", "bar", "baz", "baaz", "http://127.0.0.1:4010"); 
         }
     }
 

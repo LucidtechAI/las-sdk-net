@@ -17,23 +17,23 @@ namespace Lucidtech.Las
     public class Client 
     {
         private RestClient RestSharpClient { get; }
-        private AmazonCredentials Credentials { get; }
+        private Credentials LasCredentials { get; }
 
         /// <summary>
         /// Client constructor.
         /// </summary>
         /// <param name="credentials"> Keys, endpoints and credentials needed for authorization </param>
-        public Client(AmazonCredentials credentials)
+        public Client(Credentials credentials)
         {
-            Credentials = credentials;
-            var uri = new Uri(Credentials.ApiEndpoint);
+            LasCredentials = credentials;
+            var uri = new Uri(LasCredentials.ApiEndpoint);
             RestSharpClient = new RestClient(uri.GetLeftPart(UriPartial.Authority));
         }
         
         /// <summary>
         /// Client constructor with credentials read from local file.
         /// </summary>
-        public Client() : this(new AmazonCredentials()) {}
+        public Client() : this(new Credentials()) {}
 
         public object CreateAsset(byte[] content, Dictionary<string, string?>? optionalParams) {
             string base64Content = System.Convert.ToBase64String(content);
@@ -693,7 +693,7 @@ namespace Lucidtech.Las
             object? body = null,
             Dictionary<string, object?>? queryParams = null)
         {
-            Uri endpoint = new Uri(string.Concat(Credentials.ApiEndpoint, path));
+            Uri endpoint = new Uri(string.Concat(LasCredentials.ApiEndpoint, path));
 
             var request = new RestRequest(endpoint, method, DataFormat.Json);
             request.JsonSerializer = JsonSerialPublisher.Default;
@@ -732,8 +732,8 @@ namespace Lucidtech.Las
         {
             var headers = new Dictionary<string, string>()
             {
-                {"Authorization", $"Bearer {Credentials.GetAccessToken()}"},
-                {"X-Api-Key", Credentials.ApiKey}
+                {"Authorization", $"Bearer {LasCredentials.GetAccessToken()}"},
+                {"X-Api-Key", LasCredentials.ApiKey}
             };
             headers.Add("Content-Type", "application/json");
             
