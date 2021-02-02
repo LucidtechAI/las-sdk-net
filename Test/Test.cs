@@ -104,10 +104,18 @@ namespace Test
             CheckKeys(expectedKeys, CreateDocResponse);
         }
 
-        [Test]
-        public void TestListDocuments()
-        {
-            var response = Toby.ListDocuments();
+        [TestCase("foo", 3, null, null)]
+        [TestCase(null, null, "las:consent:08b49ae64cd746f384f05880ef5de72f", null)]
+        [TestCase(null, null, null, "las:batch:08b49ae64cd746f384f05880ef5de72f")]
+        [TestCase("foo", 2, null, "las:batch:08b49ae64cd746f384f05880ef5de72f")]
+        [TestCase("foo", 2, "las:consent:08b49ae64cd746f384f05880ef5de72f", null)]
+        public void TestListDocuments(string nextToken, int maxResults, string consentId, string batchId) {
+            var response = Toby.ListDocuments(
+                nextToken: nextToken, 
+                maxResults: maxResults,
+                consentId: consentId,
+                batchId: batchId
+            );
             var expectedKeys = new [] {"documents"};
             CheckKeys(expectedKeys, response);
         }
