@@ -122,9 +122,12 @@ namespace Lucidtech.Las
             {
                 {"content", base64Content},
                 {"contentType", contentType}, 
-                {"consentId", consentId},
             };
 
+            if(consentId != null) {
+                body.Add("consentId", consentId);
+            }
+            
             if (!string.IsNullOrEmpty(batchId)) {
                 body.Add("batchId", batchId);
             }
