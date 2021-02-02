@@ -311,7 +311,7 @@ namespace Lucidtech.Las
         }
 
         public object ListPredictions(int? maxResults = null, string? nextToken = null) {
-            var queryParams = new Dictionary<string, string>();
+            var queryParams = new Dictionary<string, object>();
 
             if (maxResults != null) {
                 queryParams.Add("maxResults", maxResults.ToString());
@@ -326,7 +326,7 @@ namespace Lucidtech.Las
         }
 
         public object ListModels(int? maxResults = null, string? nextToken = null) {
-            var queryParams = new Dictionary<string, string>();
+            var queryParams = new Dictionary<string, object>();
 
             if (maxResults != null) {
                 queryParams.Add("maxResults", maxResults.ToString());
@@ -336,7 +336,7 @@ namespace Lucidtech.Las
                 queryParams.Add("nextToken", nextToken);
             }
 
-            RestRequest request = ClientRestRequest(Method.GET, "/models");
+            RestRequest request = ClientRestRequest(Method.GET, "/models", null, queryParams);
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 
@@ -355,7 +355,7 @@ namespace Lucidtech.Las
         }
 
         public object ListSecrets(int? maxResults = null, string? nextToken = null) {
-            var queryParams = new Dictionary<string, string>();
+            var queryParams = new Dictionary<string, object>();
 
             if (maxResults != null) {
                 queryParams.Add("maxResults", maxResults.ToString());
@@ -365,7 +365,7 @@ namespace Lucidtech.Las
                 queryParams.Add("nextToken", nextToken);
             }
 
-            RestRequest request = ClientRestRequest(Method.GET, "/secrets");
+            RestRequest request = ClientRestRequest(Method.GET, "/secrets", null, queryParams);
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 
@@ -685,8 +685,10 @@ namespace Lucidtech.Las
             if (body == null) {
                 body = new Dictionary<string, string>();
             }
-
-            request.AddJsonBody(body); 
+            
+            if (method == Method.POST || method == Method.PATCH) {
+                request.AddJsonBody(body); 
+            }
 
             if (queryParams == null) {
                 queryParams = new Dictionary<string, object?>();
