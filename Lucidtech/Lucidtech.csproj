@@ -23,7 +23,7 @@
     <PackageProjectUrl>https://github.com/LucidtechAI/las-sdk-net</PackageProjectUrl>
     <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/LucidtechAI/las-sdk-net</RepositoryUrl>
-    <PackageTags>las Lucidtech invoice receipt intelligentOCR Automation MachineLearing OCR Document DataExtraction</PackageTags>
+    <PackageTags>las Lucidtech invoice receipt intelligentOCR Automation DeepLearning MachineLearning OCR Document DataExtraction</PackageTags>
     <PackageReleaseNotes>Support netstandard2.0, fix documentation and multivalue query parameters</PackageReleaseNotes>
     <Nullable>enable</Nullable>
   </PropertyGroup>
