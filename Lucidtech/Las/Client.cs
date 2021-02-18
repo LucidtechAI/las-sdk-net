@@ -626,7 +626,8 @@ namespace Lucidtech.Las
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 
-        /// <summary>Delete a transition, calls the DELETE /transitions/{transition_id} endpoint.</summary>
+        /// <summary>Delete a transition, calls the DELETE /transitions/{transition_id} endpoint.
+        /// Will fail if transition is in use by one or more workflows.</summary>
         /// <example>
         /// <code>
         /// Client client = new Client();
