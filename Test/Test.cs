@@ -281,6 +281,21 @@ namespace Test
             CheckKeys(new [] {"transitions"}, response);
         }
 
+        [Test]
+        public void TestGetTransition() {
+            var transitionId = $"las:transition:{Guid.NewGuid().ToString().Replace("-", "")}";
+            var response = Toby.GetTransition(transitionId);
+            CheckKeys(new [] {"transitionId", "name", "description", "transitionType"}, response);
+        }
+
+        [Ignore("delete endpoints doesn't work")]
+        [Test]
+        public void TestDeleteTransition() {
+            var transitionId = $"las:transition:{Guid.NewGuid().ToString().Replace("-", "")}";
+            var response = Toby.DeleteTransition(transitionId);
+            CheckKeys(new [] {"transitionId", "name", "description", "transitionType"}, response);
+        }
+
         [TestCase("foo", "bar")]
         [TestCase(null, null)]
         public void TestUpdateTransition(string? name, string? description) {
@@ -296,7 +311,7 @@ namespace Test
                 {"description", description}
             };
             var response = Toby.UpdateTransition(transitionId, inputSchema, outputSchema, parameters);
-            CheckKeys(new [] {"name", "transitionId", "transitionType"}, response);
+            CheckKeys(new [] {"transitionId", "name", "description", "transitionType"}, response);
         }
 
         public void TestGetTransitionExecution() {
@@ -477,6 +492,13 @@ namespace Test
         ) {
             var response = Toby.ListWorkflows(maxResults, nextToken);
             CheckKeys(new [] {"workflows"}, response);
+        }
+
+        [Test]
+        public void TestGetWorkflow() {
+            var workflowId = $"las:workflow:{Guid.NewGuid().ToString().Replace("-", "")}";
+            var response = Toby.GetWorkflow(workflowId);
+            CheckKeys(new [] {"workflowId", "name", "description"}, response);
         }
 
         [TestCase("name", "description")]

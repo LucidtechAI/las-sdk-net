@@ -611,6 +611,35 @@ namespace Lucidtech.Las
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 
+        /// <summary>Get information about a specific transition,
+        /// calls the GET /transitions/{transition_id} endpoint.</summary>
+        /// <example>
+        /// <code>
+        /// Client client = new Client();
+        /// var response = client.GetTransition("&lt;transition_id&gt;");
+        /// </code>
+        /// </example>
+        /// <param name="transitionId">Id of the transition</param>
+        /// <returns>Transition response from REST API</returns>
+        public object GetTransition(string transitionId) {
+            var request = ClientRestRequest(Method.GET, $"/transitions/{transitionId}");
+            return ExecuteRequestResilient(RestSharpClient, request);
+        }
+
+        /// <summary>Delete a transition, calls the DELETE /transitions/{transition_id} endpoint.</summary>
+        /// <example>
+        /// <code>
+        /// Client client = new Client();
+        /// var response = client.DeleteTransition("&lt;transition_id&gt;");
+        /// </code>
+        /// </example>
+        /// <param name="transitionId">Id of the transition</param>
+        /// <returns>Transition response from REST API</returns>
+        public object DeleteTransition(string transitionId) {
+            var request = ClientRestRequest(Method.DELETE, $"/transitions/{transitionId}");
+            return ExecuteRequestResilient(RestSharpClient, request);
+        }
+
         /// <summary>Get an execution of a transition, calls the GET /transitions/{transitionId}/executions/{executionId} endpoint</summary>
         /// <example>
         /// <code>
@@ -994,7 +1023,23 @@ namespace Lucidtech.Las
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 
-        /// <summary>Delete the workflow with the provided workflow_id, calls the DELETE /workflows/{workflowId} endpoint.</summary>
+        /// <summary>Get information about a specific workflow,
+        /// calls the GET /workflows/{workflow_id} endpoint.</summary>
+        /// <example>
+        /// <code>
+        /// Client client = new Client();
+        /// var response = client.GetWorkflow("&lt;workflow_id&gt;");
+        /// </code>
+        /// </example>
+        /// <param name="workflowId">Id of the workflow</param>
+        /// <returns>Workflow response from REST API</returns>
+        public object GetWorkflow(string workflowId) {
+            var request = ClientRestRequest(Method.GET, $"/workflows/{workflowId}");
+            return ExecuteRequestResilient(RestSharpClient, request);
+        }
+
+        /// <summary>Delete the workflow with the provided workflow_id,
+        /// calls the DELETE /workflows/{workflowId} endpoint.</summary>
         /// <example>
         /// <code>
         /// Client client = new Client();
