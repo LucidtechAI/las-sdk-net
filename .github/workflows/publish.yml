@@ -1,11 +1,7 @@
 name: NetLicensing C# Client - Release
 
 on:
-  workflow_run:
-    workflows: ["NetLicensing C# Client - CI"]
-    branches: [ master ]
-    types:
-      - completed
+  workflow_dispatch:
 
 jobs:
   publish-nuget:
