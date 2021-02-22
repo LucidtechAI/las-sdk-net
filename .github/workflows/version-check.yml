@@ -7,22 +7,28 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  CheckVersionAndReleaseNote:
     timeout-minutes: 5
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
+      - name: Fetch repo
+          run: git fetch
+
       - name: Version check
         run: |
-          git fetch
           if [ -z $(git diff origin/master HEAD -- Lucidtech/Lucidtech.csproj | grep PackageVersion)]
           then
             echo "You should probably update version number"
             exit 1
           fi
-          if [ -z $(git diff origin/master HEAD -- Lucidtech/Lucidtech.csproj | grep PackagePackageReleaseNote)]
+          EOF
+
+      - name: Release note check
+        run: |
+          if [ -z $(git diff origin/master HEAD -- Lucidtech/Lucidtech.csproj | grep PackageReleaseNote)]
           then
             echo "You should probably update the release note"
             exit 1
