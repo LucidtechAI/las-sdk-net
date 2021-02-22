@@ -77,7 +77,7 @@ namespace Lucidtech.Las
         /// - "nextToken" allowing for retrieving the next portion of data
         /// </returns>
         public object ListAssets(int? maxResults = null, string? nextToken = null) {
-            var queryParams = new Dictionary<string, object>();
+            var queryParams = new Dictionary<string, object?>();
 
             if (maxResults != null) {
                 queryParams.Add("maxResults", maxResults.ToString());
@@ -390,7 +390,7 @@ namespace Lucidtech.Las
         /// - "nextToken" allowing for retrieving the next portion of data
         /// </returns>
         public object ListPredictions(int? maxResults = null, string? nextToken = null) {
-            var queryParams = new Dictionary<string, object>();
+            var queryParams = new Dictionary<string, object?>();
 
             if (maxResults != null) {
                 queryParams.Add("maxResults", maxResults.ToString());
@@ -419,7 +419,7 @@ namespace Lucidtech.Las
         /// - "nextToken" allowing for retrieving the next portion of data
         /// </returns>
         public object ListModels(int? maxResults = null, string? nextToken = null) {
-            var queryParams = new Dictionary<string, object>();
+            var queryParams = new Dictionary<string, object?>();
 
             if (maxResults != null) {
                 queryParams.Add("maxResults", maxResults.ToString());
@@ -476,7 +476,7 @@ namespace Lucidtech.Las
         /// - "nextToken" allowing for retrieving the next portion of data
         /// </returns>
         public object ListSecrets(int? maxResults = null, string? nextToken = null) {
-            var queryParams = new Dictionary<string, object>();
+            var queryParams = new Dictionary<string, object?>();
 
             if (maxResults != null) {
                 queryParams.Add("maxResults", maxResults.ToString());
@@ -597,7 +597,7 @@ namespace Lucidtech.Las
         /// <param name="nextToken">Token to retrieve the next page</param>
         /// <returns>Transitions response from REST API</returns>
         public object ListTransitions(string? transitionType = null, int? maxResults = null, string? nextToken = null) {
-            var queryParams = new Dictionary<string, object>();
+            var queryParams = new Dictionary<string, object?>();
 
             if (maxResults != null) {
                 queryParams.Add("maxResults", maxResults.ToString());
@@ -731,7 +731,13 @@ namespace Lucidtech.Las
             string? nextToken = null,
             string? sortBy = null,
             string? order = null
-        ) => ListTransitionExecutions(transitionId, new List<string>{status}, executionIds, maxResults, nextToken, sortBy, order);
+        ) {
+            List<string>? statuses = null;
+            if (status != null) {
+                statuses = new List<string>{status};
+            }
+            return ListTransitionExecutions(transitionId, statuses, executionIds, maxResults, nextToken, sortBy, order);
+         }
 
         /// <summary>List executions in a transition, calls the GET /transitions/{transitionId}/executions endpoint.</summary>
         /// <example>
@@ -757,7 +763,7 @@ namespace Lucidtech.Las
             string? sortBy = null,
             string? order = null
         ) {
-            var queryParams = new Dictionary<string, object>();
+            var queryParams = new Dictionary<string, object?>();
 
             if (statuses != null) {
                 queryParams.Add("status", statuses);
@@ -860,7 +866,7 @@ namespace Lucidtech.Las
         /// <param name="nextToken">A unique token used to retrieve the next page</param>
         /// <returns>Users response from REST API</returns>
         public object ListUsers(int? maxResults = null, string? nextToken = null) {
-            var queryParams = new Dictionary<string, object>();
+            var queryParams = new Dictionary<string, object?>();
 
             if (maxResults != null) {
                 queryParams.Add("maxResults", maxResults.ToString());
@@ -991,7 +997,7 @@ namespace Lucidtech.Las
         /// <param name="nextToken">A unique token used to retrieve the next page</param>
         /// <returns>Workflows response from REST API</returns>
         public object ListWorkflows(int? maxResults, string nextToken) {
-            var queryParams = new Dictionary<string, object>();
+            var queryParams = new Dictionary<string, object?>();
 
             if (maxResults != null) {
                 queryParams.Add("maxResults", maxResults.ToString());
@@ -1019,7 +1025,7 @@ namespace Lucidtech.Las
         /// <param name="workflowId">Id of the workflow</param>
         /// <param name="attributes">Attributes to update. Currently supported are: name, description</param>
         /// <returns>Workflow response from REST API</returns>
-        public object UpdateWorkflow(string workflowId, Dictionary<string, string?> attributes = null) {
+        public object UpdateWorkflow(string workflowId, Dictionary<string, string?> attributes) {
             var request = ClientRestRequest(Method.PATCH, $"/workflows/{workflowId}", attributes);
             return ExecuteRequestResilient(RestSharpClient, request);
         }
@@ -1151,7 +1157,7 @@ namespace Lucidtech.Las
         /// <example>
         /// <code>
         /// Client client = new Client();
-        /// var response = client.DeleteWorkflowExecution("&ltworkflow_id&gt;", "&lt;execution_id&gt;");
+        /// var response = client.DeleteWorkflowExecution("&lt;workflow_id&gt;", "&lt;execution_id&gt;");
         /// </code>
         /// </example>
         /// <param name="workflowId">Id of the workflow</param>
