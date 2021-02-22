@@ -15,7 +15,7 @@
     <TargetFrameworks>netstandard20</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Lucidtech.Las</PackageId>
-    <PackageVersion>1.1.2</PackageVersion>
+    <PackageVersion>1.1.3</PackageVersion>
     <Title>Lucidtech AI Services</Title>
     <Authors>Lucidtech AS</Authors>
     <Description>SDK for accessing Lucidtech AI Services</Description>
@@ -24,7 +24,7 @@
     <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/LucidtechAI/las-sdk-net</RepositoryUrl>
     <PackageTags>las Lucidtech invoice receipt intelligentOCR Automation DeepLearning MachineLearning OCR Document DataExtraction</PackageTags>
-    <PackageReleaseNotes>Add GET /transitions/:id, GET /workflows/:id and DELETE /transitions/:id</PackageReleaseNotes>
+    <PackageReleaseNotes>minor bugfixes</PackageReleaseNotes>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
