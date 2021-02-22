@@ -15,10 +15,10 @@ jobs:
         dotnet-version: '3.1.x'
 
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore Lucidtech
 
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build Lucidtech --configuration Release --no-restore
 
     - name: Publish to NuGet
       uses: brandedoutcast/publish-nuget@v2
