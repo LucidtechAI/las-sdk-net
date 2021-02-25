@@ -323,7 +323,7 @@ namespace Test
 
         [Test]
         public void TestExecuteTransition() {
-            var transitionId = $"las:transition-execution:{Guid.NewGuid().ToString().Replace("-", "")}";
+            var transitionId = $"las:transition:{Guid.NewGuid().ToString().Replace("-", "")}";
             var response = Toby.ExecuteTransition(transitionId);
             CheckKeys(new [] {"transitionId", "executionId", "status"}, response);
         }
@@ -420,6 +420,14 @@ namespace Test
                 "status",
                 "transitionId"
             }, response);
+        }
+
+        [Test]
+        public void TestSendHeartbeat() {
+            var executionId= $"las:transition-execution:{Guid.NewGuid().ToString().Replace("-", "")}";
+            var transitionId = $"las:transition:{Guid.NewGuid().ToString().Replace("-", "")}";
+            var response = Toby.SendHeartbeat(transitionId, executionId);
+            Assert.IsNull(response);
         }
 
         [Ignore("")]
