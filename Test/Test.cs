@@ -408,7 +408,8 @@ namespace Test
                 executionId,
                 status,
                 output,
-                error
+                error,
+                startTime: "2021-02-25 10:00:34.263905"
             );
             CheckKeys(new [] {
                 "completedBy",

@@ -852,7 +852,7 @@ namespace Lucidtech.Las
         /// <param name="executionId">Id of the execution</param>
         /// <returns>Transition exexution response from REST API</returns>
         public object SendHeartbeat(string transitionId, string executionId) {
-            var url = $"/transitions/{transitionId}/executions/{executionId}/heartbeats"
+            var url = $"/transitions/{transitionId}/executions/{executionId}/heartbeats";
             var request = ClientRestRequest(Method.POST, url);
             return ExecuteRequestResilient(RestSharpClient, request);
         }
