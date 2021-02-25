@@ -364,12 +364,14 @@ namespace Lucidtech.Las
             string documentId,
             string modelId,
             int? maxPages = null,
-            bool? autoRotate = null
+            bool? autoRotate = null,
+            string? imageQuality = null
         )
         {
             var body = new Dictionary<string, object>() { {"documentId", documentId}, {"modelId", modelId}};
             if (maxPages != null) { body.Add("maxPages", maxPages);}
             if (autoRotate != null) { body.Add("autoRotate", autoRotate);}
+            if (imageQuality != null) { body.Add("imageQuality", imageQuality);}
 
             RestRequest request = ClientRestRequest(Method.POST, "/predictions", body);
             return ExecuteRequestResilient(RestSharpClient, request);
@@ -1293,6 +1295,10 @@ namespace Lucidtech.Las
         
         private object JsonDecode(IRestResponse response)
         {
+            if (response.StatusCode == HttpStatusCode.NoContent)
+            {
+                return null;
+            }
             if (response.StatusCode == HttpStatusCode.Forbidden)
             {
                 throw new InvalidCredentialsException("Credentials provided is not valid.");
