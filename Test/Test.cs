@@ -120,11 +120,13 @@ namespace Test
         }
 
         [Test]
-        public void TestCreatePredictionBareMinimum()
+        [TestCase("HIGH", "LOW", null)]
+        public void TestCreatePredictionBareMinimum(imageQuality)
         {
             var response = Toby.CreatePrediction(
                 (string)CreateDocResponse["documentId"],
-                Example.ModelId()
+                Example.ModelId(),
+                imageQuality: imageQuality
             );
             var expectedKeys = new [] {"documentId", "predictions"};
             CheckKeys(expectedKeys, response);
