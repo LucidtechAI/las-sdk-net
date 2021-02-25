@@ -793,7 +793,8 @@ namespace Lucidtech.Las
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 
-        /// <summary>Ends the processing of the transition execution, calls the PATCH /transitions/{transitionId}/execution/{executionId} endpoint.</summary>
+        /// <summary>Ends the processing of the transition execution,
+        /// calls the PATCH /transitions/{transitionId}/executions/{executionId} endpoint.</summary>
         /// <example>
         /// <code>
         /// Client client = new Client();
@@ -806,13 +807,15 @@ namespace Lucidtech.Las
         /// <param name="status">Status of the execution: "succeeded" | "failed"</param>
         /// <param name="output">Output from the execution, required when status is "succeeded"</param>
         /// <param name="error">Error from the execution, required when status is "failed"</param>
+        /// <param name="startTime"> Utc start time that will replace the original start time of the execution</param>
         /// <returns>Transition execution response from REST API</returns>
         public object UpdateTransitionExecution(
             string transitionId,
             string executionId,
             string status,
             Dictionary<string, string>? output = null,
-            Dictionary<string, string>? error = null
+            Dictionary<string, string>? error = null,
+            string? startTime = null
         ) {
             var url = $"/transitions/{transitionId}/executions/{executionId}";
             var body = new Dictionary<string, object>{
@@ -826,7 +829,29 @@ namespace Lucidtech.Las
             if (error != null) {
                 body.Add("error", error);
             }
+
+            if (startTime != null) {
+                body.Add("startTime", startTime);
+            }
+
             var request = ClientRestRequest(Method.PATCH, url, body);
+            return ExecuteRequestResilient(RestSharpClient, request);
+        }
+
+        /// <summary>Send heartbeat for a manual execution,
+        /// calls the POST /transitions/{transitionId}/executions/{executionId}/heartbeats endpoint.</summary>
+        /// <example>
+        /// <code>
+        /// Client client = new Client();
+        /// var response = client.sendHeartbeat("&lt;transitionId&gt;", "&lt;executionId&gt;");
+        /// </code>
+        /// </example>
+        /// <param name="transitionId">Id of the transition</param>
+        /// <param name="executionId">Id of the execution</param>
+        /// <returns>Transition exexution response from REST API</returns>
+        public object SendHeartbeat(string transitionId, string executionId) {
+            var url = $"/transitions/{transitionId}/executions/{executionId}/heartbeats"
+            var request = ClientRestRequest(Method.POST, url);
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 
