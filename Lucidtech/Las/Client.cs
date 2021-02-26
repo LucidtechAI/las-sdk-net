@@ -1297,21 +1297,21 @@ namespace Lucidtech.Las
         {
             if (response.StatusCode == HttpStatusCode.NoContent)
             {
-                return null;
+                return new Dictionary<string, string>(){  {"Your request executed successfully", "204"} };
             }
-            if (response.StatusCode == HttpStatusCode.Forbidden)
+            else if (response.StatusCode == HttpStatusCode.Forbidden)
             {
                 throw new InvalidCredentialsException("Credentials provided is not valid.");
             }
-            if ( (int)response.StatusCode == 429 && response.Content.Contains("Too Many Requests"))
+            else if ( (int)response.StatusCode == 429 && response.Content.Contains("Too Many Requests"))
             {
                 throw new TooManyRequestsException("You have reached the limit of requests per second.");
             }
-            if ( (int)response.StatusCode == 429 && response.Content.Contains("Limit Exceeded"))
+            else if ( (int)response.StatusCode == 429 && response.Content.Contains("Limit Exceeded"))
             {
                 throw new LimitExceededException("You have reached the limit of total requests per month.");
             }
-            if (response.ResponseStatus == ResponseStatus.Error || response.StatusCode != HttpStatusCode.OK)
+            else if (response.ResponseStatus == ResponseStatus.Error || response.StatusCode != HttpStatusCode.OK)
             {
                 throw new RequestException(response);
             }

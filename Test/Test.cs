@@ -119,9 +119,10 @@ namespace Test
             CheckKeys(expectedKeys, response);
         }
 
-        [Test]
-        [TestCase("HIGH", "LOW", null)]
-        public void TestCreatePredictionBareMinimum(imageQuality)
+        [TestCase("HIGH")]
+        [TestCase("LOW")]
+        [TestCase(null)]
+        public void TestCreatePredictionBareMinimum(string? imageQuality)
         {
             var response = Toby.CreatePrediction(
                 (string)CreateDocResponse["documentId"],
@@ -219,7 +220,7 @@ namespace Test
             };
             var response = Toby.CreateSecret(data);
             var expectedKeys = new [] {"secretId"};
-            CheckKeys(expectedKeys, response); 
+            CheckKeys(expectedKeys, response);
         }
 
         [TestCase("foo", 3)]
@@ -430,7 +431,7 @@ namespace Test
             var executionId= $"las:transition-execution:{Guid.NewGuid().ToString().Replace("-", "")}";
             var transitionId = $"las:transition:{Guid.NewGuid().ToString().Replace("-", "")}";
             var response = Toby.SendHeartbeat(transitionId, executionId);
-            Assert.IsNull(response);
+            CheckKeys(new [] {"Your request executed successfully"}, response);
         }
 
         [Ignore("")]
