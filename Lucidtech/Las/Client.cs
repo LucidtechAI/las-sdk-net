@@ -14,7 +14,7 @@ namespace Lucidtech.Las
     /// <summary>
     /// Client to invoke api methods from Lucidtech AI Services.
     /// </summary>
-    public class Client 
+    public class Client
     {
         private RestClient RestSharpClient { get; }
         private Credentials LasCredentials { get; }
@@ -29,7 +29,7 @@ namespace Lucidtech.Las
             var uri = new Uri(LasCredentials.ApiEndpoint);
             RestSharpClient = new RestClient(uri.GetLeftPart(UriPartial.Authority));
         }
-        
+
         /// <summary>
         /// Client constructor with credentials read from local file.
         /// </summary>
@@ -72,7 +72,7 @@ namespace Lucidtech.Las
         /// <param name="maxResults">Number of items to show on a single page</param>
         /// <param name="nextToken">Token to retrieve the next page</param>
         /// <returns>
-        /// JSON object with two keys: 
+        /// JSON object with two keys:
         /// - "assets" Assets response from REST API without the content of each asset
         /// - "nextToken" allowing for retrieving the next portion of data
         /// </returns>
@@ -167,7 +167,7 @@ namespace Lucidtech.Las
             var body = new Dictionary<string, object>()
             {
                 {"content", base64Content},
-                {"contentType", contentType}, 
+                {"contentType", contentType},
             };
 
             if(consentId != null) {
@@ -205,9 +205,9 @@ namespace Lucidtech.Las
         /// <param name="nextToken">Token to retrieve the next page</param>
         /// <returns> Documents from REST API contained in batch </returns>
         public object ListDocuments(
-            string? batchId = null, 
-            string? consentId = null, 
-            int? maxResults = null, 
+            string? batchId = null,
+            string? consentId = null,
+            int? maxResults = null,
             string? nextToken = null
         ) {
             var queryParams = new Dictionary<string, object?>();
@@ -230,8 +230,8 @@ namespace Lucidtech.Las
 
             RestRequest request = ClientRestRequest(Method.GET, "/documents", null, queryParams);
             return ExecuteRequestResilient(RestSharpClient, request);
-        } 
-        
+        }
+
         /// <summary>
         /// Get document from the REST API, calls the GET /documents/{documentId} endpoint.
         /// </summary>
@@ -251,8 +251,8 @@ namespace Lucidtech.Las
 
         /// <summary>
         /// Update ground truth of the document, calls the POST /documents/{documentId} endpoint.
-        /// This enables the API to learn from past mistakes. 
-        /// </summary> 
+        /// This enables the API to learn from past mistakes.
+        /// </summary>
         /// <example>
         /// <code>
         /// Client client = new Client();
@@ -275,11 +275,11 @@ namespace Lucidtech.Las
         public object UpdateDocument(string documentId, List<Dictionary<string, string>> groundTruth)
         {
             var bodyDict = new Dictionary<string, List<Dictionary<string,string>>>() {{"groundTruth", groundTruth}};
-            
+
             // Doing a manual cast from Dictionary to object to help out the serialization process
             string bodyString = JsonConvert.SerializeObject(bodyDict);
             object body = JsonConvert.DeserializeObject(bodyString);
-            
+
             RestRequest request = ClientRestRequest(Method.PATCH, $"/documents/{documentId}", body);
             return ExecuteRequestResilient(RestSharpClient, request);
         }
@@ -292,15 +292,25 @@ namespace Lucidtech.Las
         /// var response = client.DeleteConsent('&lt;consentId&gt;');
         /// </code></example>
         /// <param name="consentId"> Delete documents with provided consentId </param>
+        /// <param name="maxResults">Maximum number of items to delete</param>
+        /// <param name="nextToken">Token to retrieve the next page</param>
         /// <returns>
         /// A deserialized object that can be interpreted as a Dictionary with the fields
-        /// consentId and documentIds 
+        /// consentId, nextToken and documents
         /// </returns>
-        public object DeleteDocuments(string? consentId = null) {
+        public object DeleteDocuments(string? consentId = null, int? maxResults = null, string? nextToken = null) {
             var queryParams = new Dictionary<string, object?>();
 
             if (consentId != null) {
                 queryParams.Add("consentId", consentId);
+            }
+
+            if (maxResults != null) {
+                queryParams.Add("maxResults", maxResults.ToString());
+            }
+
+            if (nextToken != null) {
+                queryParams.Add("nextToken", nextToken);
             }
 
             RestRequest request = ClientRestRequest(Method.DELETE, "/documents", null, queryParams);
@@ -355,7 +365,7 @@ namespace Lucidtech.Las
         /// upload Same as provided to <see cref="CreateDocument"/></param>
         /// <param name="modelId"> Id of the model to use for inference </param>
         /// <param name="maxPages"> Maximum number of pages to run predictions on </param>
-        /// <param name="autoRotate"> Whether or not to let the API try different 
+        /// <param name="autoRotate"> Whether or not to let the API try different
         /// rotations on the document when running </param>
         /// <param name="extras"> Extra information to add to json body </param>
         /// <returns>
@@ -389,7 +399,7 @@ namespace Lucidtech.Las
         /// <param name="maxResults">Number of items to show on a single page</param>
         /// <param name="nextToken">Token to retrieve the next page</param>
         /// <returns>
-        /// JSON object with two keys: 
+        /// JSON object with two keys:
         /// - "predictions" which contains a list of Prediction objects
         /// - "nextToken" allowing for retrieving the next portion of data
         /// </returns>
@@ -418,7 +428,7 @@ namespace Lucidtech.Las
         /// <param name="maxResults">Number of items to show on a single page</param>
         /// <param name="nextToken">Token to retrieve the next page</param>
         /// <returns>
-        /// JSON object with two keys: 
+        /// JSON object with two keys:
         /// - "models" which contains a list of Prediction objects
         /// - "nextToken" allowing for retrieving the next portion of data
         /// </returns>
@@ -475,7 +485,7 @@ namespace Lucidtech.Las
         /// <param name="maxResults">Number of items to show on a single page</param>
         /// <param name="nextToken">Token to retrieve the next page</param>
         /// <returns>
-        /// JSON object with two keys: 
+        /// JSON object with two keys:
         /// - "secrets" which contains a list of Prediction objects
         /// - "nextToken" allowing for retrieving the next portion of data
         /// </returns>
@@ -1198,7 +1208,7 @@ namespace Lucidtech.Las
         }
 
         /// <summary>
-        /// Create a HTTP web request for the REST API. 
+        /// Create a HTTP web request for the REST API.
         /// </summary>
         /// <param name="method"> The request method, e.g. POST, PUT, GET, DELETE </param>
         /// <param name="path"> The path to the domain upon which to apply the request,
@@ -1221,9 +1231,9 @@ namespace Lucidtech.Las
             if (body == null) {
                 body = new Dictionary<string, string>();
             }
-            
+
             if (method == Method.POST || method == Method.PATCH) {
-                request.AddJsonBody(body); 
+                request.AddJsonBody(body);
             }
 
             if (queryParams == null) {
@@ -1250,7 +1260,7 @@ namespace Lucidtech.Las
 
             return request;
         }
-        
+
 
         private Dictionary<string, string> CreateSigningHeaders()
         {
@@ -1260,7 +1270,7 @@ namespace Lucidtech.Las
                 {"X-Api-Key", LasCredentials.ApiKey}
             };
             headers.Add("Content-Type", "application/json");
-            
+
             return headers;
         }
 
@@ -1283,7 +1293,7 @@ namespace Lucidtech.Las
             var result = policy.Execute(() => ExecuteRequest(client, request));
             return result;
         }
-        
+
         private object ExecuteRequest(RestClient client, RestRequest request)
         {
             IRestResponse response = client.Execute(request);
@@ -1294,7 +1304,7 @@ namespace Lucidtech.Las
         {
             return 400 <= (int) code && (int) code < 500;
         }
-        
+
         private object JsonDecode(IRestResponse response)
         {
             if (response.StatusCode == HttpStatusCode.NoContent)
@@ -1328,5 +1338,5 @@ namespace Lucidtech.Las
                 throw new Exception(response.ToString());
             }
         }
-    } 
+    }
 }
