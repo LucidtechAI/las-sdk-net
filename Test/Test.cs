@@ -50,7 +50,17 @@ namespace Test
         public void Setup()
         {
             byte[] body = File.ReadAllBytes(Example.DocPath());
-            var response = Toby.CreateDocument(body, Example.ContentType(), Example.ConsentId());
+            var groundTruth = new List<Dictionary<string, string>>()
+            {
+                new Dictionary<string, string>(){{"label", "total_amount"},{"value", "54.50"}},
+                new Dictionary<string, string>(){{"label", "purchase_date"},{"value", "2007-07-30"}}
+            };
+            var response = Toby.CreateDocument(
+                body,
+                Example.ContentType(),
+                Example.ConsentId(),
+                groundTruth: groundTruth
+            );
             CreateDocResponse = JsonSerialPublisher.ObjectToDict<Dictionary<string, object>>(response);
         }
 

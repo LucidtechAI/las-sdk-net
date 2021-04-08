@@ -164,7 +164,7 @@ namespace Lucidtech.Las
             List<Dictionary<string, string>>? groundTruth = null)
         {
             string base64Content = System.Convert.ToBase64String(content);
-            var body = new Dictionary<string, string?>()
+            var body = new Dictionary<string, object>()
             {
                 {"content", base64Content},
                 {"contentType", contentType}, 
@@ -173,16 +173,18 @@ namespace Lucidtech.Las
             if(consentId != null) {
                 body.Add("consentId", consentId);
             }
-            
+
             if (!string.IsNullOrEmpty(batchId)) {
                 body.Add("batchId", batchId);
             }
 
-            if (groundTruth != null) { 
-                string fb = JsonConvert.SerializeObject(groundTruth);
-                body.Add("groundTruth", fb);
+            if (groundTruth != null) {
+                body.Add("groundTruth", groundTruth);
             }
-            
+
+            string bodyString = JsonConvert.SerializeObject(body);
+            object bodyObject = JsonConvert.DeserializeObject(bodyString);
+
             RestRequest request = ClientRestRequest(Method.POST, "/documents", body);
             return ExecuteRequestResilient(RestSharpClient, request);
         }
