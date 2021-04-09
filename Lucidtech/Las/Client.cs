@@ -1241,14 +1241,17 @@ namespace Lucidtech.Las
             }
 
             foreach (var entry in queryParams) {
+
                 if (entry.Value == null) {
                     continue;
                 }
-
-                if (entry.Value is List<string?>) {
+                else if (entry.Value is List<string?>) {
                     foreach (var item in entry.Value as List<string>) {
                         request.AddQueryParameter(entry.Key, item);
                     }
+                }
+                else {
+                    request.AddQueryParameter(entry.Key, entry.Value.ToString());
                 }
             }
 
