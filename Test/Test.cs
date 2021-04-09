@@ -188,10 +188,10 @@ namespace Test
             CheckKeys(expectedKeys, response);
         }
 
-        [Test]
         [Ignore("delete endpoints doesn't work")]
-        public void TestDeleteDocuments() {
-            var response = Toby.DeleteDocuments();
+        [TestCase(2, "foo", "las:consent:3ac6c39a3f9948a3b1aeb23ae7c73291")]
+        public void TestDeleteDocuments(int maxResults, string nextToken, string consentId) {
+            var response = Toby.DeleteDocuments(maxResults: maxResults, nextToken: nextToken, consentId: consentId);
             var expectedKeys = new [] {"documents"};
             CheckKeys(expectedKeys, response);
         }
