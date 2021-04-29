@@ -524,10 +524,12 @@ namespace Test
         [TestCase("name", "")]
         [TestCase(null, null)]
         public void TestUpdateWorkflow(string name, string description) {
-            var response = Toby.UpdateWorkflow(Util.ResourceId("workflow"), new Dictionary<string, string?>{
-                {"name", name},
-                {"description", description}
-            });
+            var response = Toby.UpdateWorkflow(
+                Util.ResourceId("workflow"), 
+                errorConfig: Util.ErrorConfig(),
+                completedConfig: Util.CompletedConfig(),
+                attributes: Util.NameAndDescription(name, description)
+            );
             CheckKeys(Util.ExpectedKeys("workflow"), response);
         }
 

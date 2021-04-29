@@ -63,6 +63,33 @@ namespace Test.Service
                     throw new Exception($"{resourceName} is not a valid resource name");
             }
         }
+        
+        public static Dictionary<string, object> CompletedConfig(){
+            var environment = new Dictionary<string, string?>{
+                {"FOO", "FOO"},
+                {"BAR", "BAR"}
+            };
+            return new Dictionary<string, object>{
+                {"imageUrl", "my/docker:image"},
+                {"secretId", Util.ResourceId("secret")},
+                {"environment", environment},
+                {"environmentSecrets", new List<string>{Util.ResourceId("secret")}}
+            };
+        }
+            
+        public static Dictionary<string, object> ErrorConfig(){
+            return new Dictionary<string, object>{
+                {"email", "foo@lucidtech.io"},
+                {"manualRetry", true}
+            };
+        }
+            
+        public static Dictionary<string, string?> NameAndDescription(string? name, string? description){
+            return new Dictionary<string, string?>{
+                {"name", name},
+                {"description", description}
+            };
+        }
     }
     
 }

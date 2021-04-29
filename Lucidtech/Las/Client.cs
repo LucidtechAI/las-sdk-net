@@ -1122,8 +1122,29 @@ namespace Lucidtech.Las
         /// <param name="workflowId">Id of the workflow</param>
         /// <param name="attributes">Attributes to update. Currently supported are: name, description</param>
         /// <returns>Workflow response from REST API</returns>
-        public object UpdateWorkflow(string workflowId, Dictionary<string, string?> attributes) {
-            var request = ClientRestRequest(Method.PATCH, $"/workflows/{workflowId}", attributes);
+        public object UpdateWorkflow(
+            string workflowId, 
+            Dictionary<string, object>? errorConfig,
+            Dictionary<string, object>? completedConfig,
+            Dictionary<string, string?> attributes
+        ){
+            var body = new Dictionary<string, object?>{};
+            
+            if (errorConfig != null) {
+                body.Add("errorConfig", errorConfig);
+            }
+
+            if (completedConfig != null) {
+                body.Add("completedConfig", completedConfig);
+            }
+
+            if (attributes != null) {
+                foreach (KeyValuePair<string, string?> entry in attributes) {
+                    body.Add(entry.Key, entry.Value);
+                }
+            }
+
+            var request = ClientRestRequest(Method.PATCH, $"/workflows/{workflowId}", body);
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 
