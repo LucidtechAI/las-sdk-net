@@ -598,6 +598,22 @@ namespace Test
         }
 
         [Test]
+        public void TestUpdateWorkflowExecution() {
+            var workflowId = $"las:workflow:{Guid.NewGuid().ToString().Replace("-", "")}";
+            var executionId = $"las:workflow-execution:{Guid.NewGuid().ToString().Replace("-", "")}";
+            var transitionId = $"las:transition:{Guid.NewGuid().ToString().Replace("-", "")}";
+            var response = Toby.UpdateWorkflowExecution(workflowId, executionId, transitionId);
+            var expectedKeys = new [] {
+                "workflowId",
+                "executionId",
+                "startTime",
+                "endTime",
+                "transitionExecutions"
+            };
+            CheckKeys(expectedKeys, response);
+        }
+     
+        [Test]
         [Ignore("delete endpoints doesn't work")]
         public void TestDeleteWorkflowExecution() {
             var workflowId = $"las:workflow:{Guid.NewGuid().ToString().Replace("-", "")}";

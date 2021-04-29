@@ -1205,6 +1205,29 @@ namespace Lucidtech.Las
         }
 
         /// <summary>
+        /// Retry or end the processing of a workflow execution,
+        /// calls the PATCH /workflows/{workflow_id}/executions/{execution_id} endpoint.
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// Client client = new Client();
+        /// var response = client.UpdateWorkflowExecution("&lt;workflow_id&gt;", "&lt;execution_id&gt;", "&lt;next_transition_id&gt;");
+        /// </code>
+        /// </example>
+        /// <param name="workflowId">Id of the workflow</param>
+        /// <param name="executionId">Id of the execution</param>
+        /// <param name="nextTransitionId">The next transition to transition into, to end the workflow-execution,
+        /// use: las:transition:commons-failed</param>
+        /// <returns>WorkflowExecution response from REST API</returns>
+        public object UpdateWorkflowExecution(string workflowId, string executionId, string nextTransitionId) {
+            var body = new Dictionary<string, string>(){
+                {"nextTransitionId", nextTransitionId}
+            };
+            var request = ClientRestRequest(Method.PATCH, $"/workflows/{workflowId}/executions/{executionId}", body);
+            return ExecuteRequestResilient(RestSharpClient, request);
+        }
+
+        /// <summary>
         /// Deletes the execution with the provided execution_id from workflow_id,
         /// calls the DELETE /workflows/{workflowId}/executions/{executionId} endpoint.
         /// </summary>
