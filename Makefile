@@ -18,12 +18,6 @@ build-test: restore-test
 	msbuild Test/Test.csproj
 
 test: build-test
-	nunit3-console ./Test/bin/Debug/net461/Test.dll
-	nunit3-console ./Test/bin/Debug/net47/Test.dll
-	nunit3-console ./Test/bin/Debug/net472/Test.dll
-
-test2: build-test
-	# this target is needed to run nunit3-console on macos
 	mono $(HOME)/.nuget/packages/nunit.consolerunner/3.11.1/tools/nunit3-console.exe --stoponerror ./Test/bin/Debug/net461/Test.dll
 	mono $(HOME)/.nuget/packages/nunit.consolerunner/3.11.1/tools/nunit3-console.exe --stoponerror ./Test/bin/Debug/net47/Test.dll
 	mono $(HOME)/.nuget/packages/nunit.consolerunner/3.11.1/tools/nunit3-console.exe --stoponerror ./Test/bin/Debug/net472/Test.dll
