@@ -75,22 +75,21 @@ namespace Test
                 {"description", description}
             };
             var response = Toby.CreateAsset(bytes, parameters);
-            CheckKeys(new [] {"assetId"}, response);
+            CheckKeys(Util.ExpectedKeys("asset"), response);
         }
 
         [TestCase("foo", 3)]
         [TestCase(null, null)]
         public void TestListAssets(string nextToken, int maxResults) {
             var response = Toby.ListAssets(nextToken: nextToken, maxResults: maxResults);
-            CheckKeys(new [] {"nextToken", "assets"}, response);
+            CheckKeys(Util.ExpectedKeys("assets"), response);
         }
 
 
         [Test]
         public void TestGetAssetById() {
             var response = Toby.GetAsset(Util.ResourceId("asset"));
-            var expectedKeys = new [] {"assetId", "content"};
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("asset"), response);
         }
 
         [TestCase("name", "description")]
@@ -101,22 +100,20 @@ namespace Test
                 {"name", name},
                 {"description", description}
             });
-            var expectedKeys = new [] {"assetId"};
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("asset"), response);
         }
 
         [Ignore("delete endpoints doesn't work")]
         [Test]
         public void TestDeleteAsset() {
             var response = Toby.DeleteAsset(Util.ResourceId("asset"));
-            CheckKeys(new [] {"assetId", "name", "description"}, response);
+            CheckKeys(Util.ExpectedKeys("asset"), response);
         }
 
         [Test]
         public void TestCreateDocument()
         {
-            var expectedKeys = new [] {"documentId", "contentType", "consentId"};
-            CheckKeys(expectedKeys, CreateDocResponse);
+            CheckKeys(Util.ExpectedKeys("document"), CreateDocResponse);
         }
 
         [TestCase("foo", 3, null, null)]
@@ -131,8 +128,7 @@ namespace Test
                 consentId: consentId,
                 batchId: batchId
             );
-            var expectedKeys = new [] {"documents"};
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("documents"), response);
         }
 
         [TestCase("HIGH")]
@@ -145,8 +141,7 @@ namespace Test
                 Example.ModelId(),
                 imageQuality: imageQuality
             );
-            var expectedKeys = new [] {"documentId", "predictions"};
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("prediction"), response);
         }
 
         [Test]
@@ -157,8 +152,7 @@ namespace Test
                 Example.ModelId(),
                 maxPages: 2
             );
-            var expectedKeys = new [] {"documentId", "predictions"};
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("prediction"), response);
         }
 
         [Test]
@@ -169,16 +163,14 @@ namespace Test
                 Example.ModelId(),
                 autoRotate: true
             );
-            var expectedKeys = new [] {"documentId", "predictions"};
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("prediction"), response);
         }
 
         [Test]
         public void TestGetDocument()
         {
             var response = Toby.GetDocument((string)CreateDocResponse["documentId"]);
-            var expectedKeys = new [] {"documentId", "contentType", "consentId"};
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("document"), response);
         }
 
         [TestCase("54.50", "2007-07-30")]
@@ -190,16 +182,14 @@ namespace Test
                 new Dictionary<string, string>(){{"label", "purchase_date"},{"value", purchase_date}}
             };
             var response = Toby.UpdateDocument((string)CreateDocResponse["documentId"], ground_truth);
-            var expectedKeys = new [] {"documentId", "consentId", "contentType", "groundTruth"};
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("document"), response);
         }
 
         [Ignore("delete endpoints doesn't work")]
         [TestCase(2, "foo", "las:consent:3ac6c39a3f9948a3b1aeb23ae7c73291")]
         public void TestDeleteDocuments(int maxResults, string nextToken, string consentId) {
             var response = Toby.DeleteDocuments(maxResults: maxResults, nextToken: nextToken, consentId: consentId);
-            var expectedKeys = new [] {"documents"};
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("documents"), response);
         }
 
         [TestCase(null, null)]
@@ -207,16 +197,14 @@ namespace Test
         public void TestCreateBatch(string? name, string? description)
         {
             var response = Toby.CreateBatch(Example.Description());
-            var expectedKeys = new [] {"name", "description", "batchId"};
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("batch"), response);
         }
 
         [TestCase("foo", 3)]
         [TestCase(null, null)]
         public void TestListModels(string nextToken, int maxResults) {
             var response = Toby.ListModels(nextToken: nextToken, maxResults: maxResults);
-            var expectedKeys = new [] {"models"};
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("models"), response);
         }
 
 
@@ -224,8 +212,7 @@ namespace Test
         [TestCase(null, null)]
         public void TestListPredictions(string nextToken, int maxResults) {
             var response = Toby.ListPredictions(nextToken: nextToken, maxResults: maxResults);
-            var expectedKeys = new [] {"predictions"};
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("predictions"), response);
         }
 
         [TestCase("foo", "bar")]
@@ -235,16 +222,14 @@ namespace Test
                 {"password", password}
             };
             var response = Toby.CreateSecret(data);
-            var expectedKeys = new [] {"secretId"};
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("secret"), response);
         }
 
         [TestCase("foo", 3)]
         [TestCase(null, null)]
         public void TestListSecrets(string nextToken, int maxResults) {
             var response = Toby.ListSecrets(nextToken: nextToken, maxResults: maxResults);
-            var expectedKeys = new [] {"secrets"};
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("secrets"), response);
         }
 
         [TestCase("foo", "bar", "name", "description")]
@@ -254,19 +239,18 @@ namespace Test
                 {"username", username},
                 {"password", password}
             };
-            var expectedKeys = new [] {"secretId"};
             var response = Toby.UpdateSecret(Util.ResourceId("secret"), data, new Dictionary<string, string?>{
                 {"name", name},
                 {"description", description}
             });
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("secret"), response);
         }
 
         [Ignore("delete endpoints doesn't work")]
         [Test]
         public void TestDeleteSecret() {
             var response = Toby.DeleteSecret(Util.ResourceId("secret"));
-            CheckKeys(new [] {"secretId", "name", "description"}, response);
+            CheckKeys(Util.ExpectedKeys("secret"), response);
         }
 
         [TestCase("docker", "name", "description")]
@@ -295,7 +279,7 @@ namespace Test
             }
 
             var response = Toby.CreateTransition(transitionType, inputSchema, outputSchema, parameters, attributes);
-            CheckKeys(new [] {"name", "transitionId", "transitionType"}, response);
+            CheckKeys(Util.ExpectedKeys("transition"), response);
         }
 
         [TestCase("docker")]
@@ -303,20 +287,20 @@ namespace Test
         [TestCase(null)]
         public void TestListTransitions(string? transitionType) {
             var response = Toby.ListTransitions(transitionType);
-            CheckKeys(new [] {"transitions"}, response);
+            CheckKeys(Util.ExpectedKeys("transitions"), response);
         }
 
         [Test]
         public void TestGetTransition() {
             var response = Toby.GetTransition(Util.ResourceId("transition"));
-            CheckKeys(new [] {"transitionId", "name", "description", "transitionType"}, response);
+            CheckKeys(Util.ExpectedKeys("transition"), response);
         }
 
         [Ignore("delete endpoints doesn't work")]
         [Test]
         public void TestDeleteTransition() {
             var response = Toby.DeleteTransition(Util.ResourceId("transition"));
-            CheckKeys(new [] {"transitionId", "name", "description", "transitionType"}, response);
+            CheckKeys(Util.ExpectedKeys("transition"), response);
         }
 
         [TestCase("foo", "bar")]
@@ -350,18 +334,18 @@ namespace Test
                 environment,
                 environmentSecrets,
                 parameters);
-            CheckKeys(new [] {"transitionId", "name", "description", "transitionType"}, response);
+            CheckKeys(Util.ExpectedKeys("transition"), response);
         }
 
         public void TestGetTransitionExecution() {
             var response = Toby.GetTransitionExecution(Util.ResourceId("transition"), Util.ResourceId("transition-execution"));
-            CheckKeys(new [] {"transitionId", "executionId", "status"}, response);
+            CheckKeys(Util.ExpectedKeys("transition-execution"), response);
         }
 
         [Test]
         public void TestExecuteTransition() {
             var response = Toby.ExecuteTransition(Util.ResourceId("transition"));
-            CheckKeys(new [] {"transitionId", "executionId", "status"}, response);
+            CheckKeys(Util.ExpectedKeys("transition-execution"), response);
         }
 
         [TestCase(
@@ -388,8 +372,7 @@ namespace Test
                 sortBy,
                 order
             );
-            var expectedKeys = new [] {"executions"};
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("transition-executions"), response);
         }
 
         [Ignore("multivalue query parameters don't work with prism")]
@@ -419,8 +402,7 @@ namespace Test
                 sortBy,
                 order
             );
-            var expectedKeys = new [] {"executions"};
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("transition-executions"), response);
         }
 
         static object[] UpdateTransitionExecutionSources = {
@@ -443,42 +425,33 @@ namespace Test
                 error,
                 startTime
             );
-            CheckKeys(new [] {
-                "completedBy",
-                "endTime",
-                "executionId",
-                "input",
-                "logId",
-                "startTime",
-                "status",
-                "transitionId"
-            }, response);
+            CheckKeys(Util.ExpectedKeys("transition-execution"), response);
         }
 
         [Test]
         public void TestSendHeartbeat() {
             var response = Toby.SendHeartbeat(Util.ResourceId("transition"), Util.ResourceId("transition-execution"));
-            CheckKeys(new [] {"Your request executed successfully"}, response);
+            CheckKeys(Util.ExpectedKeys("heartbeats"), response);
         }
 
         [Ignore("")]
         [TestCase("foo@bar.com")]
         public void TestCreateUser(string email) {
             var response = Toby.CreateUser(email);
-            CheckKeys(new [] {"email", "userId"}, response);
+            CheckKeys(Util.ExpectedKeys("user"), response);
         }
 
         [TestCase("foo", 3)]
         [TestCase(null, null)]
         public void TestListUsers(string nextToken, int maxResults) {
             var response = Toby.ListUsers(nextToken: nextToken, maxResults: maxResults);
-            CheckKeys(new [] {"nextToken", "users"}, response);
+            CheckKeys(Util.ExpectedKeys("users"), response);
         }
 
         [Test]
         public void TestGetUser() {
             var response = Toby.GetUser(Util.ResourceId("user"));
-            CheckKeys(new [] {"userId", "email"}, response);
+            CheckKeys(Util.ExpectedKeys("user"), response);
         }
 
         [TestCase(null, null)]
@@ -495,7 +468,7 @@ namespace Test
         [Ignore("delete endpoints doesn't work")]
         public void TestDeleteUser() {
             var response = Toby.DeleteUser(Util.ResourceId("user"));
-            CheckKeys(new [] {"userId", "email"}, response);
+            CheckKeys(Util.ExpectedKeys("user"), response);
         }
 
         [TestCase("name", "description")]
@@ -526,7 +499,7 @@ namespace Test
                 {"description", description}
             };
             var response = Toby.CreateWorkflow(spec, errorConfig, completedConfig, parameters);
-            CheckKeys(new [] {"workflowId", "name", "description"}, response);
+            CheckKeys(Util.ExpectedKeys("workflow"), response);
         }
 
         [TestCase(100, "foo")]
@@ -537,13 +510,13 @@ namespace Test
             string? nextToken = null
         ) {
             var response = Toby.ListWorkflows(maxResults, nextToken);
-            CheckKeys(new [] {"workflows"}, response);
+            CheckKeys(Util.ExpectedKeys("workflows"), response);
         }
 
         [Test]
         public void TestGetWorkflow() {
             var response = Toby.GetWorkflow(Util.ResourceId("workflow"));
-            CheckKeys(new [] {"workflowId", "name", "description"}, response);
+            CheckKeys(Util.ExpectedKeys("workflow"), response);
         }
 
         [TestCase("name", "description")]
@@ -555,28 +528,21 @@ namespace Test
                 {"name", name},
                 {"description", description}
             });
-            CheckKeys(new [] {"workflowId", "name", "description"}, response);
+            CheckKeys(Util.ExpectedKeys("workflow"), response);
         }
 
         [Test]
         [Ignore("delete endpoints doesn't work")]
         public void TestDeleteWorkflow() {
             var response = Toby.DeleteWorkflow(Util.ResourceId("workflow"));
-            CheckKeys(new [] {"workflowId", "name", "description"}, response);
+            CheckKeys(Util.ExpectedKeys("workflow"), response);
         }
 
         [Test]
         public void TestExecuteWorkflow() {
             var content = new Dictionary<string, object>();
             var response = Toby.ExecuteWorkflow(Util.ResourceId("workflow"), content);
-            var expectedKeys = new [] {
-                "workflowId",
-                "executionId",
-                "startTime",
-                "endTime",
-                "transitionExecutions"
-            };
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("workflow-execution"), response);
         }
 
         [Ignore("multivalue query parameters don't work with prism")]
@@ -601,40 +567,26 @@ namespace Test
                 sortBy,
                 order
             );
-            CheckKeys(new [] {"workflowId", "executions"}, response);
+            CheckKeys(Util.ExpectedKeys("workflow-executions"), response);
         }
 
         [Test]
         public void TestGetWorkflowExecution() {
             var response = Toby.GetWorkflowExecution(Util.ResourceId("workflow"), Util.ResourceId("workflow-execution"));
-            CheckKeys(new [] {"workflowId", "executionId"}, response);
+            CheckKeys(Util.ExpectedKeys("workflow-execution"), response);
         }
 
         [Test]
         public void TestUpdateWorkflowExecution() {
             var response = Toby.UpdateWorkflowExecution(Util.ResourceId("workflow"), Util.ResourceId("workflow-execution"), Util.ResourceId("transition"));
-            var expectedKeys = new [] {
-                "workflowId",
-                "executionId",
-                "startTime",
-                "endTime",
-                "transitionExecutions"
-            };
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("workflow-execution"), response);
         }
 
         [Test]
         [Ignore("delete endpoints doesn't work")]
         public void TestDeleteWorkflowExecution() {
             var response = Toby.DeleteWorkflowExecution(Util.ResourceId("workflow"), Util.ResourceId("workflow-execution"));
-            var expectedKeys = new [] {
-                "workflowId",
-                "executionId",
-                "startTime",
-                "endTime",
-                "transitionExecutions"
-            };
-            CheckKeys(expectedKeys, response);
+            CheckKeys(Util.ExpectedKeys("workflow-execution"), response);
         }
     }
 
