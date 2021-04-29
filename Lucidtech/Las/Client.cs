@@ -1204,6 +1204,21 @@ namespace Lucidtech.Las
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 
+        /// <summary>Get an execution of a workflow, calls the GET /workflows/{workflowId}/executions/{executionId} endpoint</summary>
+        /// <example>
+        /// <code>
+        /// Client client = new Client();
+        /// var response = client.GetWorkflowExecution("&lt;workflow_id&gt;", "&lt;execution_id&gt;");
+        /// </code>
+        /// </example>
+        /// <param name="workflowId">Id of the workflow</param>
+        /// <param name="executionId">Id of the execution</param>
+        /// <returns>Workflow execution response from REST API</returns>
+        public object GetWorkflowExecution(string workflowId, string executionId) {
+            RestRequest request = ClientRestRequest(Method.GET, $"/workflows/{workflowId}/executions/{executionId}");
+            return ExecuteRequestResilient(RestSharpClient, request);
+        }
+
         /// <summary>
         /// Retry or end the processing of a workflow execution,
         /// calls the PATCH /workflows/{workflow_id}/executions/{execution_id} endpoint.

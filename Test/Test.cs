@@ -598,6 +598,14 @@ namespace Test
         }
 
         [Test]
+        public void TestGetWorkflowExecution() {
+            var executionId = $"las:workflow-execution:{Guid.NewGuid().ToString().Replace("-", "")}";
+            var workflowId = $"las:workflow:{Guid.NewGuid().ToString().Replace("-", "")}";
+            var response = Toby.GetWorkflowExecution(workflowId, executionId);
+            CheckKeys(new [] {"workflowId", "executionId"}, response);
+        }
+
+        [Test]
         public void TestUpdateWorkflowExecution() {
             var workflowId = $"las:workflow:{Guid.NewGuid().ToString().Replace("-", "")}";
             var executionId = $"las:workflow-execution:{Guid.NewGuid().ToString().Replace("-", "")}";
