@@ -481,24 +481,11 @@ namespace Test
                     {"States", new Dictionary<string, string>()}
                 }}
             };
-
-            var environmentSecrets = new List<string>{ Util.ResourceId("secret") };
-            var env = new Dictionary<string, string>{{"FOO", "BAR"}};
-            var completedConfig = new Dictionary<string, object>{
-                {"imageUrl", "my/docker:image"},
-                {"secretId", Util.ResourceId("secret")},
-                {"environment", env},
-                {"environmentSecrets", environmentSecrets}
-            };
-            var errorConfig = new Dictionary<string, object>{
-                {"email", "foo@lucid.com"},
-                {"manualRetry", true}
-            };
             var parameters = new Dictionary<string, string?>{
                 {"name", name},
                 {"description", description}
             };
-            var response = Toby.CreateWorkflow(spec, errorConfig, completedConfig, parameters);
+            var response = Toby.CreateWorkflow(spec, Util.ErrorConfig(), Util.CompletedConfig(), parameters);
             CheckKeys(Util.ExpectedKeys("workflow"), response);
         }
 
