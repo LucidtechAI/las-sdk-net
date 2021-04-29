@@ -34,6 +34,95 @@ namespace Lucidtech.Las
         /// Client constructor with credentials read from local file.
         /// </summary>
         public Client() : this(new Credentials()) {}
+        
+        /// <summary>Creates an appClient, calls the POST /appClients endpoint.</summary>
+        /// <example>
+        /// <code>
+        /// var parameters = new Dictionary<string, string?>{
+        ///     {"name", name},
+        ///     {"description", description},
+        /// };
+        /// var response = Toby.CreateAppClient(
+        ///     attributes: parameters, 
+        ///     generateSecret: false,
+        ///     logoutUrls: new List<string>{"https://localhost/logout:3030"},
+        ///     callbackUrls: new List<string>{"https://localhost/callback:3030"}
+        /// );
+        /// </code>
+        /// </example>
+        /// <param name="attributes">Additional attributes</param>
+        /// <returns>AppClient response from REST API</returns>
+        public object CreateAppClient(
+            bool generateSecret = true, 
+            List<string>? logoutUrls = null, 
+            List<string>? callbackUrls = null,
+            Dictionary<string, string?>? attributes = null
+        ) {
+            var body = new Dictionary<string, object>(){
+                {"generateSecret", generateSecret}
+            };
+            
+            if (logoutUrls != null) {
+                body.Add("logoutUrls", logoutUrls);
+            }
+
+            if (callbackUrls != null) {
+                body.Add("callbackUrls", callbackUrls);
+            }
+            
+            if (attributes != null) {
+                foreach (KeyValuePair<string, string?> entry in attributes) {
+                    body.Add(entry.Key, entry.Value);
+                }
+            }
+
+            RestRequest request = ClientRestRequest(Method.POST, "/appClients", body);
+            return ExecuteRequestResilient(RestSharpClient, request);
+        }
+
+        /// <summary> List available appClients, calls the GET /appClients endpoint. </summary>
+        /// <example>
+        /// <code>
+        /// Client client = new Client();
+        /// var response = client.ListAppClients();
+        /// </code>
+        /// </example>
+        /// <param name="maxResults">Number of items to show on a single page</param>
+        /// <param name="nextToken">Token to retrieve the next page</param>
+        /// <returns>
+        /// JSON object with two keys:
+        /// - "appClients" AppClients response from REST API without the content of each appClient
+        /// - "nextToken" allowing for retrieving the next portion of data
+        /// </returns>
+        public object ListAppClients(int? maxResults = null, string? nextToken = null) {
+            var queryParams = new Dictionary<string, object?>();
+
+            if (maxResults != null) {
+                queryParams.Add("maxResults", maxResults.ToString());
+            }
+
+            if (nextToken != null) {
+                queryParams.Add("nextToken", nextToken);
+            }
+
+            RestRequest request = ClientRestRequest(Method.GET, "/appClients", null, queryParams);
+            return ExecuteRequestResilient(RestSharpClient, request);
+        }
+
+        /// <summary>Delete an appClient, calls the DELETE /appClients/{appClientId} endpoint.
+        /// <example>
+        /// <code>
+        /// Client client = new Client();
+        /// var response = client.DeleteAppClient("&lt;appClientId&gt;");
+        /// </code>
+        /// </example>
+        /// <param name="appClientId">Id of the appClient</param>
+        /// <returns>AppClient response from REST API</returns>
+        public object DeleteAppClient(string appClientId) {
+            var request = ClientRestRequest(Method.DELETE, $"/appClients/{appClientId}");
+            return ExecuteRequestResilient(RestSharpClient, request);
+        }
+
 
         /// <summary>Creates an asset, calls the POST /assets endpoint.</summary>
         /// <example>

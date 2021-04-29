@@ -64,6 +64,37 @@ namespace Test
             );
             CreateDocResponse = JsonSerialPublisher.ObjectToDict<Dictionary<string, object>>(response);
         }
+        
+        [TestCase("name", "description", true)]
+        [TestCase("", "", false)]
+        [TestCase(null, null, false)]
+        public void TestCreateAppClient(string? name, string? description, bool generateSecret ) {
+            var parameters = new Dictionary<string, string?>{
+                {"name", name},
+                {"description", description}
+            };
+            var response = Toby.CreateAppClient(
+                attributes: parameters, 
+                generateSecret: generateSecret,
+                logoutUrls: new List<string>{"https://localhost/logout:3030"},
+                callbackUrls: new List<string>{"https://localhost/callback:3030"}
+            );
+            CheckKeys(Util.ExpectedKeys("appClient"), response);
+        }
+
+        [TestCase("foo", 3)]
+        [TestCase(null, null)]
+        public void TestListAppClients(string nextToken, int maxResults) {
+            var response = Toby.ListAppClients(nextToken: nextToken, maxResults: maxResults);
+            CheckKeys(Util.ExpectedKeys("appClients"), response);
+        }
+
+        [Ignore("delete endpoints doesn't work")]
+        [Test]
+        public void TestDeleteAppClient() {
+            var response = Toby.DeleteAppClient(Util.ResourceId("app-client"));
+            CheckKeys(Util.ExpectedKeys("appClient"), response);
+        }
 
         [TestCase("name", "description")]
         [TestCase("", "")]

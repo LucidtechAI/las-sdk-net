@@ -15,6 +15,10 @@ namespace Test.Service
         
         public static string[] ExpectedKeys(string resourceName){
             switch (resourceName) {
+                case "appClient":
+                    return new [] {"appClientId", "name", "description"};
+                case "appClients": 
+                    return new [] {"nextToken", "appClients"};
                 case "asset":
                     return new [] {"assetId", "name", "description"};
                 case "assets": 
