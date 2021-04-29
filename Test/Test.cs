@@ -404,15 +404,16 @@ namespace Test
         }
 
         static object[] UpdateTransitionExecutionSources = {
-            new object[] { "succeeded", new Dictionary<string, string>{{"foo", "bar"}}, null },
-            new object[] { "failed", null, new Dictionary<string, string>{{"message", "foobar"}} }
+            new object[] { "succeeded", new Dictionary<string, string>{{"foo", "bar"}}, null, new DateTime(2016, 12, 31, 5, 10, 20, DateTimeKind.Utc)},
+            new object[] { "failed", null, new Dictionary<string, string>{{"message", "foobar"}}, null }
         };
 
         [Test, TestCaseSource("UpdateTransitionExecutionSources")]
         public void TestUpdateTransitionExecution(
             string status,
             Dictionary<string, string>? output = null,
-            Dictionary<string, string>? error = null
+            Dictionary<string, string>? error = null,
+            DateTime? startTime = null
         ) {
             var transitionId = $"las:transition:{Guid.NewGuid().ToString().Replace("-", "")}";
             var executionId = $"las:transition-execution:{Guid.NewGuid().ToString().Replace("-", "")}";
@@ -422,7 +423,7 @@ namespace Test
                 status,
                 output,
                 error,
-                startTime: "2021-02-25 10:00:34.263905"
+                startTime 
             );
             CheckKeys(new [] {
                 "completedBy",

@@ -829,7 +829,7 @@ namespace Lucidtech.Las
             string status,
             Dictionary<string, string>? output = null,
             Dictionary<string, string>? error = null,
-            string? startTime = null
+            DateTime? startTime = null
         ) {
             var url = $"/transitions/{transitionId}/executions/{executionId}";
             var body = new Dictionary<string, object>{
@@ -845,7 +845,7 @@ namespace Lucidtech.Las
             }
 
             if (startTime != null) {
-                body.Add("startTime", startTime);
+                body.Add("startTime", startTime.Value.ToString("yyyy-MM-ddTHH:mm:ss.ffffzzz"));
             }
 
             var request = ClientRestRequest(Method.PATCH, url, body);
