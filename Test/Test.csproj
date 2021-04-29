@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Test.cs" />
+    <Compile Include="Service.cs" />
     <!-- Uncomment the lines below when debugging
     -->
     <Compile Include="..\Lucidtech\Las\*" />

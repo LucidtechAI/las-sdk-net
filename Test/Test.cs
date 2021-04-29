@@ -13,6 +13,7 @@ using Moq.Protected;
 using Lucidtech.Las;
 using Lucidtech.Las.Core;
 using Lucidtech.Las.Utils;
+using Test.Service;
 
 namespace Test
 {
@@ -87,8 +88,7 @@ namespace Test
 
         [Test]
         public void TestGetAssetById() {
-            var assetId = $"las:asset:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var response = Toby.GetAsset(assetId);
+            var response = Toby.GetAsset(Util.ResourceId("asset"));
             var expectedKeys = new [] {"assetId", "content"};
             CheckKeys(expectedKeys, response);
         }
@@ -96,9 +96,8 @@ namespace Test
         [TestCase("name", "description")]
         [TestCase("", "")]
         public void TestUpdateAsset(string? name, string? description) {
-            var assetId = $"las:asset:{Guid.NewGuid().ToString().Replace("-", "")}";
             var content = BitConverter.GetBytes(123456);
-            var response = Toby.UpdateAsset(assetId, content, new Dictionary<string?, string?>{
+            var response = Toby.UpdateAsset(Util.ResourceId("asset"), content, new Dictionary<string?, string?>{
                 {"name", name},
                 {"description", description}
             });
@@ -109,8 +108,7 @@ namespace Test
         [Ignore("delete endpoints doesn't work")]
         [Test]
         public void TestDeleteAsset() {
-            var assetId = $"las:asset:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var response = Toby.DeleteAsset(assetId);
+            var response = Toby.DeleteAsset(Util.ResourceId("asset"));
             CheckKeys(new [] {"assetId", "name", "description"}, response);
         }
 
@@ -252,13 +250,12 @@ namespace Test
         [TestCase("foo", "bar", "name", "description")]
         [TestCase("foo", "bar", "name", "")]
         public void TestUpdateSecret(string username, string password, string? name = null, string? description = null) {
-            var secretId = $"las:model:{Guid.NewGuid().ToString().Replace("-", "")}";
             var data = new Dictionary<string, string>() {
                 {"username", username},
                 {"password", password}
             };
             var expectedKeys = new [] {"secretId"};
-            var response = Toby.UpdateSecret(secretId, data, new Dictionary<string, string?>{
+            var response = Toby.UpdateSecret(Util.ResourceId("secret"), data, new Dictionary<string, string?>{
                 {"name", name},
                 {"description", description}
             });
@@ -268,8 +265,7 @@ namespace Test
         [Ignore("delete endpoints doesn't work")]
         [Test]
         public void TestDeleteSecret() {
-            var secretId = $"las:secret:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var response = Toby.DeleteSecret(secretId);
+            var response = Toby.DeleteSecret(Util.ResourceId("secret"));
             CheckKeys(new [] {"secretId", "name", "description"}, response);
         }
 
@@ -312,23 +308,21 @@ namespace Test
 
         [Test]
         public void TestGetTransition() {
-            var transitionId = $"las:transition:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var response = Toby.GetTransition(transitionId);
+            var response = Toby.GetTransition(Util.ResourceId("transition"));
             CheckKeys(new [] {"transitionId", "name", "description", "transitionType"}, response);
         }
 
         [Ignore("delete endpoints doesn't work")]
         [Test]
         public void TestDeleteTransition() {
-            var transitionId = $"las:transition:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var response = Toby.DeleteTransition(transitionId);
+            var response = Toby.DeleteTransition(Util.ResourceId("transition"));
             CheckKeys(new [] {"transitionId", "name", "description", "transitionType"}, response);
         }
 
         [TestCase("foo", "bar")]
         [TestCase(null, null)]
         public void TestUpdateTransition(string? name, string? description) {
-            
+
             var schema = new Dictionary<string, string>() {
                 {"schema", "https://json-schema.org/draft-04/schema#"},
                 {"title", "response"}
@@ -336,23 +330,22 @@ namespace Test
             var inputSchema = schema;
             var outputSchema = schema;
             var assets = new Dictionary<string, string?>{
-                {"foo", $"las:asset:{Guid.NewGuid().ToString().Replace("-", "")}"},
-                {"bar",  $"las:asset:{Guid.NewGuid().ToString().Replace("-", "")}"}
+                {"foo", Util.ResourceId("asset")},
+                {"bar", Util.ResourceId("asset")}
             };
             var environment = new Dictionary<string, string?>{
                 {"FOO", "FOO"},
                 {"BAR", "BAR"}
             };
-            var environmentSecrets = new List<string>{ $"las:secret:{Guid.NewGuid().ToString().Replace("-", "")}" };
-            var transitionId = $"las:transition:{Guid.NewGuid().ToString().Replace("-", "")}";
+            var environmentSecrets = new List<string>{ Util.ResourceId("secret")};
             var parameters = new Dictionary<string, string?>{
                 {"name", name},
                 {"description", description}
             };
             var response = Toby.UpdateTransition(
-                transitionId, 
-                inputSchema, 
-                outputSchema, 
+                Util.ResourceId("transition"),
+                inputSchema,
+                outputSchema,
                 assets,
                 environment,
                 environmentSecrets,
@@ -361,22 +354,18 @@ namespace Test
         }
 
         public void TestGetTransitionExecution() {
-            var executionId = $"las:transition-execution:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var transitionId = $"las:transition:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var response = Toby.GetTransitionExecution(transitionId, executionId);
+            var response = Toby.GetTransitionExecution(Util.ResourceId("transition"), Util.ResourceId("transition-execution"));
             CheckKeys(new [] {"transitionId", "executionId", "status"}, response);
         }
 
         [Test]
         public void TestExecuteTransition() {
-            var transitionId = $"las:transition:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var response = Toby.ExecuteTransition(transitionId);
+            var response = Toby.ExecuteTransition(Util.ResourceId("transition"));
             CheckKeys(new [] {"transitionId", "executionId", "status"}, response);
         }
 
         [TestCase(
             "running",
-            "las:transition-execution:08b49ae64cd746f384f05880ef5de72f",
             3,
             null,
             "startTime",
@@ -384,17 +373,16 @@ namespace Test
         )]
         public void TestListTransitionExecutions(
             string? status = null,
-            string? executionId = null,
             int? maxResults = null,
             string? nextToken = null,
             string? sortBy = null,
             string? order = null
         ) {
-            var transitionId = $"las:transition:{Guid.NewGuid().ToString().Replace("-", "")}";
+            var executionIds = new List<string>{ Util.ResourceId("transition-execution") };
             var response = Toby.ListTransitionExecutions(
-                transitionId,
+                Util.ResourceId("transition"),
                 status,
-                new List<string>{ executionId },
+                executionIds,
                 maxResults,
                 nextToken,
                 sortBy,
@@ -417,14 +405,13 @@ namespace Test
             string? sortBy = null,
             string? order = null
         ) {
-            var transitionId = $"las:transition:{Guid.NewGuid().ToString().Replace("-", "")}";
             var statuses = new List<string>{ "running", "succeeded" };
             var executionIds = new List<string>{
-                $"las:transition-execution:{Guid.NewGuid().ToString().Replace("-", "")}",
-                $"las:transition-execution:{Guid.NewGuid().ToString().Replace("-", "")}"
+                Util.ResourceId("transition-execution"),
+                Util.ResourceId("transition-execution")
             };
             var response = Toby.ListTransitionExecutions(
-                transitionId,
+                Util.ResourceId("transition"),
                 statuses,
                 executionIds,
                 maxResults,
@@ -448,11 +435,9 @@ namespace Test
             Dictionary<string, string>? error = null,
             DateTime? startTime = null
         ) {
-            var transitionId = $"las:transition:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var executionId = $"las:transition-execution:{Guid.NewGuid().ToString().Replace("-", "")}";
             var response = Toby.UpdateTransitionExecution(
-                transitionId,
-                executionId,
+                Util.ResourceId("transition"),
+                Util.ResourceId("transition-execution"),
                 status,
                 output,
                 error,
@@ -472,9 +457,7 @@ namespace Test
 
         [Test]
         public void TestSendHeartbeat() {
-            var executionId= $"las:transition-execution:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var transitionId = $"las:transition:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var response = Toby.SendHeartbeat(transitionId, executionId);
+            var response = Toby.SendHeartbeat(Util.ResourceId("transition"), Util.ResourceId("transition-execution"));
             CheckKeys(new [] {"Your request executed successfully"}, response);
         }
 
@@ -494,27 +477,24 @@ namespace Test
 
         [Test]
         public void TestGetUser() {
-            var userId = $"las:user:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var response = Toby.GetUser(userId);
+            var response = Toby.GetUser(Util.ResourceId("user"));
             CheckKeys(new [] {"userId", "email"}, response);
         }
 
         [TestCase(null, null)]
         [TestCase("name", "avatar")]
         public void TestUpdateUser(string? name, string? avatar) {
-            var userId = $"las:user:{Guid.NewGuid().ToString().Replace("-", "")}";
             var parameters = new Dictionary<string, object?>{
                 {"name", name},
                 {"avatar", avatar},
             };
-            var response = Toby.UpdateUser(userId, parameters);
+            var response = Toby.UpdateUser(Util.ResourceId("user"), parameters);
         }
 
         [Test]
         [Ignore("delete endpoints doesn't work")]
         public void TestDeleteUser() {
-            var userId = $"las:user:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var response = Toby.DeleteUser(userId);
+            var response = Toby.DeleteUser(Util.ResourceId("user"));
             CheckKeys(new [] {"userId", "email"}, response);
         }
 
@@ -523,18 +503,17 @@ namespace Test
         [TestCase("name", "")]
         [TestCase(null, null)]
         public void TestCreateWorkflow(string name, string description) {
-            var secretId = $"las:secret:{Guid.NewGuid().ToString().Replace("-", "")}";
             var spec = new Dictionary<string, object>{
                 {"definition", new Dictionary<string, object>{
                     {"States", new Dictionary<string, string>()}
                 }}
             };
-            
-            var environmentSecrets = new List<string>{ secretId };
+
+            var environmentSecrets = new List<string>{ Util.ResourceId("secret") };
             var env = new Dictionary<string, string>{{"FOO", "BAR"}};
             var completedConfig = new Dictionary<string, object>{
                 {"imageUrl", "my/docker:image"},
-                {"secretId", secretId},
+                {"secretId", Util.ResourceId("secret")},
                 {"environment", env},
                 {"environmentSecrets", environmentSecrets}
             };
@@ -563,8 +542,7 @@ namespace Test
 
         [Test]
         public void TestGetWorkflow() {
-            var workflowId = $"las:workflow:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var response = Toby.GetWorkflow(workflowId);
+            var response = Toby.GetWorkflow(Util.ResourceId("workflow"));
             CheckKeys(new [] {"workflowId", "name", "description"}, response);
         }
 
@@ -573,8 +551,7 @@ namespace Test
         [TestCase("name", "")]
         [TestCase(null, null)]
         public void TestUpdateWorkflow(string name, string description) {
-            var workflowId = $"las:workflow:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var response = Toby.UpdateWorkflow(workflowId, new Dictionary<string, string?>{
+            var response = Toby.UpdateWorkflow(Util.ResourceId("workflow"), new Dictionary<string, string?>{
                 {"name", name},
                 {"description", description}
             });
@@ -584,16 +561,14 @@ namespace Test
         [Test]
         [Ignore("delete endpoints doesn't work")]
         public void TestDeleteWorkflow() {
-            var workflowId = $"las:workflow:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var response = Toby.DeleteWorkflow(workflowId);
+            var response = Toby.DeleteWorkflow(Util.ResourceId("workflow"));
             CheckKeys(new [] {"workflowId", "name", "description"}, response);
         }
 
         [Test]
         public void TestExecuteWorkflow() {
-            var workflowId = $"las:workflow:{Guid.NewGuid().ToString().Replace("-", "")}";
             var content = new Dictionary<string, object>();
-            var response = Toby.ExecuteWorkflow(workflowId, content);
+            var response = Toby.ExecuteWorkflow(Util.ResourceId("workflow"), content);
             var expectedKeys = new [] {
                 "workflowId",
                 "executionId",
@@ -617,10 +592,9 @@ namespace Test
             string? sortBy = null,
             string? order = null
         ) {
-            var workflowId = $"las:workflow:{Guid.NewGuid().ToString().Replace("-", "")}";
             var statuses = new List<string>{ "running", "succeeded" };
             var response = Toby.ListWorkflowExecutions(
-                workflowId,
+                Util.ResourceId("workflow"),
                 statuses,
                 maxResults,
                 nextToken,
@@ -632,18 +606,13 @@ namespace Test
 
         [Test]
         public void TestGetWorkflowExecution() {
-            var executionId = $"las:workflow-execution:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var workflowId = $"las:workflow:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var response = Toby.GetWorkflowExecution(workflowId, executionId);
+            var response = Toby.GetWorkflowExecution(Util.ResourceId("workflow"), Util.ResourceId("workflow-execution"));
             CheckKeys(new [] {"workflowId", "executionId"}, response);
         }
 
         [Test]
         public void TestUpdateWorkflowExecution() {
-            var workflowId = $"las:workflow:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var executionId = $"las:workflow-execution:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var transitionId = $"las:transition:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var response = Toby.UpdateWorkflowExecution(workflowId, executionId, transitionId);
+            var response = Toby.UpdateWorkflowExecution(Util.ResourceId("workflow"), Util.ResourceId("workflow-execution"), Util.ResourceId("transition"));
             var expectedKeys = new [] {
                 "workflowId",
                 "executionId",
@@ -653,13 +622,11 @@ namespace Test
             };
             CheckKeys(expectedKeys, response);
         }
-     
+
         [Test]
         [Ignore("delete endpoints doesn't work")]
         public void TestDeleteWorkflowExecution() {
-            var workflowId = $"las:workflow:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var executionId = $"las:workflow-execution:{Guid.NewGuid().ToString().Replace("-", "")}";
-            var response = Toby.DeleteWorkflowExecution(workflowId, executionId);
+            var response = Toby.DeleteWorkflowExecution(Util.ResourceId("workflow"), Util.ResourceId("workflow-execution"));
             var expectedKeys = new [] {
                 "workflowId",
                 "executionId",
