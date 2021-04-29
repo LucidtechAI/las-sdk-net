@@ -135,6 +135,20 @@ namespace Lucidtech.Las
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 
+        /// <summary>Delete an asset, calls the DELETE /assets/{asset_id} endpoint.
+        /// <example>
+        /// <code>
+        /// Client client = new Client();
+        /// var response = client.DeleteAsset("&lt;asset_id&gt;");
+        /// </code>
+        /// </example>
+        /// <param name="assetId">Id of the asset</param>
+        /// <returns>Asset response from REST API</returns>
+        public object DeleteAsset(string assetId) {
+            var request = ClientRestRequest(Method.DELETE, $"/assets/{assetId}");
+            return ExecuteRequestResilient(RestSharpClient, request);
+        }
+
         /// <summary>
         /// Creates a document handle, calls the POST /documents endpoint
         /// </summary>

@@ -106,6 +106,14 @@ namespace Test
             CheckKeys(expectedKeys, response);
         }
 
+        [Ignore("delete endpoints doesn't work")]
+        [Test]
+        public void TestDeleteAsset() {
+            var assetId = $"las:asset:{Guid.NewGuid().ToString().Replace("-", "")}";
+            var response = Toby.DeleteAsset(assetId);
+            CheckKeys(new [] {"assetId", "name", "description"}, response);
+        }
+
         [Test]
         public void TestCreateDocument()
         {
