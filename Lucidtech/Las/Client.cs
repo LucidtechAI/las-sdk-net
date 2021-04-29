@@ -552,6 +552,20 @@ namespace Lucidtech.Las
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 
+        /// <summary>Delete a secret, calls the DELETE /secrets/{secret_id} endpoint.
+        /// <example>
+        /// <code>
+        /// Client client = new Client();
+        /// var response = client.DeleteSecret("&lt;secret_id&gt;");
+        /// </code>
+        /// </example>
+        /// <param name="secretId">Id of the secret</param>
+        /// <returns>Secret response from REST API</returns>
+        public object DeleteSecret(string secretId) {
+            var request = ClientRestRequest(Method.DELETE, $"/secrets/{secretId}");
+            return ExecuteRequestResilient(RestSharpClient, request);
+        }
+
         /// <summary>Creates a transition, calls the POST /transitions endpoint.</summary>
         /// <example>
         /// <code>

@@ -265,6 +265,14 @@ namespace Test
             CheckKeys(expectedKeys, response);
         }
 
+        [Ignore("delete endpoints doesn't work")]
+        [Test]
+        public void TestDeleteSecret() {
+            var secretId = $"las:secret:{Guid.NewGuid().ToString().Replace("-", "")}";
+            var response = Toby.DeleteSecret(secretId);
+            CheckKeys(new [] {"secretId", "name", "description"}, response);
+        }
+
         [TestCase("docker", "name", "description")]
         [TestCase("manual", "name", "description")]
         [TestCase("docker", null, null)]
