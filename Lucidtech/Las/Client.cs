@@ -714,6 +714,9 @@ namespace Lucidtech.Las
             string transitionId,
             Dictionary<string, string>? inputJsonSchema,
             Dictionary<string, string>? outputJsonSchema,
+            Dictionary<string, string>? assets,
+            Dictionary<string, string>? environment,
+            List<string>? environmentSecrets,
             Dictionary<string, string?> attributes
         ) {
             var body = new Dictionary<string, object?>();
@@ -726,6 +729,18 @@ namespace Lucidtech.Las
                 body.Add("outputJsonSchema", outputJsonSchema);
             }
 
+            if (assets != null) {
+                body.Add("assets", assets);
+            }
+
+            if (environment != null) {
+                body.Add("environment", environment);
+            }
+
+            if (environmentSecrets != null) {
+                body.Add("environmentSecrets", environmentSecrets);
+            }
+            
             if (attributes != null) {
                 foreach (KeyValuePair<string, string?> entry in attributes) {
                     body.Add(entry.Key, entry.Value);

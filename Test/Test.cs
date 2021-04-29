@@ -328,18 +328,35 @@ namespace Test
         [TestCase("foo", "bar")]
         [TestCase(null, null)]
         public void TestUpdateTransition(string? name, string? description) {
+            
             var schema = new Dictionary<string, string>() {
                 {"schema", "https://json-schema.org/draft-04/schema#"},
                 {"title", "response"}
             };
             var inputSchema = schema;
             var outputSchema = schema;
+            var assets = new Dictionary<string, string?>{
+                {"foo", $"las:asset:{Guid.NewGuid().ToString().Replace("-", "")}"},
+                {"bar",  $"las:asset:{Guid.NewGuid().ToString().Replace("-", "")}"}
+            };
+            var environment = new Dictionary<string, string?>{
+                {"FOO", "FOO"},
+                {"BAR", "BAR"}
+            };
+            var environmentSecrets = new List<string>{ $"las:secret:{Guid.NewGuid().ToString().Replace("-", "")}" };
             var transitionId = $"las:transition:{Guid.NewGuid().ToString().Replace("-", "")}";
             var parameters = new Dictionary<string, string?>{
                 {"name", name},
                 {"description", description}
             };
-            var response = Toby.UpdateTransition(transitionId, inputSchema, outputSchema, parameters);
+            var response = Toby.UpdateTransition(
+                transitionId, 
+                inputSchema, 
+                outputSchema, 
+                assets,
+                environment,
+                environmentSecrets,
+                parameters);
             CheckKeys(new [] {"transitionId", "name", "description", "transitionType"}, response);
         }
 
