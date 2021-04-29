@@ -983,36 +983,51 @@ namespace Lucidtech.Las
         /// <example>
         /// <code>
         /// Client client = new Client();
-        /// var spec = new Dictionary&lt;string, object&gt;{
+        /// var specification = new Dictionary&lt;string, object&gt;{
         ///     {"language", "ASL"},
         ///     {"version", "1.0.0"},
         ///     {"definition", {...}}
         /// };
-        /// var errorConfig = new Dictionary&lt;string, string&gt;{
-        ///     {"email", "foo@bar.com}
+        /// var environmentSecrets = new List<string>{ "las:secret:<hex-uuid>" };
+        /// var env = new Dictionary<string, string>{{"FOO", "BAR"}};
+        /// var completedConfig = new Dictionary<string, object>{
+        ///     {"imageUrl", "my/docker:image"},
+        ///     {"secretId", secretId},
+        ///     {"environment", env},
+        ///     {"environmentSecrets", environmentSecrets}
         /// };
-        /// var parameters = new Dictionary&lt;string, string&gt;{
-        ///     {"name", "Name"},
-        ///     {"description", "My awesome workflow"}
+        /// var errorConfig = new Dictionary<string, object>{
+        ///     {"email", "foo@lucid.com"},
+        ///     {"manualRetry", true}
         /// };
-        /// var response = Client.CreateWorkflow(spec, errorConfig, parameters);
+        /// var parameters = new Dictionary<string, string?>{
+        ///     {"name", name},
+        ///     {"description", description}
+        /// };
+        /// var response = Toby.CreateWorkflow(spec, errorConfig, completedConfig, parameters);
         /// </code>
         /// </example>
-        /// <param name="spec">Workflow specification. Currently only ASL is supported: https://states-language.net/spec.html</param>
+        /// <param name="specification">Workflow specification. Currently only ASL is supported: https://states-language.net/spec.html</param>
         /// <param name="errorConfig">Error handler configuration</param>
+        /// <param name="completedConfig">Configuration of a job to run whenever a workflow execution ends</param>
         /// <param name="attributes">Additional attributes. Currently supported are: name, description.</param>
         /// <returns>Workflow response from REST API</returns>
         public object CreateWorkflow(
-            Dictionary<string, object> spec,
-            Dictionary<string, string>? errorConfig = null,
+            Dictionary<string, object> specification,
+            Dictionary<string, object>? errorConfig = null,
+            Dictionary<string, object>? completedConfig = null,
             Dictionary<string, string?>? attributes = null
         ) {
             var body = new Dictionary<string, object?>{
-                {"specification", spec}
+                {"specification", specification}
             };
 
             if (errorConfig != null) {
                 body.Add("errorConfig", errorConfig);
+            }
+
+            if (completedConfig != null) {
+                body.Add("completedConfig", completedConfig);
             }
 
             if (attributes != null) {

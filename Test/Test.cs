@@ -17,7 +17,7 @@ using Lucidtech.Las.Utils;
 namespace Test
 {
     [TestFixture]
-    public class TestClient 
+    public class TestClient
     {
         private Client Toby { get; set; }
         private Dictionary<string, object> CreateDocResponse { get; set; }
@@ -120,7 +120,7 @@ namespace Test
         [TestCase("foo", 2, "las:consent:08b49ae64cd746f384f05880ef5de72f", null)]
         public void TestListDocuments(string nextToken, int maxResults, string consentId, string batchId) {
             var response = Toby.ListDocuments(
-                nextToken: nextToken, 
+                nextToken: nextToken,
                 maxResults: maxResults,
                 consentId: consentId,
                 batchId: batchId
@@ -256,7 +256,7 @@ namespace Test
             });
             CheckKeys(expectedKeys, response);
         }
-        
+
         [TestCase("docker", "name", "description")]
         [TestCase("manual", "name", "description")]
         [TestCase("docker", null, null)]
@@ -423,7 +423,7 @@ namespace Test
                 status,
                 output,
                 error,
-                startTime 
+                startTime
             );
             CheckKeys(new [] {
                 "completedBy",
@@ -490,19 +490,30 @@ namespace Test
         [TestCase("name", "")]
         [TestCase(null, null)]
         public void TestCreateWorkflow(string name, string description) {
+            var secretId = $"las:secret:{Guid.NewGuid().ToString().Replace("-", "")}";
             var spec = new Dictionary<string, object>{
                 {"definition", new Dictionary<string, object>{
                     {"States", new Dictionary<string, string>()}
                 }}
             };
-            var errorConfig = new Dictionary<string, string>{
-                {"email", "foo@lucid.com"}
+            
+            var environmentSecrets = new List<string>{ secretId };
+            var env = new Dictionary<string, string>{{"FOO", "BAR"}};
+            var completedConfig = new Dictionary<string, object>{
+                {"imageUrl", "my/docker:image"},
+                {"secretId", secretId},
+                {"environment", env},
+                {"environmentSecrets", environmentSecrets}
+            };
+            var errorConfig = new Dictionary<string, object>{
+                {"email", "foo@lucid.com"},
+                {"manualRetry", true}
             };
             var parameters = new Dictionary<string, string?>{
                 {"name", name},
                 {"description", description}
             };
-            var response = Toby.CreateWorkflow(spec, errorConfig, parameters);
+            var response = Toby.CreateWorkflow(spec, errorConfig, completedConfig, parameters);
             CheckKeys(new [] {"workflowId", "name", "description"}, response);
         }
 
@@ -603,16 +614,16 @@ namespace Test
         }
     }
 
-    public static class Example 
+    public static class Example
     {
         public static string ConsentId() { return "las:consent:abc123def456abc123def456abc123de"; }
         public static string ContentType() { return "image/jpeg"; }
         public static string Description() { return "This is my new batch for receipts july 2020"; }
         public static string ModelId() { return "las:model:abc123def456abc123def456abc123de"; }
         public static string DocPath() { return Environment.ExpandEnvironmentVariables("Test/Files/example.jpeg"); }
-        public static Credentials Creds() 
+        public static Credentials Creds()
         {
-            return new Credentials("foo", "bar", "baz", "baaz", "http://127.0.0.1:4010"); 
+            return new Credentials("foo", "bar", "baz", "baaz", "http://127.0.0.1:4010");
         }
     }
 }
