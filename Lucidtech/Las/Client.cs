@@ -1463,7 +1463,7 @@ namespace Lucidtech.Las
 
         /// <summary>
         /// Retry or end the processing of a workflow execution,
-        /// calls the PATCH /workflows/{workflow_id}/executions/{execution_id} endpoint.
+        /// calls the PATCH /workflows/{workflowId}/executions/{executionId} endpoint.
         /// </summary>
         /// <example>
         /// <code>
