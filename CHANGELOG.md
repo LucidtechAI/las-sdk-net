@@ -1,6 +1,6 @@
 # Changelog 
 
-## v1.16 -> v1.2.0:
+## Version 1.2.0 - 2021-04-30
 
 - Updated startTime argument in UpdateTransitionExecution (PATCH /transitions/:id/executions/:id) to be a datetime object and not a string.
 - Added UpdateWorkflowExecution (PATCH /workflows/:id/executions/:id)
