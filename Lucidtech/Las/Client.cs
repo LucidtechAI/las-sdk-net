@@ -474,7 +474,7 @@ namespace Lucidtech.Las
         /// <param name="deleteDocuments">delete all documents in the batch</param>
         /// <returns>Batch response from REST API</returns>
         public object DeleteBatch(string batchId, bool deleteDocuments = false) {
-            if (deleteDocuments == true){
+            if (deleteDocuments == true) {
                 var objectResponse = this.DeleteDocuments(batchId: batchId);
                 var response = JsonSerialPublisher.ObjectToDict<Dictionary<string, object>>(objectResponse);
                 while (response["nextToken"] != null)
