@@ -228,7 +228,7 @@ namespace Lucidtech.Las
         /// <example>
         /// <code>
         /// Client client = new Client();
-        /// var response = client.DeleteAsset("&lt;asset_id&gt;");
+        /// var response = client.DeleteAsset("&lt;assetId&gt;");
         /// </code>
         /// </example>
         /// <param name="assetId">Id of the asset</param>
