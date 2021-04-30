@@ -394,6 +394,7 @@ namespace Lucidtech.Las
         /// Client client = new Client();
         /// var response = client.DeleteConsent('&lt;consentId&gt;');
         /// </code></example>
+        /// <param name="batchId"> Delete documents with provided batchId </param>
         /// <param name="consentId"> Delete documents with provided consentId </param>
         /// <param name="maxResults">Maximum number of items to delete</param>
         /// <param name="nextToken">Token to retrieve the next page</param>
@@ -401,8 +402,17 @@ namespace Lucidtech.Las
         /// A deserialized object that can be interpreted as a Dictionary with the fields
         /// consentId, nextToken and documents
         /// </returns>
-        public object DeleteDocuments(string? consentId = null, int? maxResults = null, string? nextToken = null) {
+        public object DeleteDocuments(
+            string? batchId = null, 
+            string? consentId = null, 
+            int? maxResults = null, 
+            string? nextToken = null
+        ) {
             var queryParams = new Dictionary<string, object?>();
+
+            if (batchId != null) {
+                queryParams.Add("batchId", batchId);
+            }
 
             if (consentId != null) {
                 queryParams.Add("consentId", consentId);
