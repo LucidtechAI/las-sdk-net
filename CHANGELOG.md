@@ -1,6 +1,6 @@
-#Changelog 
+# Changelog 
 
-##v1.16 -> v1.2.0:
+## v1.16 -> v1.2.0:
 
 - startTime argument in PATCH /transitions/:id/executions/:id can be supplied as datetime object.
 - PATCH /workflows/:id/executions/:id
