@@ -463,7 +463,7 @@ namespace Lucidtech.Las
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 
-        /// <summary>Delete a batch, calls the DELETE /batches/{batch_id} endpoint.
+        /// <summary>Delete a batch, calls the DELETE /batches/{batchId} endpoint.
         /// <example>
         /// <code>
         /// Client client = new Client();
