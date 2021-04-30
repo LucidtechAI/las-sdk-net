@@ -224,7 +224,7 @@ namespace Lucidtech.Las
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 
-        /// <summary>Delete an asset, calls the DELETE /assets/{asset_id} endpoint.
+        /// <summary>Delete an asset, calls the DELETE /assets/{assetId} endpoint.
         /// <example>
         /// <code>
         /// Client client = new Client();
