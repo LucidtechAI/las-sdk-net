@@ -730,7 +730,7 @@ namespace Lucidtech.Las
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 
-        /// <summary>Delete a secret, calls the DELETE /secrets/{secret_id} endpoint.
+        /// <summary>Delete a secret, calls the DELETE /secrets/{secretId} endpoint.
         /// <example>
         /// <code>
         /// Client client = new Client();
