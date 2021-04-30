@@ -91,3 +91,4 @@ $ # Build for release and make nuget package
 $ msbuild Lucidtech/Lucidtech.csproj /t:Rebuild /p:Configuration=Release
 ```
 
+Hint: Set environment variable CREDENTIALS=FROM_FILE to run a test against the real API with your default credentials.
