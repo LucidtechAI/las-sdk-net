@@ -734,7 +734,7 @@ namespace Lucidtech.Las
         /// <example>
         /// <code>
         /// Client client = new Client();
-        /// var response = client.DeleteSecret("&lt;secret_id&gt;");
+        /// var response = client.DeleteSecret("&lt;secretId&gt;");
         /// </code>
         /// </example>
         /// <param name="secretId">Id of the secret</param>
