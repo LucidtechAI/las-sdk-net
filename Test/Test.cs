@@ -44,7 +44,12 @@ namespace Test
                 .Protected()
                 .Setup("CommonConstructor");
 
-            Toby = new Client(mockCreds.Object);
+            if (Environment.GetEnvironmentVariable("CREDENTIALS") == "FROM_FILE"){
+                Toby = new Client();
+            }
+            else {
+                Toby = new Client(mockCreds.Object);
+            }
         }
 
         [SetUp]
