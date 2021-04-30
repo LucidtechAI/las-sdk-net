@@ -32,37 +32,7 @@ $ nuget install Lucidtech.Las
 - Necessary keys and credentials to an endpoint on the form: "https://<your prefix>.api.lucidtech.ai/<version>".
 
 ### Quick start
-
-Run inference and create prediction on document 
-```C#
-using Lucidtech.Las;
-
-ApiClient apiClient = new ApiClient("<endpoint>");
-Prediction response = apiClient.Predict(documentPath: "document.pdf", modelName: "invoice|receipt|documentSplit");
-Console.WriteLine(response.ToJsonString(Formatting.Indented));
-```
-
-Send feedback to the model.
-```C#
-using Lucidtech.Las;
-
-var feedback = new List<Dictionary<string, string>>()
-{ 
-    new Dictionary<string, string>(){{"label", "total_amount"},{"value", "54.50"}},
-    new Dictionary<string, string>(){{"label", "purchase_date"},{"value", "2007-07-30"}}
-};
-FeedbackResponse response = apiClient.SendFeedback(documentId: "<documentId>", feedback: feedback);
-Console.WriteLine(response.ToJsonString(Formatting.Indented));
-```
-
-Revoke consent and deleting all documents associated with consentId.
-```C#
-using Lucidtech.Las;
-
-ApiClient apiClient = new ApiClient("<endpoint>");
-RevokeResponse response = apiClient.RevokeConsent(consentId: "<consentId>");
-Console.WriteLine(response.ToJsonString(Formatting.Indented));
-```
+See [docs](https://docs.lucidtech.ai/getting-started/dev/net).
 
 ## Contributing
 
