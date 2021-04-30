@@ -236,6 +236,19 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("batch"), response);
         }
 
+        [Test]
+        public void TestListLogs() {
+            var response = Toby.ListLogs(
+                transitionId: Util.ResourceId("transition"),
+                transitionExecutionId: Util.ResourceId("transition-execution"),
+                workflowId: Util.ResourceId("workflow"),
+                workflowExecutionId: Util.ResourceId("workflow-execution"),
+                maxResults: 100,
+                nextToken: "foo"
+            );
+            CheckKeys(Util.ExpectedKeys("logs"), response);
+        }
+
         [TestCase("foo", 3)]
         [TestCase(null, null)]
         public void TestListModels(string nextToken, int maxResults) {

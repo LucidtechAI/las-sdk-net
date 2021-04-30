@@ -23,20 +23,22 @@ namespace Test.Service
                     return new [] {"assetId", "name", "description"};
                 case "assets": 
                     return new [] {"nextToken", "assets"};
-                case "document":
-                    return new [] {"documentId", "contentType", "consentId", "groundTruth"};
-                case "documents": 
-                    return new [] {"nextToken", "documents"};
-                case "prediction":
-                    return new [] {"documentId", "predictions"};
-                case "predictions":
-                    return new [] {"predictions"};
                 case "batch":
                     return new[] {"name", "description", "batchId"};
                 case "batches":
                     return new[] {"batches", "nextToken"};
+                case "document":
+                    return new [] {"documentId", "contentType", "consentId", "groundTruth"};
+                case "documents": 
+                    return new [] {"nextToken", "documents"};
+                case "logs":
+                    return new[] {"logs", "nextToken"};
                 case "models":
                     return new[] {"models", "nextToken"};
+                case "prediction":
+                    return new [] {"documentId", "predictions"};
+                case "predictions":
+                    return new [] {"predictions"};
                 case "secret":
                     return new [] {"secretId", "name", "description"};
                 case "secrets": 

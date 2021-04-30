@@ -531,6 +531,58 @@ namespace Lucidtech.Las
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 
+        /// <summary>List logs, calls the GET /logs endpoint.</summary>
+        /// <example>
+        /// <code>
+        /// Client client = new Client();
+        /// var response = client.ListLogs();
+        /// </code>
+        /// </example>
+        /// <param name="transitionId">Only show logs from this transition</param>
+        /// <param name="transitionExecutionId">Only show logs from this transition execution</param>
+        /// <param name="workflowId">Only show logs from this workflow</param>
+        /// <param name="workflowExecutionId">Only show logs from this workflow execution</param>
+        /// <param name="maxResults">Number of items to show on a single page</param>
+        /// <param name="nextToken">Token to retrieve the next page</param>
+        /// <returns>Logs response from REST API</returns>
+        public object ListLogs(
+            string? transitionId = null, 
+            string? transitionExecutionId = null, 
+            string? workflowId = null, 
+            string? workflowExecutionId = null, 
+            int? maxResults = null, 
+            string? nextToken = null
+        ) {
+            var queryParams = new Dictionary<string, object?>();
+
+            if (transitionId != null) {
+                queryParams.Add("transitionId", transitionId);
+            }
+
+            if (transitionExecutionId != null) {
+                queryParams.Add("transitionExecutionId", transitionExecutionId);
+            }
+
+            if (workflowId != null) {
+                queryParams.Add("workflowId", workflowId);
+            }
+
+            if (workflowExecutionId != null) {
+                queryParams.Add("workflowExecutionId", workflowExecutionId);
+            }
+
+            if (maxResults != null) {
+                queryParams.Add("maxResults", maxResults.ToString());
+            }
+
+            if (nextToken != null) {
+                queryParams.Add("nextToken", nextToken);
+            }
+
+            RestRequest request = ClientRestRequest(Method.GET, "/logs", null, queryParams);
+            return ExecuteRequestResilient(RestSharpClient, request);
+        }
+
         /// <summary>List models available, calls the GET /models endpoint.</summary>
         /// <example>
         /// <code>
