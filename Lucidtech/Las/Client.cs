@@ -1218,7 +1218,7 @@ namespace Lucidtech.Las
         ///     {"environmentSecrets", environmentSecrets}
         /// };
         /// var errorConfig = new Dictionary<string, object>{
-        ///     {"email", "foo@lucid.com"},
+        ///     {"email", "foo@example.com"},
         ///     {"manualRetry", true}
         /// };
         /// var parameters = new Dictionary<string, string?>{
