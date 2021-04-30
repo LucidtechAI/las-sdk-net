@@ -38,15 +38,15 @@ namespace Lucidtech.Las
         /// <summary>Creates an appClient, calls the POST /appClients endpoint.</summary>
         /// <example>
         /// <code>
-        /// var parameters = new Dictionary<string, string?>{
+        /// var parameters = new Dictionary&lt;string, string?&gt;{
         ///     {"name", name},
         ///     {"description", description},
         /// };
         /// var response = Toby.CreateAppClient(
         ///     attributes: parameters, 
         ///     generateSecret: false,
-        ///     logoutUrls: new List<string>{"https://localhost:3030/logout"},
-        ///     callbackUrls: new List<string>{"https://localhost:3030/callback"}
+        ///     logoutUrls: new List&lt;string&gt;{"https://localhost:3030/logout"},
+        ///     callbackUrls: new List&lt;string&gt;{"https://localhost:3030/callback"}
         /// );
         /// </code>
         /// </example>
@@ -969,7 +969,7 @@ namespace Lucidtech.Las
         ) {
             List<string>? statuses = null;
             if (status != null) {
-                statuses = new List<string>{status};
+                statuses = new List<string> {status};
             }
             return ListTransitionExecutions(transitionId, statuses, executionIds, maxResults, nextToken, sortBy, order);
          }
@@ -1053,7 +1053,7 @@ namespace Lucidtech.Las
             DateTime? startTime = null
         ) {
             var url = $"/transitions/{transitionId}/executions/{executionId}";
-            var body = new Dictionary<string, object>{
+            var body = new Dictionary<string, object> {
                 {"status", status},
             };
 
@@ -1101,7 +1101,7 @@ namespace Lucidtech.Las
         /// <param name="attributes">Additional attributes. Currently supported are: name, avatar</param>
         /// <returns>User response from REST API</returns>
         public object CreateUser(string email, Dictionary<string, string?>? attributes = null) {
-            var body = new Dictionary<string, string>{
+            var body = new Dictionary<string, string> {
                 {"email", email}
             };
 
@@ -1209,19 +1209,19 @@ namespace Lucidtech.Las
         ///     {"version", "1.0.0"},
         ///     {"definition", {...}}
         /// };
-        /// var environmentSecrets = new List<string>{ "las:secret:<hex-uuid>" };
-        /// var env = new Dictionary<string, string>{{"FOO", "BAR"}};
-        /// var completedConfig = new Dictionary<string, object>{
+        /// var environmentSecrets = new List&lt;string&gt;{ "las:secret:&lt;hex-uuid&gt;" };
+        /// var env = new Dictionary&lt;string, string&gt;{{"FOO", "BAR"}};
+        /// var completedConfig = new Dictionary&lt;string, object&gt;{
         ///     {"imageUrl", "my/docker:image"},
         ///     {"secretId", secretId},
         ///     {"environment", env},
         ///     {"environmentSecrets", environmentSecrets}
         /// };
-        /// var errorConfig = new Dictionary<string, object>{
+        /// var errorConfig = new Dictionary&lt;string, object&gt;{
         ///     {"email", "foo@example.com"},
         ///     {"manualRetry", true}
         /// };
-        /// var parameters = new Dictionary<string, string?>{
+        /// var parameters = new Dictionary&lt;string, string?&gt;{
         ///     {"name", name},
         ///     {"description", description}
         /// };
@@ -1239,7 +1239,7 @@ namespace Lucidtech.Las
             Dictionary<string, object>? completedConfig = null,
             Dictionary<string, string?>? attributes = null
         ) {
-            var body = new Dictionary<string, object?>{
+            var body = new Dictionary<string, object?> { 
                 {"specification", specification}
             };
 
@@ -1306,7 +1306,7 @@ namespace Lucidtech.Las
             Dictionary<string, object>? completedConfig,
             Dictionary<string, string?> attributes
         ){
-            var body = new Dictionary<string, object?>{};
+            var body = new Dictionary<string, object?> {};
             
             if (errorConfig != null) {
                 body.Add("errorConfig", errorConfig);
@@ -1397,7 +1397,7 @@ namespace Lucidtech.Las
             string? nextToken = null,
             string? sortBy = null,
             string? order = null
-        ) => ListWorkflowExecutions(workflowId, new List<string>{status}, maxResults, nextToken, sortBy, order);
+        ) => ListWorkflowExecutions(workflowId, new List<string> {status}, maxResults, nextToken, sortBy, order);
 
         /// <summary>List executions in a workflow, calls the GET /workflows/{workflowId}/executions endpoint.</summary>
         /// <example>
