@@ -236,6 +236,14 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("batch"), response);
         }
 
+        [Ignore("delete endpoints doesn't work")]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void TestDeleteBatch(bool deleteDocuments) {
+            var response = Toby.DeleteBatch(Util.ResourceId("batch"), deleteDocuments);
+            CheckKeys(Util.ExpectedKeys("batch"), response);
+        }
+        
         [Test]
         public void TestListLogs() {
             var response = Toby.ListLogs(

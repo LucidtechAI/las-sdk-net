@@ -463,6 +463,33 @@ namespace Lucidtech.Las
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 
+        /// <summary>Delete a batch, calls the DELETE /batches/{batch_id} endpoint.
+        /// <example>
+        /// <code>
+        /// Client client = new Client();
+        /// var response = client.DeleteBatch("&lt;batch_id&gt;");
+        /// </code>
+        /// </example>
+        /// <param name="batchId">Id of the batch</param>
+        /// <param name="deleteDocuments">delete all documents in the batch</param>
+        /// <returns>Batch response from REST API</returns>
+        public object DeleteBatch(string batchId, bool deleteDocuments = false) {
+            if (deleteDocuments == true){
+                var objectResponse = this.DeleteDocuments(batchId: batchId);
+                var response = JsonSerialPublisher.ObjectToDict<Dictionary<string, object>>(objectResponse);
+                while (response["nextToken"] != null)
+                {
+                    objectResponse = this.DeleteDocuments(
+                        batchId: batchId, 
+                        nextToken: response["nextToken"].ToString()
+                    );
+                    response = JsonSerialPublisher.ObjectToDict<Dictionary<string, object>>(objectResponse);
+                }
+            }
+            var request = ClientRestRequest(Method.DELETE, $"/batches/{batchId}");
+            return ExecuteRequestResilient(RestSharpClient, request);
+        }
+
         /// <summary>
         /// Run inference and create a prediction, calls the POST /predictions endpoint.
         /// </summary>
