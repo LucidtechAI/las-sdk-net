@@ -24,7 +24,7 @@
     <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/LucidtechAI/las-sdk-net</RepositoryUrl>
     <PackageTags>las Lucidtech invoice receipt intelligentOCR Automation DeepLearning MachineLearning OCR Document DataExtraction</PackageTags>
-    <PackageReleaseNotes>See complete changelog</PackageReleaseNotes>
+    <PackageReleaseNotes>See complete changelog: https://github.com/LucidtechAI/las-sdk-net/blob/master/CHANGELOG.md</PackageReleaseNotes>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
