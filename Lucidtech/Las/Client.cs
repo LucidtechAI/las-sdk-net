@@ -467,7 +467,7 @@ namespace Lucidtech.Las
         /// <example>
         /// <code>
         /// Client client = new Client();
-        /// var response = client.DeleteBatch("&lt;batch_id&gt;");
+        /// var response = client.DeleteBatch("&lt;batchId&gt;");
         /// </code>
         /// </example>
         /// <param name="batchId">Id of the batch</param>
