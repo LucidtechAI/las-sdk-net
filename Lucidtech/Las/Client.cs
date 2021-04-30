@@ -58,7 +58,7 @@ namespace Lucidtech.Las
             List<string>? callbackUrls = null,
             Dictionary<string, string?>? attributes = null
         ) {
-            var body = new Dictionary<string, object>(){
+            var body = new Dictionary<string, object>() {
                 {"generateSecret", generateSecret}
             };
             
