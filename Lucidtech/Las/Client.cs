@@ -45,8 +45,8 @@ namespace Lucidtech.Las
         /// var response = Toby.CreateAppClient(
         ///     attributes: parameters, 
         ///     generateSecret: false,
-        ///     logoutUrls: new List<string>{"https://localhost/logout:3030"},
-        ///     callbackUrls: new List<string>{"https://localhost/callback:3030"}
+        ///     logoutUrls: new List<string>{"https://localhost:3030/logout"},
+        ///     callbackUrls: new List<string>{"https://localhost:3030/callback"}
         /// );
         /// </code>
         /// </example>
