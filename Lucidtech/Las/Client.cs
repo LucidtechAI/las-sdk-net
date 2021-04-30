@@ -471,7 +471,7 @@ namespace Lucidtech.Las
         /// </code>
         /// </example>
         /// <param name="batchId">Id of the batch</param>
-        /// <param name="deleteDocuments">delete all documents in the batch</param>
+        /// <param name="deleteDocuments">Set to true to delete documents in batch before deleting batch</param>
         /// <returns>Batch response from REST API</returns>
         public object DeleteBatch(string batchId, bool deleteDocuments = false) {
             if (deleteDocuments == true) {
