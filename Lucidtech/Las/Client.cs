@@ -1477,7 +1477,7 @@ namespace Lucidtech.Las
         /// use: las:transition:commons-failed</param>
         /// <returns>WorkflowExecution response from REST API</returns>
         public object UpdateWorkflowExecution(string workflowId, string executionId, string nextTransitionId) {
-            var body = new Dictionary<string, string>(){
+            var body = new Dictionary<string, string>() {
                 {"nextTransitionId", nextTransitionId}
             };
             var request = ClientRestRequest(Method.PATCH, $"/workflows/{workflowId}/executions/{executionId}", body);
