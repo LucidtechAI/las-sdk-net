@@ -56,10 +56,9 @@ namespace Test
         public void Setup()
         {
             byte[] body = File.ReadAllBytes(Example.DocPath());
-            var groundTruth = new List<Dictionary<string, string>>()
-            {
-                new Dictionary<string, string>(){{"label", "total_amount"},{"value", "54.50"}},
-                new Dictionary<string, string>(){{"label", "purchase_date"},{"value", "2007-07-30"}}
+            var groundTruth = new List<Dictionary<string, string>> {
+                new Dictionary<string, string>{{"label", "total_amount"},{"value", "54.50"}},
+                new Dictionary<string, string>{{"label", "purchase_date"},{"value", "2007-07-30"}}
             };
             var response = Toby.CreateDocument(
                 body,
@@ -69,22 +68,22 @@ namespace Test
             );
             CreateDocResponse = JsonSerialPublisher.ObjectToDict<Dictionary<string, object>>(response);
         }
-        
+
         [TestCase("name", "description", true)]
         [TestCase("", "", false)]
         [TestCase(null, null, false)]
         public void TestCreateAppClient(string? name, string? description, bool generateSecret ) {
-            var parameters = new Dictionary<string, string?>{
+            var parameters = new Dictionary<string, string?> {
                 {"name", name},
                 {"description", description}
             };
             var response = Toby.CreateAppClient(
-                attributes: parameters, 
+                attributes: parameters,
                 generateSecret: generateSecret,
                 logoutUrls: new List<string>{"https://localhost/logout:3030"},
                 loginUrls: new List<string>{"https://localhost/login:3030"},
                 callbackUrls: new List<string>{"https://localhost/callback:3030"},
-                defaultloginUrl: "https://localhost/login:3030"
+                defaultLoginUrl: "https://localhost/login:3030"
             );
             CheckKeys(Util.ExpectedKeys("appClient"), response);
         }
@@ -100,13 +99,13 @@ namespace Test
         [TestCase("", null)]
         [TestCase(null, null)]
         public void TestUpdateAppClient(string? name, string? description) {
-            var parameters = new Dictionary<string, string?>{
+            var parameters = new Dictionary<string, string?> {
                 {"name", name},
                 {"description", description}
             };
             var response = Toby.UpdateAppClient(
                 appClientId: Util.ResourceId("app-client"),
-                attributes: parameters 
+                attributes: parameters
             );
             CheckKeys(Util.ExpectedKeys("appClient"), response);
         }
@@ -123,7 +122,7 @@ namespace Test
         [TestCase(null, null)]
         public void TestCreateAsset(string? name, string? description) {
             var bytes = BitConverter.GetBytes(12345);
-            var parameters = new Dictionary<string, string?>{
+            var parameters = new Dictionary<string, string?> {
                 {"name", name},
                 {"description", description}
             };
@@ -149,7 +148,7 @@ namespace Test
         [TestCase("", "")]
         public void TestUpdateAsset(string? name, string? description) {
             var content = BitConverter.GetBytes(123456);
-            var response = Toby.UpdateAsset(Util.ResourceId("asset"), content, new Dictionary<string?, string?>{
+            var response = Toby.UpdateAsset(Util.ResourceId("asset"), content, new Dictionary<string?, string?> {
                 {"name", name},
                 {"description", description}
             });
@@ -229,10 +228,9 @@ namespace Test
         [TestCase("54.50", "2007-07-30")]
         public void TestUpdateDocument(string total_amount, string purchase_date)
         {
-            var ground_truth = new List<Dictionary<string, string>>()
-            {
-                new Dictionary<string, string>(){{"label", "total_amount"},{"value", total_amount}},
-                new Dictionary<string, string>(){{"label", "purchase_date"},{"value", purchase_date}}
+            var ground_truth = new List<Dictionary<string, string>> {
+                new Dictionary<string, string>{{"label", "total_amount"},{"value", total_amount}},
+                new Dictionary<string, string>{{"label", "purchase_date"},{"value", purchase_date}}
             };
             var response = Toby.UpdateDocument((string)CreateDocResponse["documentId"], ground_truth);
             CheckKeys(Util.ExpectedKeys("document"), response);
@@ -242,8 +240,8 @@ namespace Test
         [TestCase(2, "foo", "las:consent:3ac6c39a3f9948a3b1aeb23ae7c73291")]
         public void TestDeleteDocuments(int maxResults, string nextToken, string consentId) {
             var response = Toby.DeleteDocuments(
-                maxResults: maxResults, 
-                nextToken: nextToken, 
+                maxResults: maxResults,
+                nextToken: nextToken,
                 consentId: consentId,
                 batchId: Util.ResourceId("batch")
             );
@@ -262,13 +260,13 @@ namespace Test
         [TestCase("", null)]
         [TestCase(null, null)]
         public void TestUpdateBatch(string? name, string? description) {
-            var parameters = new Dictionary<string, string?>{
+            var parameters = new Dictionary<string, string?> {
                 {"name", name},
                 {"description", description}
             };
             var response = Toby.UpdateBatch(
                 batchId: Util.ResourceId("batch"),
-                attributes: parameters 
+                attributes: parameters
             );
             CheckKeys(Util.ExpectedKeys("batch"), response);
         }
@@ -280,7 +278,7 @@ namespace Test
             var response = Toby.DeleteBatch(Util.ResourceId("batch"), deleteDocuments);
             CheckKeys(Util.ExpectedKeys("batch"), response);
         }
-        
+
         [Test]
         public void TestListLogs() {
             var response = Toby.ListLogs(
@@ -311,11 +309,11 @@ namespace Test
         [TestCase(null, "description")]
         public void TestCreateModel(string name, string description) {
             var response = Toby.CreateModel(
-                width: 501, 
-                height: 501, 
+                width: 501,
+                height: 501,
                 fieldConfig: Util.FieldConfig(),
                 preprocessConfig: Util.PreprocessConfig(),
-                name: name, 
+                name: name,
                 description: description
             );
             CheckKeys(Util.ExpectedKeys("model"), response);
@@ -324,8 +322,8 @@ namespace Test
         [Test]
         public void TestCreateModelSimple() {
             var response = Toby.CreateModel(
-                width: 501, 
-                height: 501, 
+                width: 501,
+                height: 501,
                 fieldConfig: Util.FieldConfig()
             );
             CheckKeys(Util.ExpectedKeys("model"), response);
@@ -337,13 +335,13 @@ namespace Test
         public void TestUpdateModel(string? name, string? description) {
             var response = Toby.UpdateModel(
                 modelId: Util.ResourceId("model"),
-                width: 501, 
-                height: 501, 
+                width: 501,
+                height: 501,
                 fieldConfig: Util.FieldConfig(),
                 preprocessConfig: Util.PreprocessConfig(),
-                name: name, 
+                name: name,
                 description: description,
-                status: "training" 
+                status: "training"
             );
             CheckKeys(Util.ExpectedKeys("model"), response);
         }
@@ -362,7 +360,7 @@ namespace Test
 
         [TestCase("foo", "bar")]
         public void TestCreateSecret(string username, string password) {
-            var data = new Dictionary<string, string>(){
+            var data = new Dictionary<string, string>{
                 {"username", username},
                 {"password", password}
             };
@@ -380,11 +378,12 @@ namespace Test
         [TestCase("foo", "bar", "name", "description")]
         [TestCase("foo", "bar", "name", "")]
         public void TestUpdateSecret(string username, string password, string? name = null, string? description = null) {
-            var data = new Dictionary<string, string>() {
+            var data = new Dictionary<string, string> {
                 {"username", username},
                 {"password", password}
             };
-            var response = Toby.UpdateSecret(Util.ResourceId("secret"), data, new Dictionary<string, string?>{
+            var response = Toby.UpdateSecret(Util.ResourceId("secret"), data, new Dictionary<string, string?>
+            {
                 {"name", name},
                 {"description", description}
             });
@@ -402,14 +401,14 @@ namespace Test
         [TestCase("manual", "name", "description")]
         [TestCase("docker", null, null)]
         public void TestCreateTransition(string transitionType, string name, string description) {
-            var schema = new Dictionary<string, string>() {
+            var schema = new Dictionary<string, string> {
                 {"schema", "https://json-schema.org/draft-04/schema#"},
                 {"title", "response"}
             };
 
             var inputSchema = schema;
             var outputSchema = schema;
-            var attributes = new Dictionary<string, string>{
+            var attributes = new Dictionary<string, string> {
                 {"name", name},
                 {"description", description}
             };
@@ -417,7 +416,7 @@ namespace Test
             Dictionary<string, object>? parameters = null;
 
             if (transitionType == "docker") {
-                parameters = new Dictionary<string, object>{
+                parameters = new Dictionary<string, object> {
                     {"cpu", 256},
                     {"imageUrl", "image_url"}
                 };
@@ -452,22 +451,23 @@ namespace Test
         [TestCase(null, null)]
         public void TestUpdateTransition(string? name, string? description) {
 
-            var schema = new Dictionary<string, string>() {
+            var schema = new Dictionary<string, string> {
                 {"schema", "https://json-schema.org/draft-04/schema#"},
                 {"title", "response"}
             };
             var inputSchema = schema;
             var outputSchema = schema;
-            var assets = new Dictionary<string, string?>{
+            var assets = new Dictionary<string, string?> {
                 {"foo", Util.ResourceId("asset")},
                 {"bar", Util.ResourceId("asset")}
             };
-            var environment = new Dictionary<string, string?>{
+            var environment = new Dictionary<string, string?> {
                 {"FOO", "FOO"},
                 {"BAR", "BAR"}
             };
             var environmentSecrets = new List<string>{ Util.ResourceId("secret")};
-            var parameters = new Dictionary<string, string?>{
+            var parameters = new Dictionary<string, string?>
+            {
                 {"name", name},
                 {"description", description}
             };
@@ -534,7 +534,7 @@ namespace Test
             string? order = null
         ) {
             var statuses = new List<string>{ "running", "succeeded" };
-            var executionIds = new List<string>{
+            var executionIds = new List<string> {
                 Util.ResourceId("transition-execution"),
                 Util.ResourceId("transition-execution")
             };
@@ -602,7 +602,7 @@ namespace Test
         [TestCase(null, null)]
         [TestCase("name", "avatar")]
         public void TestUpdateUser(string? name, string? avatar) {
-            var parameters = new Dictionary<string, object?>{
+            var parameters = new Dictionary<string, object?> {
                 {"name", name},
                 {"avatar", avatar},
             };
@@ -621,12 +621,13 @@ namespace Test
         [TestCase("name", "")]
         [TestCase(null, null)]
         public void TestCreateWorkflow(string name, string description) {
-            var spec = new Dictionary<string, object>{
-                {"definition", new Dictionary<string, object>{
-                    {"States", new Dictionary<string, string>()}
-                }}
+            var spec = new Dictionary<string, object> {
+                {"definition", new Dictionary<string, object> {
+                        {"States", new Dictionary<string, string>()}
+                    }
+                }
             };
-            var parameters = new Dictionary<string, string?>{
+            var parameters = new Dictionary<string, string?> {
                 {"name", name},
                 {"description", description}
             };
@@ -657,7 +658,7 @@ namespace Test
         [TestCase(null, null)]
         public void TestUpdateWorkflow(string name, string description) {
             var response = Toby.UpdateWorkflow(
-                Util.ResourceId("workflow"), 
+                Util.ResourceId("workflow"),
                 errorConfig: Util.ErrorConfig(),
                 completedConfig: Util.CompletedConfig(),
                 attributes: Util.NameAndDescription(name, description)

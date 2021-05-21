@@ -73,11 +73,11 @@ namespace Test.Service
         }
         
         public static Dictionary<string, object> CompletedConfig(){
-            var environment = new Dictionary<string, string?>{
+            var environment = new Dictionary<string, string?>() {
                 {"FOO", "FOO"},
                 {"BAR", "BAR"}
             };
-            return new Dictionary<string, object>{
+            return new Dictionary<string, object> {
                 {"imageUrl", "my/docker:image"},
                 {"secretId", Util.ResourceId("secret")},
                 {"environment", environment},
@@ -86,21 +86,21 @@ namespace Test.Service
         }
             
         public static Dictionary<string, object> ErrorConfig(){
-            return new Dictionary<string, object>{
+            return new Dictionary<string, object> {
                 {"email", "foo@lucidtech.io"},
                 {"manualRetry", true}
             };
         }
             
         public static Dictionary<string, string?> NameAndDescription(string? name, string? description){
-            return new Dictionary<string, string?>{
+            return new Dictionary<string, string?> {
                 {"name", name},
                 {"description", description}
             };
         }
         
         public static Dictionary<string, object> PreprocessConfig(){
-            return new Dictionary<string, object>{
+            return new Dictionary<string, object> {
                 {"autoRotate", true},
                 {"maxPages", 3},
                 {"imageQuality", "HIGH"}
@@ -110,15 +110,13 @@ namespace Test.Service
         public static Dictionary<string, object> FieldConfig(){
             return new Dictionary<string, object>()
             {
-                {"DueDate", new Dictionary<string, object>()
-                    {
+                {"DueDate", new Dictionary<string, object> {
                         {"type", "date"},
                         {"description", "due date of the invoice"},
                         {"maxLength", 11}
                     }
                 },
-                {"TotalAmount", new Dictionary<string, object>()
-                    {
+                {"TotalAmount", new Dictionary<string, object> {
                         {"type", "amount"},
                         {"description", "total amount of the invoice"},
                         {"maxLength", 15}

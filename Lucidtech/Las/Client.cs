@@ -40,7 +40,7 @@ namespace Lucidtech.Las
         /// <param name="logoutUrls">List of logout urls</param>
         /// <param name="callbackUrls>List of callback urls</param>
         /// <param name="loginUrls">List of login urls</param>
-        /// <param name="defaultloginUrl">default login url</param>
+        /// <param name="defaultLoginUrl">default login url</param>
         /// <param name="attributes">Additional attributes</param>
         /// <returns>AppClient response from REST API</returns>
         public object CreateAppClient(
@@ -51,7 +51,7 @@ namespace Lucidtech.Las
             string? defaultLoginUrl = null,
             Dictionary<string, string?>? attributes = null
         ) {
-            var body = new Dictionary<string, object>() {
+            var body = new Dictionary<string, object> {
                 {"generateSecret", generateSecret}
             };
 
@@ -67,8 +67,8 @@ namespace Lucidtech.Las
                 body.Add("callbackUrls", callbackUrls);
             }
 
-            if (defaultloginUrl != null) {
-                body.Add("defaultloginUrl", defaultloginUrl);
+            if (defaultLoginUrl != null) {
+                body.Add("defaultLoginUrl", defaultLoginUrl);
             }
 
             if (attributes != null) {
@@ -158,7 +158,7 @@ namespace Lucidtech.Las
         /// <returns>Asset response from REST API</returns>
         public object CreateAsset(byte[] content, Dictionary<string, string?>? attributes) {
             string base64Content = System.Convert.ToBase64String(content);
-            var body = new Dictionary<string, string?>(){
+            var body = new Dictionary<string, string?>{
                 {"content", base64Content}
             };
 
@@ -288,7 +288,7 @@ namespace Lucidtech.Las
             List<Dictionary<string, string>>? groundTruth = null)
         {
             string base64Content = System.Convert.ToBase64String(content);
-            var body = new Dictionary<string, object>()
+            var body = new Dictionary<string, object>
             {
                 {"content", base64Content},
                 {"contentType", contentType},
@@ -382,8 +382,8 @@ namespace Lucidtech.Las
         /// Client client = new Client();
         /// var groundTruth = new List&lt;Dictionary&lt;string, string&gt;&gt;()
         /// {
-        ///     new Dictionary&lt;string, string&gt;(){{"label", "total_amount"},{"value", "54.50"}},
-        ///     new Dictionary&lt;string, string&gt;(){{"label", "purchase_date"},{"value", "2007-07-30"}}
+        ///     new Dictionary&lt;string, string&gt;() {{"label", "total_amount"},{"value", "54.50"}},
+        ///     new Dictionary&lt;string, string&gt;() {{"label", "purchase_date"},{"value", "2007-07-30"}}
         /// };
         /// var response = client.UpdateDocument('&lt;documentId&gt;', groundTruth);
         /// </code>
@@ -398,7 +398,7 @@ namespace Lucidtech.Las
         ///
         public object UpdateDocument(string documentId, List<Dictionary<string, string>> groundTruth)
         {
-            var bodyDict = new Dictionary<string, List<Dictionary<string,string>>>() {{"groundTruth", groundTruth}};
+            var bodyDict = new Dictionary<string, List<Dictionary<string,string>>> {{"groundTruth", groundTruth}};
 
             // Doing a manual cast from Dictionary to object to help out the serialization process
             string bodyString = JsonConvert.SerializeObject(bodyDict);
@@ -561,7 +561,7 @@ namespace Lucidtech.Las
             string? imageQuality = null
         )
         {
-            var body = new Dictionary<string, object>() { {"documentId", documentId}, {"modelId", modelId}};
+            var body = new Dictionary<string, object> { {"documentId", documentId}, {"modelId", modelId}};
             if (maxPages != null) { body.Add("maxPages", maxPages);}
             if (autoRotate != null) { body.Add("autoRotate", autoRotate);}
             if (imageQuality != null) { body.Add("imageQuality", imageQuality);}
@@ -669,7 +669,7 @@ namespace Lucidtech.Las
             string? description = null,
             Dictionary<string, string?>? attributes = null
         ) {
-            var body = new Dictionary<string, object?>() {
+            var body = new Dictionary<string, object?> {
                 {"width", width},
                 {"height", height},
                 {"fieldConfig", fieldConfig}
@@ -937,7 +937,7 @@ namespace Lucidtech.Las
             Dictionary<string, object?>? parameters = null,
             Dictionary<string, string?>? attributes = null
         ) {
-            var body = new Dictionary<string, object?>() {
+            var body = new Dictionary<string, object?> {
                 {"transitionType", transitionType},
             };
 
@@ -1463,7 +1463,7 @@ namespace Lucidtech.Las
             Dictionary<string, object>? errorConfig,
             Dictionary<string, object>? completedConfig,
             Dictionary<string, string?> attributes
-        ){
+        ) {
             var body = new Dictionary<string, object?> {};
 
             if (errorConfig != null) {
@@ -1635,7 +1635,7 @@ namespace Lucidtech.Las
         /// use: las:transition:commons-failed</param>
         /// <returns>WorkflowExecution response from REST API</returns>
         public object UpdateWorkflowExecution(string workflowId, string executionId, string nextTransitionId) {
-            var body = new Dictionary<string, string>() {
+            var body = new Dictionary<string, string> {
                 {"nextTransitionId", nextTransitionId}
             };
             var request = ClientRestRequest(Method.PATCH, $"/workflows/{workflowId}/executions/{executionId}", body);
@@ -1720,8 +1720,7 @@ namespace Lucidtech.Las
 
         private Dictionary<string, string> CreateSigningHeaders()
         {
-            var headers = new Dictionary<string, string>()
-            {
+            var headers = new Dictionary<string, string> {
                 {"Authorization", $"Bearer {LasCredentials.GetAccessToken()}"},
                 {"X-Api-Key", LasCredentials.ApiKey}
             };
@@ -1765,7 +1764,7 @@ namespace Lucidtech.Las
         {
             if (response.StatusCode == HttpStatusCode.NoContent)
             {
-                return new Dictionary<string, string>(){  {"Your request executed successfully", "204"} };
+                return new Dictionary<string, string>{  {"Your request executed successfully", "204"} };
             }
             else if (response.StatusCode == HttpStatusCode.Forbidden)
             {
