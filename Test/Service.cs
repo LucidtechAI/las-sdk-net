@@ -72,7 +72,7 @@ namespace Test.Service
             }
         }
         
-        public static Dictionary<string, object> CompletedConfig(){
+        public static Dictionary<string, object> CompletedConfig() {
             var environment = new Dictionary<string, string?>() {
                 {"FOO", "FOO"},
                 {"BAR", "BAR"}
