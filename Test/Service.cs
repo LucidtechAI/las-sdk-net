@@ -85,7 +85,7 @@ namespace Test.Service
             };
         }
             
-        public static Dictionary<string, object> ErrorConfig(){
+        public static Dictionary<string, object> ErrorConfig() {
             return new Dictionary<string, object> {
                 {"email", "foo@lucidtech.io"},
                 {"manualRetry", true}
