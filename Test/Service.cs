@@ -107,7 +107,7 @@ namespace Test.Service
             };
         }
             
-        public static Dictionary<string, object> FieldConfig(){
+        public static Dictionary<string, object> FieldConfig() {
             return new Dictionary<string, object>()
             {
                 {"DueDate", new Dictionary<string, object> {
