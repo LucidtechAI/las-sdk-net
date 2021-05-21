@@ -1,6 +1,6 @@
 # Changelog 
 
-## Version 1.2.1 - 2021-05-21
+## Version 1.3.0 - 2021-05-21
 
 - Added CreateModel
 - Added UpdateModel

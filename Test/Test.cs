@@ -82,7 +82,9 @@ namespace Test
                 attributes: parameters, 
                 generateSecret: generateSecret,
                 logoutUrls: new List<string>{"https://localhost/logout:3030"},
-                callbackUrls: new List<string>{"https://localhost/callback:3030"}
+                loginUrls: new List<string>{"https://localhost/login:3030"},
+                callbackUrls: new List<string>{"https://localhost/callback:3030"},
+                defaultloginUrl: "https://localhost/login:3030"
             );
             CheckKeys(Util.ExpectedKeys("appClient"), response);
         }

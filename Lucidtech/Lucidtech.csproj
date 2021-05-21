@@ -15,7 +15,7 @@
     <TargetFrameworks>netstandard20</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Lucidtech.Las</PackageId>
-    <PackageVersion>1.2.1</PackageVersion>
+    <PackageVersion>1.3.0</PackageVersion>
     <Title>Lucidtech AI Services</Title>
     <Authors>Lucidtech AS</Authors>
     <Description>SDK for accessing Lucidtech AI Services</Description>

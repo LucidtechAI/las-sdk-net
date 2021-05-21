@@ -36,31 +36,28 @@ namespace Lucidtech.Las
         public Client() : this(new Credentials()) {}
 
         /// <summary>Creates an appClient, calls the POST /appClients endpoint.</summary>
-        /// <example>
-        /// <code>
-        /// var parameters = new Dictionary&lt;string, string?&gt;{
-        ///     {"name", name},
-        ///     {"description", description},
-        /// };
-        /// var response = Toby.CreateAppClient(
-        ///     attributes: parameters,
-        ///     generateSecret: false,
-        ///     logoutUrls: new List&lt;string&gt;{"https://localhost:3030/logout"},
-        ///     callbackUrls: new List&lt;string&gt;{"https://localhost:3030/callback"}
-        /// );
-        /// </code>
-        /// </example>
+        /// <param name="generateSecret">Set to false to ceate a Public app client, default: true</param>
+        /// <param name="logoutUrls">List of logout urls</param>
+        /// <param name="callbackUrls>List of callback urls</param>
+        /// <param name="loginUrls">List of login urls</param>
+        /// <param name="defaultloginUrl">default login url</param>
         /// <param name="attributes">Additional attributes</param>
         /// <returns>AppClient response from REST API</returns>
         public object CreateAppClient(
             bool generateSecret = true,
             List<string>? logoutUrls = null,
+            List<string>? loginUrls = null,
             List<string>? callbackUrls = null,
+            string? defaultLoginUrl = null,
             Dictionary<string, string?>? attributes = null
         ) {
             var body = new Dictionary<string, object>() {
                 {"generateSecret", generateSecret}
             };
+
+            if (loginUrls != null) {
+                body.Add("loginUrls", loginUrls);
+            }
 
             if (logoutUrls != null) {
                 body.Add("logoutUrls", logoutUrls);
@@ -68,6 +65,10 @@ namespace Lucidtech.Las
 
             if (callbackUrls != null) {
                 body.Add("callbackUrls", callbackUrls);
+            }
+
+            if (defaultloginUrl != null) {
+                body.Add("defaultloginUrl", defaultloginUrl);
             }
 
             if (attributes != null) {
@@ -128,7 +129,7 @@ namespace Lucidtech.Las
             RestRequest request = ClientRestRequest(Method.PATCH, $"/appClients/{appClientId}", body);
             return ExecuteRequestResilient(RestSharpClient, request);
         }
-        
+
         /// <summary>Delete an appClient, calls the DELETE /appClients/{appClientId} endpoint.
         /// <example>
         /// <code>
@@ -656,7 +657,7 @@ namespace Lucidtech.Las
         /// <param name="fieldConfig">Specification of the fields that the model is going to predict</param>
         /// <param name="preprocessConfig">Specification of the processing steps prior to the prediction of an image</param>
         /// <param name="name">Name of the model</param>
-        /// <param name="description>Description of the model</param>
+        /// <param name="description">Description of the model</param>
         /// <param name="attributes">Additional attributes</param>
         /// <returns>Model response from REST API</returns>
         public object CreateModel(
@@ -740,7 +741,7 @@ namespace Lucidtech.Las
         /// <param name="fieldConfig">Specification of the fields that the model is going to predict</param>
         /// <param name="preprocessConfig">Specification of the processing steps prior to the prediction of an image</param>
         /// <param name="name">Name of the model</param>
-        /// <param name="description>Description of the model</param>
+        /// <param name="description">Description of the model</param>
         /// <param name="attributes">Additional attributes</param>
         /// <returns>Model response from REST API</returns>
         public object UpdateModel(
