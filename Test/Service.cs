@@ -92,7 +92,7 @@ namespace Test.Service
             };
         }
             
-        public static Dictionary<string, string?> NameAndDescription(string? name, string? description){
+        public static Dictionary<string, string?> NameAndDescription(string? name, string? description) {
             return new Dictionary<string, string?> {
                 {"name", name},
                 {"description", description}
