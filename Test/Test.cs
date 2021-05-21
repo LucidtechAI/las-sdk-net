@@ -44,7 +44,7 @@ namespace Test
                 .Protected()
                 .Setup("CommonConstructor");
 
-            if (Environment.GetEnvironmentVariable("CREDENTIALS") == "FROM_FILE"){
+            if (Environment.GetEnvironmentVariable("CREDENTIALS") == "FROM_FILE") {
                 Toby = new Client();
             }
             else {

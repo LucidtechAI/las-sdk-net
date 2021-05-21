@@ -8,20 +8,20 @@ namespace Test.Service
 {
 
     public static class Util {
-    
-        public static string ResourceId(string resourceName){
+
+        public static string ResourceId(string resourceName) {
             return $"las:{resourceName}:{Guid.NewGuid().ToString().Replace("-", "")}";
         }
-        
-        public static string[] ExpectedKeys(string resourceName){
+
+        public static string[] ExpectedKeys(string resourceName) {
             switch (resourceName) {
                 case "appClient":
                     return new [] {"appClientId", "name", "description"};
-                case "appClients": 
+                case "appClients":
                     return new [] {"nextToken", "appClients"};
                 case "asset":
                     return new [] {"assetId", "name", "description"};
-                case "assets": 
+                case "assets":
                     return new [] {"nextToken", "assets"};
                 case "batch":
                     return new[] {"name", "description", "batchId"};

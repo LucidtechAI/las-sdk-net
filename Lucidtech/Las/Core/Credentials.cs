@@ -68,7 +68,7 @@ namespace Lucidtech.Las.Core
         protected virtual (string, DateTime) GetClientCredentials()
         {
             string url = "oauth2/token?grant_type=client_credentials";
-            var headers = new Dictionary<string, string>(){ {"Content-Type", "application/x-www-form-urlencoded"} };
+            var headers = new Dictionary<string, string>{ {"Content-Type", "application/x-www-form-urlencoded"} };
 
             var request = new RestRequest(url, Method.POST, DataFormat.Json);
             request.JsonSerializer = JsonSerialPublisher.Default;
