@@ -99,7 +99,7 @@ namespace Test.Service
             };
         }
         
-        public static Dictionary<string, object> PreprocessConfig(){
+        public static Dictionary<string, object> PreprocessConfig() {
             return new Dictionary<string, object> {
                 {"autoRotate", true},
                 {"maxPages", 3},
