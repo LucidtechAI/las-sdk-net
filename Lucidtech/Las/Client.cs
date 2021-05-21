@@ -38,7 +38,7 @@ namespace Lucidtech.Las
         /// <summary>Creates an appClient, calls the POST /appClients endpoint.</summary>
         /// <param name="generateSecret">Set to false to ceate a Public app client, default: true</param>
         /// <param name="logoutUrls">List of logout urls</param>
-        /// <param name="callbackUrls>List of callback urls</param>
+        /// <param name="callbackUrls">List of callback urls</param>
         /// <param name="loginUrls">List of login urls</param>
         /// <param name="defaultLoginUrl">default login url</param>
         /// <param name="attributes">Additional attributes</param>
