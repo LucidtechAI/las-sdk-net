@@ -742,6 +742,7 @@ namespace Lucidtech.Las
         /// <param name="preprocessConfig">Specification of the processing steps prior to the prediction of an image</param>
         /// <param name="name">Name of the model</param>
         /// <param name="description">Description of the model</param>
+        /// <param name="status">New status for the model</param>
         /// <param name="attributes">Additional attributes</param>
         /// <returns>Model response from REST API</returns>
         public object UpdateModel(

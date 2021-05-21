@@ -108,17 +108,20 @@ namespace Test.Service
         }
             
         public static Dictionary<string, object> FieldConfig(){
-            return new Dictionary<string, object>{
-                {"DueDate", new Dictionary<string, object>(){
-                    {"type", "date"},
-                    {"description", "due date of the invoice"},
-                    {"maxLength", 11}
+            return new Dictionary<string, object>()
+            {
+                {"DueDate", new Dictionary<string, object>()
+                    {
+                        {"type", "date"},
+                        {"description", "due date of the invoice"},
+                        {"maxLength", 11}
                     }
                 },
-                {"TotalAmount", new Dictionary<string, object>(){
-                    {"type", "amount"},
-                    {"description", "total amount of the invoice"},
-                    {"maxLength", 15}
+                {"TotalAmount", new Dictionary<string, object>()
+                    {
+                        {"type", "amount"},
+                        {"description", "total amount of the invoice"},
+                        {"maxLength", 15}
                     }
                 },
             };
