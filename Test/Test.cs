@@ -94,6 +94,21 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("appClients"), response);
         }
 
+        [TestCase("name", "description")]
+        [TestCase("", null)]
+        [TestCase(null, null)]
+        public void TestUpdateAppClient(string? name, string? description) {
+            var parameters = new Dictionary<string, string?>{
+                {"name", name},
+                {"description", description}
+            };
+            var response = Toby.UpdateAppClient(
+                appClientId: Util.ResourceId("app-client"),
+                attributes: parameters 
+            );
+            CheckKeys(Util.ExpectedKeys("appClient"), response);
+        }
+
         [Ignore("delete endpoints doesn't work")]
         [Test]
         public void TestDeleteAppClient() {
@@ -241,6 +256,21 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("batch"), response);
         }
 
+        [TestCase("name", "description")]
+        [TestCase("", null)]
+        [TestCase(null, null)]
+        public void TestUpdateBatch(string? name, string? description) {
+            var parameters = new Dictionary<string, string?>{
+                {"name", name},
+                {"description", description}
+            };
+            var response = Toby.UpdateBatch(
+                batchId: Util.ResourceId("batch"),
+                attributes: parameters 
+            );
+            CheckKeys(Util.ExpectedKeys("batch"), response);
+        }
+
         [Ignore("delete endpoints doesn't work")]
         [TestCase(true)]
         [TestCase(false)]
@@ -269,6 +299,57 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("models"), response);
         }
 
+        [Test]
+        public void TestGetModel() {
+            var response = Toby.GetModel(Util.ResourceId("model"));
+            CheckKeys(Util.ExpectedKeys("model"), response);
+        }
+
+        [TestCase("name", "description")]
+        [TestCase(null, "description")]
+        public void TestCreateModel(string name, string description) {
+            var response = Toby.CreateModel(
+                width: 501, 
+                height: 501, 
+                fieldConfig: Util.FieldConfig(),
+                preprocessConfig: Util.PreprocessConfig(),
+                name: name, 
+                description: description
+            );
+            CheckKeys(Util.ExpectedKeys("model"), response);
+        }
+
+        [Test]
+        public void TestCreateModelSimple() {
+            var response = Toby.CreateModel(
+                width: 501, 
+                height: 501, 
+                fieldConfig: Util.FieldConfig()
+            );
+            CheckKeys(Util.ExpectedKeys("model"), response);
+        }
+
+
+        [TestCase("name", "description")]
+        [TestCase(null, "description")]
+        public void TestUpdateModel(string? name, string? description) {
+            var response = Toby.UpdateModel(
+                modelId: Util.ResourceId("model"),
+                width: 501, 
+                height: 501, 
+                fieldConfig: Util.FieldConfig(),
+                preprocessConfig: Util.PreprocessConfig(),
+                name: name, 
+                description: description,
+                status: "training" 
+            );
+            CheckKeys(Util.ExpectedKeys("model"), response);
+        }
+
+        public void TestUpdateModelSimple() {
+            var response = Toby.UpdateModel(modelId: Util.ResourceId("model"), width: 501);
+            CheckKeys(Util.ExpectedKeys("model"), response);
+        }
 
         [TestCase("foo", 3)]
         [TestCase(null, null)]

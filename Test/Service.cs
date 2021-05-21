@@ -33,6 +33,8 @@ namespace Test.Service
                     return new [] {"nextToken", "documents"};
                 case "logs":
                     return new[] {"logs", "nextToken"};
+                case "model":
+                    return new[] {"modelId", "name", "description", "height", "width", "preprocessConfig", "fieldConfig", "status", "createdTime", "updatedTime"};
                 case "models":
                     return new[] {"models", "nextToken"};
                 case "prediction":
@@ -96,6 +98,32 @@ namespace Test.Service
                 {"description", description}
             };
         }
+        
+        public static Dictionary<string, object> PreprocessConfig(){
+            return new Dictionary<string, object>{
+                {"autoRotate", true},
+                {"maxPages", 3},
+                {"imageQuality", "HIGH"}
+            };
+        }
+            
+        public static Dictionary<string, object> FieldConfig(){
+            return new Dictionary<string, object>{
+                {"DueDate", new Dictionary<string, object>(){
+                    {"type", "date"},
+                    {"description", "due date of the invoice"},
+                    {"maxLength", 11}
+                    }
+                },
+                {"TotalAmount", new Dictionary<string, object>(){
+                    {"type", "amount"},
+                    {"description", "total amount of the invoice"},
+                    {"maxLength", 15}
+                    }
+                },
+            };
+        }
+            
     }
     
 }
