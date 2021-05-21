@@ -725,7 +725,7 @@ namespace Lucidtech.Las
             return ExecuteRequestResilient(RestSharpClient, request);
         }
         
-        /// <summary>Get information about a specific model, calls the GET /models/{model_id} endpoint.</summary>
+        /// <summary>Get information about a specific model, calls the GET /models/{modelId} endpoint.</summary>
         /// <param name="modelId">Id of the model</param>
         /// <returns>Model response from REST API</returns>
         public object GetModel(string modelId) {
