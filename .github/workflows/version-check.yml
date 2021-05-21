@@ -22,11 +22,3 @@ jobs:
             echo "You should probably update version number"
             exit 1
           fi
-
-      - name: Release note check
-        run: |
-          if [ -z $(git diff origin/master HEAD -- Lucidtech/Lucidtech.csproj | grep PackageReleaseNotes)]
-          then
-            echo "You should probably update the release note"
-            exit 1
-          fi
