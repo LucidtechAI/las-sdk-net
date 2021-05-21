@@ -1,5 +1,13 @@
 # Changelog 
 
+## Version 1.2.1 - 2021-05-21
+
+- Added CreateModel
+- Added UpdateModel
+- Added GetModel
+- Added UpdateBatch
+- Added UpdateAppClient
+
 ## Version 1.2.0 - 2021-04-30
 
 - Updated startTime argument in UpdateTransitionExecution (PATCH /transitions/:id/executions/:id) to be a datetime object and not a string.
