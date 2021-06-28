@@ -288,15 +288,15 @@ namespace Lucidtech.Las
                 {"contentType", contentType},
             };
 
-            if (!string.IsNullOrEmpty(batchId)) {
+            if (batchId != null) {
                 body.Add("batchId", batchId);
             }
 
-            if(consentId != null) {
+            if (consentId != null) {
                 body.Add("consentId", consentId);
             }
 
-            if (!string.IsNullOrEmpty(datasetId)) {
+            if (datasetId != null) {
                 body.Add("datasetId", datasetId);
             }
 
@@ -336,15 +336,15 @@ namespace Lucidtech.Las
         ) {
             var queryParams = new Dictionary<string, object?>();
 
-            if (!string.IsNullOrEmpty(batchId)) {
+            if (batchId != null) {
                 queryParams.Add("batchId", batchId);
             }
 
-            if (!string.IsNullOrEmpty(consentId)) {
+            if (consentId != null) {
                 queryParams.Add("consentId", consentId);
             }
 
-            if (!string.IsNullOrEmpty(datasetId)) {
+            if (datasetId != null) {
                 queryParams.Add("datasetId", datasetId);
             }
 
