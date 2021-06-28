@@ -3,7 +3,7 @@
 ## Version 1.4.0 - 2021-06-28
 
 - Added CreateDataset
-- Added GetDatasets
+- Added ListDatasets
 - Added UpdateDataset
 - Added DeleteDataset
 - Added datasetId argument to CreateDocument
