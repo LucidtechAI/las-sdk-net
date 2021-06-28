@@ -9,7 +9,6 @@
 - Added datasetId argument to CreateDocument
 - Added datasetId argument to ListDocuments
 - Added datasetId argument to DeleteDocuments
-- Added datasetId argument to PatchDocument
 
 ## Version 1.3.0 - 2021-05-21
 
