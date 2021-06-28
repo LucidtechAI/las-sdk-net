@@ -262,18 +262,11 @@ namespace Lucidtech.Las
         /// <summary>
         /// Creates a document handle, calls the POST /documents endpoint
         /// </summary>
-        /// <example>
-        /// Create a document handle for a jpeg image
-        /// <code>
-        /// Client client = new Client();
-        /// byte[] content = File.ReadAllBytes("MyReceipt.jpeg");
-        /// var response = client.CreateDocument(content, "image/jpeg", "bar");
-        /// </code>
-        /// </example>
         /// <param name="content"> Content to POST </param>
         /// <param name="contentType"> A mime type for the document handle </param>
-        /// <param name="consentId"> An identifier to mark the owner of the document handle </param>
         /// <param name="batchId"> Specifies the batch to which the document will be associated with </param>
+        /// <param name="consentId"> An identifier to mark the owner of the document handle </param>
+        /// <param name="datasetId"> Specifies the dataset to which the document will be associated with </param>
         /// <param name="groundTruth"> A list of items {label: value},
         /// representing the ground truth values for the document </param>
         /// <returns>
@@ -283,8 +276,9 @@ namespace Lucidtech.Las
         public object CreateDocument(
             byte[] content,
             string contentType,
-            string? consentId = null,
             string? batchId = null,
+            string? consentId = null,
+            string? datasetId = null,
             List<Dictionary<string, string>>? groundTruth = null)
         {
             string base64Content = System.Convert.ToBase64String(content);
@@ -294,12 +288,16 @@ namespace Lucidtech.Las
                 {"contentType", contentType},
             };
 
+            if (!string.IsNullOrEmpty(batchId)) {
+                body.Add("batchId", batchId);
+            }
+
             if(consentId != null) {
                 body.Add("consentId", consentId);
             }
 
-            if (!string.IsNullOrEmpty(batchId)) {
-                body.Add("batchId", batchId);
+            if (!string.IsNullOrEmpty(datasetId)) {
+                body.Add("datasetId", datasetId);
             }
 
             if (groundTruth != null) {

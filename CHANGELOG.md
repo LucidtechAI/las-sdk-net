@@ -1,5 +1,16 @@
 # Changelog 
 
+## Version 1.4.0 - 2021-06-28
+
+- Added CreateDataset
+- Added GetDatasets
+- Added UpdateDataset
+- Added DeleteDataset
+- Added datasetId argument to CreateDocument
+- Added datasetId argument to ListDocuments
+- Added datasetId argument to DeleteDocuments
+- Added datasetId argument to PatchDocument
+
 ## Version 1.3.0 - 2021-05-21
 
 - Added CreateModel
