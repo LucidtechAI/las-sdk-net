@@ -168,17 +168,18 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("document"), CreateDocResponse);
         }
 
-        [TestCase("foo", 3, null, null)]
-        [TestCase(null, null, "las:consent:08b49ae64cd746f384f05880ef5de72f", null)]
-        [TestCase(null, null, null, "las:batch:08b49ae64cd746f384f05880ef5de72f")]
-        [TestCase("foo", 2, null, "las:batch:08b49ae64cd746f384f05880ef5de72f")]
-        [TestCase("foo", 2, "las:consent:08b49ae64cd746f384f05880ef5de72f", null)]
-        public void TestListDocuments(string nextToken, int maxResults, string consentId, string batchId) {
+        [TestCase("foo", 3, null, null, null)]
+        [TestCase(null, null, "las:consent:08b49ae64cd746f384f05880ef5de72f", null, null)]
+        [TestCase(null, null, null, "las:batch:08b49ae64cd746f384f05880ef5de72f", null)]
+        [TestCase("foo", 2, null, "las:batch:08b49ae64cd746f384f05880ef5de72f", null)]
+        [TestCase("foo", 2, "las:consent:08b49ae64cd746f384f05880ef5de72f", null, "las:dataset:08b49ae64cd746f384f05880ef5de72f")]
+        public void TestListDocuments(string nextToken, int maxResults, string consentId, string batchId, string datasetId) {
             var response = Toby.ListDocuments(
                 nextToken: nextToken,
                 maxResults: maxResults,
                 consentId: consentId,
-                batchId: batchId
+                batchId: batchId,
+                datasetId: datasetId
             );
             CheckKeys(Util.ExpectedKeys("documents"), response);
         }
@@ -244,6 +245,7 @@ namespace Test
                 nextToken: nextToken,
                 consentId: consentId,
                 batchId: Util.ResourceId("batch")
+                datasetId: Util.ResourceId("dataset")
             );
             CheckKeys(Util.ExpectedKeys("documents"), response);
         }
@@ -277,6 +279,46 @@ namespace Test
         public void TestDeleteBatch(bool deleteDocuments) {
             var response = Toby.DeleteBatch(Util.ResourceId("batch"), deleteDocuments);
             CheckKeys(Util.ExpectedKeys("batch"), response);
+        }
+
+        [TestCase(null, null)]
+        [TestCase("name", "description")]
+        public void TestCreateDataset(string? name, string? description)
+        {
+            var response = Toby.CreateDataset(Example.Description());
+            CheckKeys(Util.ExpectedKeys("dataset"), response);
+        }
+
+        [Test]
+        public void TestListDatasets() {
+            var response = Toby.ListDatasets(
+                maxResults: 100,
+                nextToken: "foo"
+            );
+            CheckKeys(Util.ExpectedKeys("datasets"), response);
+        }
+
+        [TestCase("name", "description")]
+        [TestCase("", null)]
+        [TestCase(null, null)]
+        public void TestUpdateDataset(string? name, string? description) {
+            var parameters = new Dictionary<string, string?> {
+                {"name", name},
+                {"description", description}
+            };
+            var response = Toby.UpdateDataset(
+                datasetId: Util.ResourceId("dataset"),
+                attributes: parameters
+            );
+            CheckKeys(Util.ExpectedKeys("dataset"), response);
+        }
+
+        [Ignore("delete endpoints doesn't work")]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void TestDeleteDataset(bool deleteDocuments) {
+            var response = Toby.DeleteDataset(Util.ResourceId("dataset"), deleteDocuments);
+            CheckKeys(Util.ExpectedKeys("dataset"), response);
         }
 
         [Test]
