@@ -554,7 +554,7 @@ namespace Lucidtech.Las
         /// </code>
         /// </example>
         /// <param name="name">Name of the dataset</param>
-        /// <param name="description"> A brief description of the purpose of the dataset </param>
+        /// <param name="description"> A brief description of the dataset </param>
         /// <returns>
         /// A deserialized object that can be interpreted as a Dictionary with the fields datasetId and description.
         /// datasetId can be used as an input when posting documents to make them a part of this dataset.
