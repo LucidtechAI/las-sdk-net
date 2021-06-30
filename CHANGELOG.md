@@ -1,5 +1,15 @@
 # Changelog 
 
+## Version 1.5.0 - 2021-07-01
+
+- Added DeleteDocument
+- Added optional parameter datasetId to UpdateDocument
+- Added parameter deleteAll to DeleteDocuments
+- Added CreateDataBundle
+- Added ListDataBundles 
+- Added UpdateDataBundle
+- Added DeleteDataBundle
+
 ## Version 1.4.1 - 2021-07-01
 
 - Revert argument order for CreateDocuments, ListDocuments, and DeleteDocuments to avoid breaking changes.

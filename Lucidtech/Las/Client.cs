@@ -381,32 +381,30 @@ namespace Lucidtech.Las
         /// Update ground truth of the document, calls the POST /documents/{documentId} endpoint.
         /// This enables the API to learn from past mistakes.
         /// </summary>
-        /// <example>
-        /// <code>
-        /// Client client = new Client();
-        /// var groundTruth = new List&lt;Dictionary&lt;string, string&gt;&gt;()
-        /// {
-        ///     new Dictionary&lt;string, string&gt;() {{"label", "total_amount"},{"value", "54.50"}},
-        ///     new Dictionary&lt;string, string&gt;() {{"label", "purchase_date"},{"value", "2007-07-30"}}
-        /// };
-        /// var response = client.UpdateDocument('&lt;documentId&gt;', groundTruth);
-        /// </code>
-        /// </example>
         /// <param name="documentId"> Path to document to upload,
         /// Same as provided to <see cref="CreateDocument"/></param>
         /// <param name="groundTruth"> A list of ground truth items </param>
+        /// <param name="datasetId"> change or add the documents datasetId </param>
         /// <returns>
         /// A deserialized object that can be interpreted as a Dictionary with the fields
         /// documentId, consentId, uploadUrl, contentType and ground truth.
         /// </returns>
         ///
-        public object UpdateDocument(string documentId, List<Dictionary<string, string>> groundTruth)
-        {
-            var bodyDict = new Dictionary<string, List<Dictionary<string,string>>> {{"groundTruth", groundTruth}};
+        public object UpdateDocument(
+            string documentId,
+            List<Dictionary<string, string>>? groundTruth = null,
+            string? datasetId = null
+        ) {
+            var body = new Dictionary<string, object>();
 
-            // Doing a manual cast from Dictionary to object to help out the serialization process
-            string bodyString = JsonConvert.SerializeObject(bodyDict);
-            object body = JsonConvert.DeserializeObject(bodyString);
+            if (groundTruth != null) {
+                string groundTruthString = JsonConvert.SerializeObject(groundTruth);
+                body.Add("groundTruth", JsonConvert.DeserializeObject(groundTruthString));
+            }
+
+            if (datasetId != null) {
+                body.Add("datasetId", datasetId);
+            }
 
             RestRequest request = ClientRestRequest(Method.PATCH, $"/documents/{documentId}", body);
             return ExecuteRequestResilient(RestSharpClient, request);
@@ -433,8 +431,13 @@ namespace Lucidtech.Las
             string? consentId = null,
             int? maxResults = null,
             string? nextToken = null,
-            string? datasetId = null
+            string? datasetId = null,
+            bool deleteAll = false
         ) {
+            if (maxResults != null && deleteAll) {
+                throw new ArgumentException("Cannot specify maxResults when deleteAll=True");
+            }
+
             var queryParams = new Dictionary<string, object?>();
 
             if (batchId != null) {
@@ -458,6 +461,34 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.DELETE, "/documents", null, queryParams);
+            var objectResponse = ExecuteRequestResilient(RestSharpClient, request);
+            var response = JsonSerialPublisher.ObjectToDict<Dictionary<string, object>>(objectResponse);
+
+            var documentsDeleted = new List<object>();
+            if (deleteAll == true) {
+                documentsDeleted.AddRange(JsonSerialPublisher.ObjectToDict<List<object>>(response["documents"]));
+
+                while (response["nextToken"] != null) {
+                    queryParams["nextToken"] = response["nextToken"].ToString();
+                    request = ClientRestRequest(Method.DELETE, "/documents", null, queryParams);
+                    var intermediateObjectResponse = ExecuteRequestResilient(RestSharpClient, request);
+                    response = JsonSerialPublisher.ObjectToDict<Dictionary<string, object>>(intermediateObjectResponse);
+                    documentsDeleted.AddRange(JsonSerialPublisher.ObjectToDict<List<object>>(response["documents"]));
+                    Console.WriteLine($"Deleted {documentsDeleted.Count} documents so far");
+                }
+
+                response["documents"] = documentsDeleted;
+            }
+
+            string responseString = JsonConvert.SerializeObject(response);
+            return JsonConvert.DeserializeObject(responseString);
+        }
+
+        /// <summary>Delete a document, calls the DELETE /documents/{documentId} endpoint.
+        /// <param name="documentId">Id of the document</param>
+        /// <returns>Document response from REST API</returns>
+        public object DeleteDocument(string documentId) {
+            var request = ClientRestRequest(Method.DELETE, $"/documents/{documentId}");
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 
@@ -525,18 +556,11 @@ namespace Lucidtech.Las
         /// <param name="deleteDocuments">Set to true to delete documents in batch before deleting batch</param>
         /// <returns>Batch response from REST API</returns>
         public object DeleteBatch(string batchId, bool deleteDocuments = false) {
+
             if (deleteDocuments == true) {
-                var objectResponse = this.DeleteDocuments(batchId: batchId);
-                var response = JsonSerialPublisher.ObjectToDict<Dictionary<string, object>>(objectResponse);
-                while (response["nextToken"] != null)
-                {
-                    objectResponse = this.DeleteDocuments(
-                        batchId: batchId,
-                        nextToken: response["nextToken"].ToString()
-                    );
-                    response = JsonSerialPublisher.ObjectToDict<Dictionary<string, object>>(objectResponse);
-                }
+                this.DeleteDocuments(batchId: batchId, deleteAll: true);
             }
+
             var request = ClientRestRequest(Method.DELETE, $"/batches/{batchId}");
             return ExecuteRequestResilient(RestSharpClient, request);
         }
@@ -635,18 +659,11 @@ namespace Lucidtech.Las
         /// <param name="deleteDocuments">Set to true to delete documents in dataset before deleting dataset</param>
         /// <returns>Dataset response from REST API</returns>
         public object DeleteDataset(string datasetId, bool deleteDocuments = false) {
+
             if (deleteDocuments == true) {
-                var objectResponse = this.DeleteDocuments(datasetId: datasetId);
-                var response = JsonSerialPublisher.ObjectToDict<Dictionary<string, object>>(objectResponse);
-                while (response["nextToken"] != null)
-                {
-                    objectResponse = this.DeleteDocuments(
-                        datasetId: datasetId,
-                        nextToken: response["nextToken"].ToString()
-                    );
-                    response = JsonSerialPublisher.ObjectToDict<Dictionary<string, object>>(objectResponse);
-                }
+                this.DeleteDocuments(datasetId: datasetId, deleteAll: true);
             }
+
             var request = ClientRestRequest(Method.DELETE, $"/datasets/{datasetId}");
             return ExecuteRequestResilient(RestSharpClient, request);
         }
@@ -916,6 +933,90 @@ namespace Lucidtech.Las
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 
+        /// <summary>
+        /// Create a data bundle handle, calls the POST /models/{modelId}/dataBundles endpoint.
+        /// </summary>
+        /// <param name="modelId">Id of the model </param>
+        /// <param name="datasetIds">List of Dataset Ids that will be included in the data bundle
+        /// <param name="name">Name of the data bundle</param>
+        /// <param name="description">A brief description of the data bundle </param>
+        /// <returns>Data Bundle response from REST API</returns>
+        public object CreateDataBundle(
+            string modelId,
+            List<string> datasetIds,
+            string? name = null,
+            string? description = null
+        ) {
+            var body = new Dictionary<string, object> {
+                {"datasetIds", datasetIds},
+            };
+
+            if (name != null) {
+                body.Add("name", name);
+            }
+
+            if (description != null) {
+                body.Add("description", description);
+            }
+
+            RestRequest request = ClientRestRequest(Method.POST, $"/models/{modelId}/dataBundles", body);
+            return ExecuteRequestResilient(RestSharpClient, request);
+        }
+
+        /// <summary>List data bundles available, calls the GET /models/{modelId}/dataBundles endpoint.</summary>
+        /// <param name="modelId">Id of the model</param>
+        /// <param name="maxResults">Number of items to show on a single page</param>
+        /// <param name="nextToken">Token to retrieve the next page</param>
+        /// <returns>
+        /// JSON object with two keys:
+        /// - "dataBundles" which contains a list of data bundle objects
+        /// - "nextToken" allowing for retrieving the next portion of data
+        /// </returns>
+        public object ListDataBundles(string modelId, int? maxResults = null, string? nextToken = null) {
+            var queryParams = new Dictionary<string, object?>();
+
+            if (maxResults != null) {
+                queryParams.Add("maxResults", maxResults.ToString());
+            }
+
+            if (nextToken != null) {
+                queryParams.Add("nextToken", nextToken);
+            }
+
+            RestRequest request = ClientRestRequest(Method.GET, $"/models/{modelId}/dataBundles", null, queryParams);
+            return ExecuteRequestResilient(RestSharpClient, request);
+        }
+
+        /// <summary>Updates an existing data bundle, calls the PATCH /models/{modelId}/dataBundles/{dataBundleId} endpoint.</summary>
+        /// <param name="modelId">Id of the model</param>
+        /// <param name="dataBundleId">Id of the data bundle</param>
+        /// <param name="attributes">Additional attributes</param>
+        /// <returns>Data Bundle response from REST API</returns>
+        public object UpdateDataBundle(
+            string modelId,
+            string dataBundleId,
+            Dictionary<string, string?>? attributes
+        ) {
+            var body = new Dictionary<string, object?>();
+
+            if (attributes != null) {
+                foreach (KeyValuePair<string, string?> entry in attributes) {
+                    body.Add(entry.Key, entry.Value);
+                }
+            }
+            string url = $"/models/{modelId}/dataBundles/{dataBundleId}";
+            RestRequest request = ClientRestRequest(Method.PATCH, url, body);
+            return ExecuteRequestResilient(RestSharpClient, request);
+        }
+
+        /// <summary>Delete a data bundle, calls the DELETE /models/{modelId}/dataBundles/{dataBundleId} endpoint.
+        /// <param name="modelId">Id of the model</param>
+        /// <param name="dataBundleId">Id of the data bundle</param>
+        /// <returns>Data Bundle response from REST API</returns>
+        public object DeleteDataBundle(string modelId, string dataBundleId) {
+            var request = ClientRestRequest(Method.DELETE, $"/models/{modelId}/dataBundles/{dataBundleId}");
+            return ExecuteRequestResilient(RestSharpClient, request);
+        }
 
         /// <summary>Creates an secret, calls the POST /secrets endpoint.</summary>
         /// <example>

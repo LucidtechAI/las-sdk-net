@@ -61,9 +61,9 @@ namespace Test
                 new Dictionary<string, string>{{"label", "purchase_date"},{"value", "2007-07-30"}}
             };
             var response = Toby.CreateDocument(
-                body,
-                Example.ContentType(),
-                Example.ConsentId(),
+                content: body,
+                contentType: Example.ContentType(),
+                consentId: Example.ConsentId(),
                 groundTruth: groundTruth
             );
             CreateDocResponse = JsonSerialPublisher.ObjectToDict<Dictionary<string, object>>(response);
@@ -233,7 +233,11 @@ namespace Test
                 new Dictionary<string, string>{{"label", "total_amount"},{"value", total_amount}},
                 new Dictionary<string, string>{{"label", "purchase_date"},{"value", purchase_date}}
             };
-            var response = Toby.UpdateDocument((string)CreateDocResponse["documentId"], ground_truth);
+            var response = Toby.UpdateDocument(
+                (string)CreateDocResponse["documentId"],
+                ground_truth
+                //Util.ResourceId("dataset")
+            );
             CheckKeys(Util.ExpectedKeys("document"), response);
         }
 
@@ -248,6 +252,12 @@ namespace Test
                 datasetId: Util.ResourceId("dataset")
             );
             CheckKeys(Util.ExpectedKeys("documents"), response);
+        }
+
+        [Ignore("delete endpoints doesn't work")]
+        public void TestDeleteDocument() {
+            var response = Toby.DeleteDocument(Util.ResourceId("batch"), deleteDocuments);
+            CheckKeys(Util.ExpectedKeys("document"), response);
         }
 
         [TestCase(null, null)]
@@ -391,6 +401,54 @@ namespace Test
         public void TestUpdateModelSimple() {
             var response = Toby.UpdateModel(modelId: Util.ResourceId("model"), width: 501);
             CheckKeys(Util.ExpectedKeys("model"), response);
+        }
+
+        [TestCase(null, null)]
+        [TestCase("name", "description")]
+        public void TestCreateDataBundle(string? name, string? description)
+        {
+            var datasetIds= new List<string>{ Util.ResourceId("dataset"), Util.ResourceId("dataset")};
+            var response = Toby.CreateDataBundle(
+                modelId: Util.ResourceId("model"),
+                datasetIds: datasetIds,
+                name: name,
+                description: description
+            );
+            CheckKeys(Util.ExpectedKeys("dataBundle"), response);
+        }
+
+        [Test]
+        public void TestListDataBundles() {
+            var response = Toby.ListDataBundles(
+                modelId: Util.ResourceId("model"),
+                maxResults: 100,
+                nextToken: "foo"
+            );
+            CheckKeys(Util.ExpectedKeys("dataBundles"), response);
+        }
+
+        [TestCase("name", "description")]
+        [TestCase("", null)]
+        [TestCase(null, null)]
+        public void TestUpdateDataBundle(string? name, string? description) {
+            var parameters = new Dictionary<string, string?> {
+                {"name", name},
+                {"description", description}
+            };
+            var response = Toby.UpdateDataBundle(
+                modelId: Util.ResourceId("model"),
+                dataBundleId: Util.ResourceId("model-data-bundle"),
+                attributes: parameters
+            );
+            CheckKeys(Util.ExpectedKeys("dataBundle"), response);
+        }
+
+        [Ignore("delete endpoints doesn't work")]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void TestDeleteDataBundle(bool deleteDocuments) {
+            var response = Toby.DeleteDataBundle(Util.ResourceId("model"), Util.ResourceId("model-data-bundle"));
+            CheckKeys(Util.ExpectedKeys("dataBundle"), response);
         }
 
         [TestCase("foo", 3)]
