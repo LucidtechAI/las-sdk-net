@@ -28,7 +28,7 @@ namespace Test.Service
                 case "batches":
                     return new[] {"batches", "nextToken"};
                 case "dataset":
-                    return new[] {"name", "description", "datasetId", "version"};
+                    return new[] {"name", "description", "datasetId", "version", "numberOfDocuments"};
                 case "datasets":
                     return new[] {"datasets", "nextToken"};
                 case "document":

@@ -280,7 +280,7 @@ namespace Lucidtech.Las
             string? batchId = null,
             List<Dictionary<string, string>>? groundTruth = null,
             string? datasetId = null
-            ) {
+        ) {
             string base64Content = System.Convert.ToBase64String(content);
             var body = new Dictionary<string, object>
             {
