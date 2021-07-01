@@ -61,9 +61,9 @@ namespace Test
                 new Dictionary<string, string>{{"label", "purchase_date"},{"value", "2007-07-30"}}
             };
             var response = Toby.CreateDocument(
-                content: body,
-                contentType: Example.ContentType(),
-                consentId: Example.ConsentId(),
+                body,
+                Example.ContentType(),
+                Example.ConsentId(),
                 groundTruth: groundTruth
             );
             CreateDocResponse = JsonSerialPublisher.ObjectToDict<Dictionary<string, object>>(response);
@@ -235,8 +235,8 @@ namespace Test
             };
             var response = Toby.UpdateDocument(
                 (string)CreateDocResponse["documentId"],
-                ground_truth
-                //Util.ResourceId("dataset")
+                ground_truth,
+                Util.ResourceId("dataset")
             );
             CheckKeys(Util.ExpectedKeys("document"), response);
         }
