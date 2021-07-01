@@ -20,5 +20,7 @@ jobs:
         run: dotnet restore Test
       - name: Build
         run: dotnet build --configuration Release --no-restore Test
+      - name: Setup Prism
+        run: make prism-start
       - name: Test
         run: make test
