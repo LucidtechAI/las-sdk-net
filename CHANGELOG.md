@@ -1,5 +1,9 @@
 # Changelog 
 
+## Version 1.4.1 - 2021-07-01
+
+- Revert argument order for CreateDocuments, ListDocuments, and DeleteDocuments to avoid breaking changes.
+
 ## Version 1.4.0 - 2021-06-28
 
 - Added CreateDataset
