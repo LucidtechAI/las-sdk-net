@@ -464,9 +464,8 @@ namespace Lucidtech.Las
             var objectResponse = ExecuteRequestResilient(RestSharpClient, request);
             var response = JsonSerialPublisher.ObjectToDict<Dictionary<string, object>>(objectResponse);
 
-            var documentsDeleted = new List<object>();
-            if (deleteAll == true) {
-                documentsDeleted.AddRange(JsonSerialPublisher.ObjectToDict<List<object>>(response["documents"]));
+            if (deleteAll) {
+                var documentsDeleted = JsonSerialPublisher.ObjectToDict<List<object>>(response["documents"]);
 
                 while (response["nextToken"] != null) {
                     queryParams["nextToken"] = response["nextToken"].ToString();
@@ -557,7 +556,7 @@ namespace Lucidtech.Las
         /// <returns>Batch response from REST API</returns>
         public object DeleteBatch(string batchId, bool deleteDocuments = false) {
 
-            if (deleteDocuments == true) {
+            if (deleteDocuments) {
                 this.DeleteDocuments(batchId: batchId, deleteAll: true);
             }
 
@@ -660,7 +659,7 @@ namespace Lucidtech.Las
         /// <returns>Dataset response from REST API</returns>
         public object DeleteDataset(string datasetId, bool deleteDocuments = false) {
 
-            if (deleteDocuments == true) {
+            if (deleteDocuments) {
                 this.DeleteDocuments(datasetId: datasetId, deleteAll: true);
             }
 
