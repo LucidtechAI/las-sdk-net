@@ -256,7 +256,7 @@ namespace Test
 
         [Ignore("delete endpoints doesn't work")]
         public void TestDeleteDocument() {
-            var response = Toby.DeleteDocument(Util.ResourceId("batch"), deleteDocuments);
+            var response = Toby.DeleteDocument(Util.ResourceId("document"));
             CheckKeys(Util.ExpectedKeys("document"), response);
         }
 
