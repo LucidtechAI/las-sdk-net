@@ -1,4 +1,4 @@
-name: dotnet package
+name: Unit Tests
 
 on: [push]
 
@@ -21,4 +21,4 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore Test
       - name: Test
-        run: dotnet test --no-restore --verbosity normal Test
+        run: make test
