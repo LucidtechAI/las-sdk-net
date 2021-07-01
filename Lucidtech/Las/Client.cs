@@ -276,11 +276,11 @@ namespace Lucidtech.Las
         public object CreateDocument(
             byte[] content,
             string contentType,
-            string? batchId = null,
             string? consentId = null,
-            string? datasetId = null,
-            List<Dictionary<string, string>>? groundTruth = null)
-        {
+            string? batchId = null,
+            List<Dictionary<string, string>>? groundTruth = null,
+            string? datasetId = null
+            ) {
             string base64Content = System.Convert.ToBase64String(content);
             var body = new Dictionary<string, object>
             {
@@ -330,9 +330,9 @@ namespace Lucidtech.Las
         public object ListDocuments(
             string? batchId = null,
             string? consentId = null,
-            string? datasetId = null,
             int? maxResults = null,
-            string? nextToken = null
+            string? nextToken = null,
+            string? datasetId = null
         ) {
             var queryParams = new Dictionary<string, object?>();
 
@@ -431,9 +431,9 @@ namespace Lucidtech.Las
         public object DeleteDocuments(
             string? batchId = null,
             string? consentId = null,
-            string? datasetId = null,
             int? maxResults = null,
-            string? nextToken = null
+            string? nextToken = null,
+            string? datasetId = null
         ) {
             var queryParams = new Dictionary<string, object?>();
 
@@ -845,7 +845,7 @@ namespace Lucidtech.Las
             RestRequest request = ClientRestRequest(Method.GET, "/models", null, queryParams);
             return ExecuteRequestResilient(RestSharpClient, request);
         }
-        
+
         /// <summary>Get information about a specific model, calls the GET /models/{modelId} endpoint.</summary>
         /// <param name="modelId">Id of the model</param>
         /// <returns>Model response from REST API</returns>

@@ -28,12 +28,12 @@ namespace Test.Service
                 case "batches":
                     return new[] {"batches", "nextToken"};
                 case "dataset":
-                    return new[] {"name", "description", "datasetId", "version", "numberOfDocuments"};
+                    return new[] {"name", "description", "datasetId", "version"};
                 case "datasets":
                     return new[] {"datasets", "nextToken"};
                 case "document":
                     return new [] {"documentId", "contentType", "consentId", "groundTruth"};
-                case "documents": 
+                case "documents":
                     return new [] {"nextToken", "documents"};
                 case "logs":
                     return new[] {"logs", "nextToken"};
@@ -47,11 +47,11 @@ namespace Test.Service
                     return new [] {"predictions"};
                 case "secret":
                     return new [] {"secretId", "name", "description"};
-                case "secrets": 
+                case "secrets":
                     return new [] {"nextToken", "secrets"};
                 case "transition":
                     return new [] {"transitionId", "name", "description", "transitionType"};
-                case "transitions": 
+                case "transitions":
                     return new [] {"nextToken", "transitions"};
                 case "transition-execution":
                     return new [] {"transitionId", "executionId", "status", "completedBy", "endTime", "input", "logId", "startTime"};
@@ -61,11 +61,11 @@ namespace Test.Service
                     return new [] {"Your request executed successfully"};
                 case "user":
                     return new [] {"userId", "name", "avatar", "email"};
-                case "users": 
+                case "users":
                     return new [] {"nextToken", "users"};
                 case "workflow":
                     return new [] {"workflowId", "name", "description"};
-                case "workflows": 
+                case "workflows":
                     return new [] {"nextToken", "workflows"};
                 case "workflow-execution":
                     return new [] {"workflowId", "executionId", "status", "completedBy", "endTime", "logId", "startTime", "transitionExecutions"};
@@ -75,7 +75,7 @@ namespace Test.Service
                     throw new Exception($"{resourceName} is not a valid resource name");
             }
         }
-        
+
         public static Dictionary<string, object> CompletedConfig() {
             var environment = new Dictionary<string, string?>() {
                 {"FOO", "FOO"},
@@ -88,21 +88,21 @@ namespace Test.Service
                 {"environmentSecrets", new List<string>{Util.ResourceId("secret")}}
             };
         }
-            
+
         public static Dictionary<string, object> ErrorConfig() {
             return new Dictionary<string, object> {
                 {"email", "foo@lucidtech.io"},
                 {"manualRetry", true}
             };
         }
-            
+
         public static Dictionary<string, string?> NameAndDescription(string? name, string? description) {
             return new Dictionary<string, string?> {
                 {"name", name},
                 {"description", description}
             };
         }
-        
+
         public static Dictionary<string, object> PreprocessConfig() {
             return new Dictionary<string, object> {
                 {"autoRotate", true},
@@ -110,7 +110,7 @@ namespace Test.Service
                 {"imageQuality", "HIGH"}
             };
         }
-            
+
         public static Dictionary<string, object> FieldConfig() {
             return new Dictionary<string, object>()
             {
@@ -128,7 +128,7 @@ namespace Test.Service
                 },
             };
         }
-            
+
     }
-    
+
 }

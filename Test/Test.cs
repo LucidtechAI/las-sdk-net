@@ -244,7 +244,7 @@ namespace Test
                 maxResults: maxResults,
                 nextToken: nextToken,
                 consentId: consentId,
-                batchId: Util.ResourceId("batch")
+                batchId: Util.ResourceId("batch"),
                 datasetId: Util.ResourceId("dataset")
             );
             CheckKeys(Util.ExpectedKeys("documents"), response);
