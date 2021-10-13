@@ -23,10 +23,6 @@ namespace Test.Service
                     return new [] {"assetId", "name", "description"};
                 case "assets":
                     return new [] {"nextToken", "assets"};
-                case "batch":
-                    return new[] {"name", "description", "batchId"};
-                case "batches":
-                    return new[] {"batches", "nextToken"};
                 case "dataset":
                     return new[] {"name", "description", "datasetId", "version", "numberOfDocuments"};
                 case "datasets":

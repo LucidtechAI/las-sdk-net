@@ -264,20 +264,18 @@ namespace Lucidtech.Las
         /// </summary>
         /// <param name="content"> Content to POST </param>
         /// <param name="contentType"> A mime type for the document handle </param>
-        /// <param name="batchId"> Specifies the batch to which the document will be associated with </param>
         /// <param name="consentId"> An identifier to mark the owner of the document handle </param>
         /// <param name="datasetId"> Specifies the dataset to which the document will be associated with </param>
         /// <param name="groundTruth"> A list of items {label: value},
         /// representing the ground truth values for the document </param>
         /// <returns>
         /// A deserialized object that can be interpreted as a Dictionary with the fields
-        /// with batchId, documentId, contentType and consentId
+        /// with documentId, contentType and consentId
         /// </returns>
         public object CreateDocument(
             byte[] content,
             string contentType,
             string? consentId = null,
-            string? batchId = null,
             List<Dictionary<string, string>>? groundTruth = null,
             string? datasetId = null
         ) {
@@ -287,10 +285,6 @@ namespace Lucidtech.Las
                 {"content", base64Content},
                 {"contentType", contentType},
             };
-
-            if (batchId != null) {
-                body.Add("batchId", batchId);
-            }
 
             if (consentId != null) {
                 body.Add("consentId", consentId);
@@ -318,27 +312,21 @@ namespace Lucidtech.Las
         /// Create a document handle for a jpeg image
         /// <code>
         /// Client client = new Client();
-        /// var response = client.ListDocuments('&lt;batchId&gt;');
+        /// var response = client.ListDocuments('&lt;datasetId&gt;');
         /// </code>
         /// </example>
-        /// <param name="batchId"> The batch id that contains the documents of interest </param>
         /// <param name="consentId"> An identifier to mark the owner of the document handle </param>
         /// <param name="datasetId"> The dataset id that contains the documents of interest </param>
         /// <param name="maxResults">Number of items to show on a single page</param>
         /// <param name="nextToken">Token to retrieve the next page</param>
-        /// <returns> Documents from REST API contained in batch </returns>
+        /// <returns> Documents from REST API </returns>
         public object ListDocuments(
-            string? batchId = null,
             string? consentId = null,
             int? maxResults = null,
             string? nextToken = null,
             string? datasetId = null
         ) {
             var queryParams = new Dictionary<string, object?>();
-
-            if (batchId != null) {
-                queryParams.Add("batchId", batchId);
-            }
 
             if (consentId != null) {
                 queryParams.Add("consentId", consentId);
@@ -417,7 +405,6 @@ namespace Lucidtech.Las
         /// Client client = new Client();
         /// var response = client.DeleteConsent('&lt;consentId&gt;');
         /// </code></example>
-        /// <param name="batchId"> Delete documents with provided batchId </param>
         /// <param name="consentId"> Delete documents with provided consentId </param>
         /// <param name="datasetId"> Delete documents with provided datasetId </param>
         /// <param name="maxResults">Maximum number of items to delete</param>
@@ -427,7 +414,6 @@ namespace Lucidtech.Las
         /// consentId, nextToken and documents
         /// </returns>
         public object DeleteDocuments(
-            string? batchId = null,
             string? consentId = null,
             int? maxResults = null,
             string? nextToken = null,
@@ -439,10 +425,6 @@ namespace Lucidtech.Las
             }
 
             var queryParams = new Dictionary<string, object?>();
-
-            if (batchId != null) {
-                queryParams.Add("batchId", batchId);
-            }
 
             if (consentId != null) {
                 queryParams.Add("consentId", consentId);
@@ -490,80 +472,6 @@ namespace Lucidtech.Las
             var request = ClientRestRequest(Method.DELETE, $"/documents/{documentId}");
             return ExecuteRequestResilient(RestSharpClient, request);
         }
-
-        /// <summary>
-        /// Create a batch handle, calls the POST /batches endpoint.
-        /// </summary>
-        /// <example>
-        /// Create a new batch with the provided description.
-        /// on the document specified by '&lt;batchId&gt;'
-        /// <code>
-        /// Client client = new Client();
-        /// var response = client.CreateBatch("Data gathered from the Mars Rover Invoice Scan Mission");
-        /// </code>
-        /// </example>
-        /// <param name="name">Name of the batch</param>
-        /// <param name="description"> A brief description of the purpose of the batch </param>
-        /// <returns>
-        /// A deserialized object that can be interpreted as a Dictionary with the fields batchId and description.
-        /// batchId can be used as an input when posting documents to make them a part of this batch.
-        /// </returns>
-        public object CreateBatch(string? name = null, string? description = null)
-        {
-            var body = new Dictionary<string, string?>();
-
-            if (name != null) {
-                body.Add("name", name);
-            }
-
-            if (description != null) {
-                body.Add("description", description);
-            }
-
-            RestRequest request = ClientRestRequest(Method.POST, "/batches", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
-        }
-
-        /// <summary>Updates an existing batch, calls the PATCH /batches/{batchId} endpoint.</summary>
-        /// <param name="batchId">Id of the batch</param>
-        /// <param name="attributes">Additional attributes</param>
-        /// <returns>Batch response from REST API</returns>
-        public object UpdateBatch(
-            string batchId,
-            Dictionary<string, string?>? attributes
-        ) {
-            var body = new Dictionary<string, object?>();
-
-            if (attributes != null) {
-                foreach (KeyValuePair<string, string?> entry in attributes) {
-                    body.Add(entry.Key, entry.Value);
-                }
-            }
-
-            RestRequest request = ClientRestRequest(Method.PATCH, $"/batches/{batchId}", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
-        }
-
-        /// <summary>Delete a batch, calls the DELETE /batches/{batchId} endpoint.
-        /// <example>
-        /// <code>
-        /// Client client = new Client();
-        /// var response = client.DeleteBatch("&lt;batchId&gt;");
-        /// </code>
-        /// </example>
-        /// <param name="batchId">Id of the batch</param>
-        /// <param name="deleteDocuments">Set to true to delete documents in batch before deleting batch</param>
-        /// <returns>Batch response from REST API</returns>
-        public object DeleteBatch(string batchId, bool deleteDocuments = false) {
-
-            if (deleteDocuments) {
-                this.DeleteDocuments(batchId: batchId, deleteAll: true);
-            }
-
-            var request = ClientRestRequest(Method.DELETE, $"/batches/{batchId}");
-            return ExecuteRequestResilient(RestSharpClient, request);
-        }
-
 
         /// <summary>
         /// Create a dataset handle, calls the POST /datasets endpoint.
