@@ -168,7 +168,7 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("document"), CreateDocResponse);
         }
 
-        [TestCase("foo", 3, null, null, null)]
+        [TestCase("foo", 3, null, null)]
         [TestCase(null, null, "las:consent:08b49ae64cd746f384f05880ef5de72f", null)]
         [TestCase(null, null, null, null)]
         [TestCase("foo", 2, null, null)]
