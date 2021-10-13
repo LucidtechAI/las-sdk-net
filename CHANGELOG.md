@@ -2,7 +2,7 @@
 
 ## Version 2.0.0 - 2021-10-13
 
-- Remove all support for batches
+- Removed all support for batches. Use datasets instead.
 
 ## Version 1.5.0 - 2021-07-01
 
