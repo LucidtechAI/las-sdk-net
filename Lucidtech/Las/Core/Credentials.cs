@@ -15,41 +15,36 @@ namespace Lucidtech.Las.Core
 {
     /// <summary>
     /// Used to fetch and store credentials. One of 3 conditions must be met to successfully create credentials.
-    /// 1. ClientId, ClientSecret, ApiKey, AuthEndpoint and ApiEndpoint are provided
+    /// 1. ClientId, ClientSecret, AuthEndpoint and ApiEndpoint are provided
     /// 2. The path to the file where the credentials are stored is provided
     /// 3. Credentials are located in default path ~/.lucidtech/credentials.cfg
-    /// 
+    ///
     /// Get credentials by contacting hello@lucidtech.ai
-    /// 
+    ///
     /// </summary>
     public class Credentials
     {
-        
+
         /// <summary>
         /// Client ID. Provided by Lucidtech.
         /// </summary>
         public string ClientId { get; }
-        
+
         /// <summary>
         /// Client Secret. Provided by Lucidtech.
         /// </summary>
         public string ClientSecret { get; }
-        
-        /// <summary>
-        /// AWS API Gateway API key. Provided by Lucidtech.
-        /// </summary>
-        public string ApiKey{ get; }
-        
+
         /// <summary>
         /// AWS Authorization endpoint. Provided by Lucidtech.
         /// </summary>
         public string AuthEndpoint{ get; }
-        
+
         /// <summary>
         /// AWS API Gateway API endpoint. Provided by Lucidtech.
         /// </summary>
         public string ApiEndpoint{ get; }
-        
+
         /// <summary>
         /// Access token and timestamp to API endpoint. Provided and updated by calling AccessToken.
         /// </summary>
@@ -59,7 +54,7 @@ namespace Lucidtech.Las.Core
         /// Timestamp for access token to API endpoint. Provided and updated by calling AccessToken.
         /// </summary>
         private DateTime ExpirationTime;
-    
+
         /// <summary>
         /// RestClient for making request to the authorization endpoint.
         /// </summary>
@@ -77,14 +72,14 @@ namespace Lucidtech.Las.Core
             var response = RestSharpClient.Execute(request);
             var responseData = JsonDecode(response);
             var responseDict = JsonSerialPublisher.ObjectToDict<Dictionary<string, object>>(responseData);
-        
+
             string accessToken = (string)responseDict["access_token"];
             double expiresIn = Convert.ToDouble(responseDict["expires_in"]);
             DateTime exp = DateTime.UtcNow.AddSeconds(expiresIn);
-            
+
             return (accessToken, exp);
         }
-        
+
         /// <summary>
         /// Get Access token to API endpoint.
         /// </summary>
@@ -109,29 +104,26 @@ namespace Lucidtech.Las.Core
                 Console.WriteLine($"Error in response. Returned {e}");
                 throw new Exception(response.ToString());
             }
-            
+
         }
-        
+
         /// <summary>
-        /// Credentials constructor where ClientId, ClientSecret, ApiKey, AuthEndpoint and ApiEndpoint are provided by
+        /// Credentials constructor where ClientId, ClientSecret, AuthEndpoint and ApiEndpoint are provided by
         /// Lucidtech.
         /// </summary>
         /// <param name="clientId"> client id </param>
         /// <param name="clientSecret"> client secret </param>
-        /// <param name="apiKey"> API key </param>
         /// <param name="authEndpoint"> Authorization endpoint </param>
         /// <param name="apiEndpoint"> API endpoint </param>
         /// <exception cref="ArgumentException"></exception>
         public Credentials(
             string clientId,
             string clientSecret,
-            string apiKey, 
             string authEndpoint,
             string apiEndpoint
         ) {
             ClientId = clientId;
             ClientSecret = clientSecret;
-            ApiKey = apiKey;
             AuthEndpoint = authEndpoint;
             ApiEndpoint = apiEndpoint;
             CommonConstructor();
@@ -148,7 +140,6 @@ namespace Lucidtech.Las.Core
             {
                 ClientId = envCred["ClientId"];
                 ClientSecret = envCred["ClientSecret"];
-                ApiKey = envCred["ApiKey"];
                 AuthEndpoint = envCred["AuthEndpoint"];
                 ApiEndpoint = envCred["ApiEndpoint"];
             }
@@ -157,7 +148,6 @@ namespace Lucidtech.Las.Core
                 var pathCred = ReadCredentials(credentialsPath);
                 ClientId = envCred["ClientId"] != null ? envCred["ClientId"] : pathCred["ClientId"];
                 ClientSecret = envCred["ClientSecret"] != null ? envCred["ClientSecret"] : pathCred["ClientSecret"];
-                ApiKey = envCred["ApiKey"] != null ? envCred["ApiKey"] : pathCred["ApiKey"];
                 AuthEndpoint = envCred["AuthEndpoint"] != null ? envCred["AuthEndpoint"] : pathCred["AuthEndpoint"];
                 ApiEndpoint = envCred["ApiEndpoint"] != null ? envCred["ApiEndpoint"] : pathCred["ApiEndpoint"];
             }
@@ -184,7 +174,6 @@ namespace Lucidtech.Las.Core
             {
                 {"ClientId", Environment.GetEnvironmentVariable("LAS_CLIENT_ID")},
                 {"ClientSecret", Environment.GetEnvironmentVariable("LAS_CLIENT_SECRET")},
-                {"ApiKey", Environment.GetEnvironmentVariable("LAS_API_KEY")},
                 {"AuthEndpoint", Environment.GetEnvironmentVariable("LAS_AUTH_ENDPOINT")},
                 {"ApiEndpoint", Environment.GetEnvironmentVariable("LAS_API_ENDPOINT")}
             };
@@ -195,7 +184,7 @@ namespace Lucidtech.Las.Core
 
         private static string GetCredentialsPath()
         {
-            string path = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? 
+            string path = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
                 "%USERPROFILE%\\.lucidtech\\credentials.cfg" : "%HOME%/.lucidtech/credentials.cfg";
             return Environment.ExpandEnvironmentVariables(path);
         }
@@ -209,7 +198,6 @@ namespace Lucidtech.Las.Core
             {
                 {"ClientId", config[section]["client_id"]},
                 {"ClientSecret", config[section]["client_secret"]},
-                {"ApiKey", config[section]["api_key"]},
                 {"AuthEndpoint", config[section]["auth_endpoint"]},
                 {"ApiEndpoint", config[section]["api_endpoint"]}
             };

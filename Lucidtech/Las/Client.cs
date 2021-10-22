@@ -1850,7 +1850,6 @@ namespace Lucidtech.Las
         {
             var headers = new Dictionary<string, string> {
                 {"Authorization", $"Bearer {LasCredentials.GetAccessToken()}"},
-                {"X-Api-Key", LasCredentials.ApiKey}
             };
             headers.Add("Content-Type", "application/json");
 

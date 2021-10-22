@@ -35,7 +35,7 @@ namespace Test
         [OneTimeSetUp]
         public void InitClient()
         {
-            var mockCreds = new Mock<Credentials>("test", "test", "test", "test", "http://localhost:4010");
+            var mockCreds = new Mock<Credentials>("test", "test", "test", "http://localhost:4010");
             mockCreds
                 .Protected()
                 .Setup<(string, DateTime)>("GetClientCredentials")
@@ -801,7 +801,7 @@ namespace Test
         public static string DocPath() { return Environment.ExpandEnvironmentVariables("Test/Files/example.jpeg"); }
         public static Credentials Creds()
         {
-            return new Credentials("foo", "bar", "baz", "baaz", "http://127.0.0.1:4010");
+            return new Credentials("foo", "bar", "baaz", "http://127.0.0.1:4010");
         }
     }
 }

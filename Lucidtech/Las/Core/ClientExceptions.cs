@@ -13,7 +13,7 @@ namespace Lucidtech.Las.Core
    }
 
    /// <summary>
-   /// An InvalidCredentialsException is raised if api key, access key id or secret access key is invalid.
+   /// An InvalidCredentialsException is raised if access key id or secret access key is invalid.
    /// </summary>
    public class InvalidCredentialsException : ClientException
    {
@@ -33,15 +33,15 @@ namespace Lucidtech.Las.Core
    /// A LimitExceededException is raised if you have reached the limit of total requests per month
    /// associated with your credentials.
    /// </summary>
-   public class LimitExceededException : ClientException 
+   public class LimitExceededException : ClientException
    {
       public LimitExceededException(string s) : base(s) {}
    }
-    
+
    /// <summary>
    /// A RequestException is raised if something went wrong with the request.
    /// </summary>
-   public class RequestException : ClientException 
+   public class RequestException : ClientException
    {
       public IRestResponse Response { get; }
       public RequestException(string s) : base(s) {}
@@ -51,5 +51,5 @@ namespace Lucidtech.Las.Core
          Response = response;
       }
    }
-    
+
 }
