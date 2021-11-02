@@ -478,7 +478,7 @@ namespace Lucidtech.Las
         /// </summary>
         /// <example>
         /// Create a new dataset with the provided description.
-        /// on the document specified by '&lt;datasetId&gt;'
+        /// on the document specified by datasetId
         /// <code>
         /// Client client = new Client();
         /// var response = client.CreateDataset("Data gathered from the Mars Rover Invoice Scan Mission");
