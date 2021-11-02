@@ -352,7 +352,7 @@ namespace Lucidtech.Las
         /// Get document from the REST API, calls the GET /documents/{documentId} endpoint.
         /// </summary>
         /// <example>
-        /// Get information of document specified by &lt;documentId&gt;
+        /// Get information of document specified by documentId
         /// <code>
         /// Client client = new Client();
         /// var response = client.GetDocument('&lt;documentId&gt;');
@@ -580,7 +580,7 @@ namespace Lucidtech.Las
         /// </summary>
         /// <example>
         /// Run inference and create a prediction using the invoice model
-        /// on the document specified by '&lt;documentId&gt;'
+        /// on the document specified by documentId
         /// <code>
         /// Client client = new Client();
         /// var response = client.CreatePrediction('&lt;documentId&gt;',"las:model:99cac468f7cf47ddad12e5e017540389");
