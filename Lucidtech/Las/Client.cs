@@ -455,7 +455,7 @@ namespace Lucidtech.Las
             return JsonConvert.DeserializeObject(responseString);
         }
 
-        /// <summary>Delete a document, calls the DELETE /documents/{documentId} endpoint.
+        /// <summary>Delete a document, calls the DELETE /documents/{documentId} endpoint.</summary>
         /// <param name="documentId">Id of the document</param>
         /// <returns>Document response from REST API</returns>
         public object DeleteDocument(string documentId) {
@@ -899,7 +899,9 @@ namespace Lucidtech.Las
             return ExecuteRequestResilient(RestSharpClient, request);
         }
 
-        /// <summary>Delete a data bundle, calls the DELETE /models/{modelId}/dataBundles/{dataBundleId} endpoint.
+        /// <summary>
+        /// Delete a data bundle, calls the DELETE /models/{modelId}/dataBundles/{dataBundleId} endpoint.
+        /// </summary>
         /// <param name="modelId">Id of the model</param>
         /// <param name="dataBundleId">Id of the data bundle</param>
         /// <returns>Data Bundle response from REST API</returns>
