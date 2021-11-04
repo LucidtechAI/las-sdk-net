@@ -84,7 +84,6 @@ namespace Lucidtech.Las
         /// <summary> List available appClients, calls the GET /appClients endpoint. </summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.ListAppClients();
         /// </code>
         /// </example>
@@ -133,7 +132,6 @@ namespace Lucidtech.Las
         /// <summary>Delete an appClient, calls the DELETE /appClients/{appClientId} endpoint.
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.DeleteAppClient("&lt;appClientId&gt;");
         /// </code>
         /// </example>
@@ -148,7 +146,6 @@ namespace Lucidtech.Las
         /// <summary>Creates an asset, calls the POST /assets endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// byte[] content = File.ReadAllBytes("myScript.js");
         /// client.CreateAsset(content);
         /// </code>
@@ -175,7 +172,6 @@ namespace Lucidtech.Las
         /// <summary> List available assets, calls the GET /assets endpoint. </summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.ListAssets();
         /// </code>
         /// </example>
@@ -204,7 +200,6 @@ namespace Lucidtech.Las
         /// <summary>Get asset from the REST API, calls the GET /assets/{assetId} endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.GetAsset("&lt;asset_id&gt;");
         /// </code>
         /// </example>
@@ -218,7 +213,6 @@ namespace Lucidtech.Las
         /// <summary>Updates an asset, calls the PATCH /assets/{assetId} endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// byte[] newContent = File.ReadAllBytes("MyScript.js");
         /// var response = client.UpdateAsset("&lt;asset_id&gt;", newContent);
         /// </code>
@@ -248,7 +242,6 @@ namespace Lucidtech.Las
         /// <summary>Delete an asset, calls the DELETE /assets/{assetId} endpoint.
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.DeleteAsset("&lt;assetId&gt;");
         /// </code>
         /// </example>
@@ -311,7 +304,6 @@ namespace Lucidtech.Las
         /// <example>
         /// Create a document handle for a jpeg image
         /// <code>
-        /// Client client = new Client();
         /// var response = client.ListDocuments('&lt;datasetId&gt;');
         /// </code>
         /// </example>
@@ -354,7 +346,6 @@ namespace Lucidtech.Las
         /// <example>
         /// Get information of document specified by documentId
         /// <code>
-        /// Client client = new Client();
         /// var response = client.GetDocument('&lt;documentId&gt;');
         /// </code>
         /// </example>
@@ -402,7 +393,6 @@ namespace Lucidtech.Las
         /// Delete documents with specified consentId, calls DELETE /documents endpoint.
         /// </summary>
         /// <example><code>
-        /// Client client = new Client();
         /// var response = client.DeleteConsent('&lt;consentId&gt;');
         /// </code></example>
         /// <param name="consentId"> Delete documents with provided consentId </param>
@@ -480,7 +470,6 @@ namespace Lucidtech.Las
         /// Create a new dataset with the provided description.
         /// on the document specified by datasetId
         /// <code>
-        /// Client client = new Client();
         /// var response = client.CreateDataset("Data gathered from the Mars Rover Invoice Scan Mission");
         /// </code>
         /// </example>
@@ -509,7 +498,6 @@ namespace Lucidtech.Las
         /// <summary>List datasets available, calls the GET /datasets endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.ListDatasets();
         /// </code>
         /// </example>
@@ -558,7 +546,6 @@ namespace Lucidtech.Las
         /// <summary>Delete a dataset, calls the DELETE /datasets/{datasetId} endpoint.
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.DeleteDataset("&lt;datasetId&gt;");
         /// </code>
         /// </example>
@@ -582,7 +569,6 @@ namespace Lucidtech.Las
         /// Run inference and create a prediction using the invoice model
         /// on the document specified by documentId
         /// <code>
-        /// Client client = new Client();
         /// var response = client.CreatePrediction('&lt;documentId&gt;',"las:model:99cac468f7cf47ddad12e5e017540389");
         /// </code>
         /// </example>
@@ -617,7 +603,6 @@ namespace Lucidtech.Las
         /// <summary>List predictions available, calls the GET /predictions endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.ListPredictions();
         /// </code>
         /// </example>
@@ -646,7 +631,6 @@ namespace Lucidtech.Las
         /// <summary>List logs, calls the GET /logs endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.ListLogs();
         /// </code>
         /// </example>
@@ -744,7 +728,6 @@ namespace Lucidtech.Las
         /// <summary>List models available, calls the GET /models endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.ListModels();
         /// </code>
         /// </example>
@@ -928,7 +911,6 @@ namespace Lucidtech.Las
         /// <summary>Creates an secret, calls the POST /secrets endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var data = new Dictionary&lt;string, string&gt;{
         ///     {"key", "my_secret_value"}
         /// }
@@ -956,7 +938,6 @@ namespace Lucidtech.Las
         /// <summary>List secrets available, calls the GET /secrets endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.ListSecrets();
         /// </code>
         /// </example>
@@ -985,7 +966,6 @@ namespace Lucidtech.Las
         /// <summary>Updates a secret, calls the PATCH /secrets/secretId endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var data = new Dictionary&lt;string, string&gt;{
         ///     {"key", "my_new_secret_value"}
         /// }
@@ -1019,7 +999,6 @@ namespace Lucidtech.Las
         /// <summary>Delete a secret, calls the DELETE /secrets/{secretId} endpoint.
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.DeleteSecret("&lt;secretId&gt;");
         /// </code>
         /// </example>
@@ -1033,7 +1012,6 @@ namespace Lucidtech.Las
         /// <summary>Creates a transition, calls the POST /transitions endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var inputSchema = new Dictionary&lt;string, string&gt;{
         ///     {"$schema", "https://json-schema.org/draft-04/schema#"},
         ///     {"title", "input"}
@@ -1094,7 +1072,6 @@ namespace Lucidtech.Las
         /// <summary>List transitions, calls the GET /transitions endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.ListTransitions();
         /// </code>
         /// </example>
@@ -1121,7 +1098,6 @@ namespace Lucidtech.Las
         /// calls the GET /transitions/{transition_id} endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.GetTransition("&lt;transition_id&gt;");
         /// </code>
         /// </example>
@@ -1136,7 +1112,6 @@ namespace Lucidtech.Las
         /// Will fail if transition is in use by one or more workflows.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.DeleteTransition("&lt;transition_id&gt;");
         /// </code>
         /// </example>
@@ -1150,7 +1125,6 @@ namespace Lucidtech.Las
         /// <summary>Get an execution of a transition, calls the GET /transitions/{transitionId}/executions/{executionId} endpoint</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.GetTransitionExecution("&lt;transition_id&gt;", "&lt;execution_id&gt;");
         /// </code>
         /// </example>
@@ -1165,7 +1139,6 @@ namespace Lucidtech.Las
         /// <summary>Updates an existing transition, calls the PATCH /transitions/{transitionId} endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.UpdateTransition("&lt;transitionId&gt;");
         /// </code>
         /// </example>
@@ -1218,7 +1191,6 @@ namespace Lucidtech.Las
         /// <summary>Start executing a manual transition, calls the POST /transitions/{transitionId}/executions endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.ExecuteTransition("&lt;transitionId&gt;");
         /// </code>
         /// </example>
@@ -1232,7 +1204,6 @@ namespace Lucidtech.Las
         /// <summary>List executions in a transition, calls the GET /transitions/{transitionId}/executions endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.ListTransitionExecutions("&lt;transitionId&gt;", new [] {"succeeded", "failed"});
         /// </code>
         /// </example>
@@ -1263,7 +1234,6 @@ namespace Lucidtech.Las
         /// <summary>List executions in a transition, calls the GET /transitions/{transitionId}/executions endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.ListTransitionExecutions("&lt;transitionId&gt;", new [] {"succeeded", "failed"});
         /// </code>
         /// </example>
@@ -1318,7 +1288,6 @@ namespace Lucidtech.Las
         /// calls the PATCH /transitions/{transitionId}/executions/{executionId} endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var output = new Dictionary&lt;string, string&gt;();
         /// client.UpdateTransitionExecution("&lt;transitionId&gt;", "&lt;executionId&gt;, "succeeded", output: output);
         /// </code>
@@ -1363,7 +1332,6 @@ namespace Lucidtech.Las
         /// calls the POST /transitions/{transitionId}/executions/{executionId}/heartbeats endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.sendHeartbeat("&lt;transitionId&gt;", "&lt;executionId&gt;");
         /// </code>
         /// </example>
@@ -1379,7 +1347,6 @@ namespace Lucidtech.Las
         /// <summary>Creates a new user, calls the POST /users endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.CreateUser("foo@bar.com");
         /// </code>
         /// </example>
@@ -1404,7 +1371,6 @@ namespace Lucidtech.Las
         /// <summary>List users, calls the GET /users endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.ListUsers();
         /// </code>
         /// </example>
@@ -1429,7 +1395,6 @@ namespace Lucidtech.Las
         /// <summary>Get information about a specific user, calls the GET /users/{user_id} endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.GetUser("&lt;user_id&gt;");
         /// </code>
         /// </example>
@@ -1443,7 +1408,6 @@ namespace Lucidtech.Las
         /// <summary>Delete the user with the provided user_id, calls the DELETE /users/{userId} endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.DeleteUser("&lt;user_id&gt;");
         /// </code>
         /// </example>
@@ -1457,7 +1421,6 @@ namespace Lucidtech.Las
         /// <summary>Updates a user, calls the PATCH /users/{userId} endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var parameters = new Dictionary&lt;string, string&gt;{
         ///     {"name", "User"}
         /// };
@@ -1489,7 +1452,6 @@ namespace Lucidtech.Las
         /// </summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var specification = new Dictionary&lt;string, object&gt;{
         ///     {"language", "ASL"},
         ///     {"version", "1.0.0"},
@@ -1550,7 +1512,6 @@ namespace Lucidtech.Las
         /// <summary>List workflows, calls the GET /workflows endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.ListWorkflows();
         /// </code>
         /// </example>
@@ -1575,7 +1536,6 @@ namespace Lucidtech.Las
         /// <summary>Creates a workflow handle, calls the PATCH /workflows/{workflowId} endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var newParameters = new Dictionary&lt;string, string&gt;{
         ///     {"name", "New Name"},
         ///     {"description", "My updated awesome workflow"}
@@ -1616,7 +1576,6 @@ namespace Lucidtech.Las
         /// calls the GET /workflows/{workflow_id} endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.GetWorkflow("&lt;workflow_id&gt;");
         /// </code>
         /// </example>
@@ -1631,7 +1590,6 @@ namespace Lucidtech.Las
         /// calls the DELETE /workflows/{workflowId} endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.DeleteWorkflow("&lt;workflow_id&gt;");
         /// </code>
         /// </example>
@@ -1645,7 +1603,6 @@ namespace Lucidtech.Las
         /// <summary>Start a workflow execution, calls the POST /workflows/{workflowId}/executions endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var content = new Dictionary&lt;string, object&gt;();
         /// var response = client.ExecuteWorkflow("&lt;workflowId&gt;, content);
         /// </code>
@@ -1664,7 +1621,6 @@ namespace Lucidtech.Las
         /// <summary>List executions in a workflow, calls the GET /workflows/{workflowId}/executions endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var statuses = new [] {"running", "succeeded"};
         /// var response = client.ListWorkflowExecutions("&lt;workflow_id&gt;", statuses);
         /// </code>
@@ -1688,7 +1644,6 @@ namespace Lucidtech.Las
         /// <summary>List executions in a workflow, calls the GET /workflows/{workflowId}/executions endpoint.</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var statuses = new [] {"running", "succeeded"};
         /// var response = client.ListWorkflowExecutions("&lt;workflow_id&gt;", statuses);
         /// </code>
@@ -1735,7 +1690,6 @@ namespace Lucidtech.Las
         /// <summary>Get an execution of a workflow, calls the GET /workflows/{workflowId}/executions/{executionId} endpoint</summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.GetWorkflowExecution("&lt;workflow_id&gt;", "&lt;execution_id&gt;");
         /// </code>
         /// </example>
@@ -1753,7 +1707,6 @@ namespace Lucidtech.Las
         /// </summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.UpdateWorkflowExecution("&lt;workflow_id&gt;", "&lt;execution_id&gt;", "&lt;next_transition_id&gt;");
         /// </code>
         /// </example>
@@ -1776,7 +1729,6 @@ namespace Lucidtech.Las
         /// </summary>
         /// <example>
         /// <code>
-        /// Client client = new Client();
         /// var response = client.DeleteWorkflowExecution("&lt;workflow_id&gt;", "&lt;execution_id&gt;");
         /// </code>
         /// </example>
