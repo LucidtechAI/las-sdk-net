@@ -8,10 +8,10 @@
 Create documents by using doxygen.
 Download the latest and greatest version of [doxygen](https://github.com/doxygen/doxygen.git).
 ```bash
-$ cd Lucidtech
-$ doxygen documentation.conf
-$ sudo npm install moxygen -g # Download moxygen for markdown generation.
-$ moxygen xml # Generate markdown file
+cd Lucidtech
+doxygen documentation.conf
+sudo npm install moxygen -g # Download moxygen for markdown generation.
+moxygen xml # Generate markdown file
 
 ```
 
@@ -20,7 +20,7 @@ $ moxygen xml # Generate markdown file
 ### NuGet
 
 ```bash
-$ nuget install Lucidtech.Las
+nuget install Lucidtech.Las
 ```
 
 ## Usage
@@ -54,12 +54,12 @@ Download the following packages:
 ### Build and run tests
 Clone repo and install the necessary packages manually for the las-sdk-net.
 ```bash
-$ git clone git@github.com:LucidtechAI/las-sdk-net.git
-$ cd las-sdk-net
-$ make prism-start
-$ make test
-$ # Build for release and make nuget package
-$ msbuild Lucidtech/Lucidtech.csproj /t:Rebuild /p:Configuration=Release
+git clone git@github.com:LucidtechAI/las-sdk-net.git
+cd las-sdk-net
+make prism-start
+make test
+# Build for release and make nuget package
+msbuild Lucidtech/Lucidtech.csproj /t:Rebuild /p:Configuration=Release
 ```
 
 Hint: Set environment variable CREDENTIALS=FROM_FILE to run a test against the real API with your default credentials.
