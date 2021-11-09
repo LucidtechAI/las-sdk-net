@@ -2,7 +2,7 @@
 CID := $(shell cat /tmp/prism.cid)
 
 docs:
-	doxygen documentation.conf
+	doxygen
 
 restore:
 	dotnet restore Lucidtech
