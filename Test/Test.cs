@@ -227,6 +227,13 @@ namespace Test
                 postprocessConfig: Util.PostprocessConfigBestFirst()
             );
             CheckKeys(Util.ExpectedKeys("prediction"), response);
+
+            var response2 = Toby.CreatePrediction(
+                (string)CreateDocResponse["documentId"],
+                Example.ModelId(),
+                postprocessConfig: Util.PostprocessConfigBestNPages()
+            );
+            CheckKeys(Util.ExpectedKeys("prediction"), response2);
         }
 
         [Test]

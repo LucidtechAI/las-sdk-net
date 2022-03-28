@@ -27,12 +27,12 @@ single-test: build-test
 
 prism-start:
 	@echo "Starting mock API..."
-	docker run \
+	docker run -t \
 		--init \
 		--detach \
 		-p 4010:4010 \
-		stoplight/prism:3.2.8 mock -d -h 0.0.0.0 \
-		https://raw.githubusercontent.com/LucidtechAI/las-docs/master/reference/restapi/oas.json \
+		stoplight/prism:4.5.0 mock -d -h 0.0.0.0 \
+		https://raw.githubusercontent.com/LucidtechAI/cradl-docs/master/static/oas.json \
 		> /tmp/prism.cid
 
 prism-stop:
