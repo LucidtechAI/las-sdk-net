@@ -226,7 +226,7 @@ namespace Test
                 Example.ModelId(),
                 postprocessConfig: Util.PostprocessConfigBestFirst()
             );
-            CheckKeys(Util.ExpectedKeys("prediction"), response);
+            CheckKeys(Util.ExpectedKeys("predictions"), response);
 
             var response2 = Toby.CreatePrediction(
                 (string)CreateDocResponse["documentId"],
