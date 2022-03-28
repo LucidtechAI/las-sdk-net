@@ -1,5 +1,9 @@
 # Changelog 
 
+## Version 3.1.0 - 2022-03-28
+
+- Added postprocessConfig to CreatePrediction
+
 ## Version 3.0.0 - 2021-10-22
 
 - Removed apiKey from Credentials. 
