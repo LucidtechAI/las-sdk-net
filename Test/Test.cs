@@ -233,7 +233,7 @@ namespace Test
                 Example.ModelId(),
                 postprocessConfig: Util.PostprocessConfigBestNPages()
             );
-            CheckKeys(Util.ExpectedKeys("prediction"), response2);
+            CheckKeys(Util.ExpectedKeys("predictions"), response2);
         }
 
         [Test]
