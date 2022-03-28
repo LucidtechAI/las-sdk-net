@@ -219,6 +219,17 @@ namespace Test
         }
 
         [Test]
+        public void TestCreatePredictionPostProcess()
+        {
+            var response = Toby.CreatePrediction(
+                (string)CreateDocResponse["documentId"],
+                Example.ModelId(),
+                postprocessConfig: Util.PostprocessConfigBestFirst()
+            );
+            CheckKeys(Util.ExpectedKeys("prediction"), response);
+        }
+
+        [Test]
         public void TestGetDocument()
         {
             var response = Toby.GetDocument((string)CreateDocResponse["documentId"]);

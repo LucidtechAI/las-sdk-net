@@ -588,13 +588,16 @@ namespace Lucidtech.Las
             string modelId,
             int? maxPages = null,
             bool? autoRotate = null,
-            string? imageQuality = null
+            string? imageQuality = null,
+            Dictionary<string, object>? postprocessConfig = null
         )
         {
             var body = new Dictionary<string, object> { {"documentId", documentId}, {"modelId", modelId}};
+
             if (maxPages != null) { body.Add("maxPages", maxPages);}
             if (autoRotate != null) { body.Add("autoRotate", autoRotate);}
             if (imageQuality != null) { body.Add("imageQuality", imageQuality);}
+            if (postprocessConfig != null) { body.Add("postprocessConfig", postprocessConfig);}
 
             RestRequest request = ClientRestRequest(Method.POST, "/predictions", body);
             return ExecuteRequestResilient(RestSharpClient, request);

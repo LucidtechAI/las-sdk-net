@@ -111,6 +111,23 @@ namespace Test.Service
             };
         }
 
+        public static Dictionary<string, object> PostprocessConfigBestFirst() {
+            return new Dictionary<string, object> {
+                {"strategy", "BEST_FIRST"},
+            };
+        }
+
+        public static Dictionary<string, object> PostprocessConfigBestNPages() {
+            return new Dictionary<string, object> {
+                    {"strategy", "BEST_N_PAGES"},
+                    {"parameters", new Dictionary<string, object> {
+                        {"n", 2},
+                        {"collapse", true}
+                    }
+                }
+            };
+        }
+
         public static Dictionary<string, object> FieldConfig() {
             return new Dictionary<string, object>()
             {
