@@ -127,7 +127,6 @@ namespace Lucidtech.Las.Core
             ClientSecret = clientSecret;
             AuthEndpoint = authEndpoint;
             ApiEndpoint = apiEndpoint;
-            //CommonConstructor();
         }
 
         /// <summary>
@@ -163,14 +162,6 @@ namespace Lucidtech.Las.Core
         /// ~/.lucidtech/credentials.cfg for linux and %USERPROFILE%\.lucidtech\credentials.cfg for Windows.
         /// </summary>
         public Credentials() : this(GetCredentialsPath()) {}
-
-        protected virtual void CommonConstructor()
-        {
-            AccessToken = null;
-            ExpirationTime = DateTime.UtcNow;
-            RestSharpClient = new RestClient($"https://{AuthEndpoint}");
-            RestSharpClient.Authenticator = new HttpBasicAuthenticator(ClientId, ClientSecret);
-        }
 
         private Dictionary<string, string> GetCredentialsFromEnv()
         {
