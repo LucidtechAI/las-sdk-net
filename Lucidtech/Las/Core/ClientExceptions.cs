@@ -9,6 +9,10 @@ namespace Lucidtech.Las.Core
    /// </summary>
    public class ClientException : Exception
    {
+     /// <summary>
+     /// Constructor..
+     /// <param name="s">Error message.</param>
+     /// </summary>
       public ClientException(string s) : base(s) {}
    }
 
@@ -17,6 +21,10 @@ namespace Lucidtech.Las.Core
    /// </summary>
    public class InvalidCredentialsException : ClientException
    {
+     /// <summary>
+     /// Constructor..
+     /// <param name="s">Error message.</param>
+     /// </summary>
       public InvalidCredentialsException(string s) : base(s) {}
    }
 
@@ -26,6 +34,10 @@ namespace Lucidtech.Las.Core
    /// </summary>
    public class TooManyRequestsException : ClientException
    {
+     /// <summary>
+     /// Constructor..
+     /// <param name="s">Error message.</param>
+     /// </summary>
       public TooManyRequestsException(string s) : base(s) {}
    }
 
@@ -35,6 +47,10 @@ namespace Lucidtech.Las.Core
    /// </summary>
    public class LimitExceededException : ClientException
    {
+     /// <summary>
+     /// Constructor..
+     /// <param name="s">Error message.</param>
+     /// </summary>
       public LimitExceededException(string s) : base(s) {}
    }
 
@@ -43,9 +59,21 @@ namespace Lucidtech.Las.Core
    /// </summary>
    public class RequestException : ClientException
    {
-      public IRestResponse Response { get; }
+      /// <summary>
+      /// Server-side response.
+      /// </summary>
+      public IRestResponse? Response { get; }
+
+     /// <summary>
+     /// Constructor..
+     /// <param name="s">Error message.</param>
+     /// </summary>
       public RequestException(string s) : base(s) {}
 
+      /// <summary>
+      /// Constructor..
+      /// <param name="response">Server-side response.</param>
+      /// </summary>
       public RequestException(IRestResponse response) : base(string.Concat(response.Content, response.ErrorMessage))
       {
          Response = response;

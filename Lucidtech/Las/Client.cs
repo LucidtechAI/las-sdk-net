@@ -14,9 +14,8 @@ namespace Lucidtech.Las
     /// <summary>
     /// Client to invoke api methods from Lucidtech AI Services.
     /// </summary>
-    public class Client
+    public class Client : RestClient
     {
-        private RestClient RestSharpClient { get; }
         private Credentials LasCredentials { get; }
 
         /// <summary>
@@ -24,10 +23,9 @@ namespace Lucidtech.Las
         /// </summary>
         /// <param name="credentials"> Keys, endpoints and credentials needed for authorization </param>
         public Client(Credentials credentials)
+        : base(new Uri(credentials.ApiEndpoint).GetLeftPart(UriPartial.Authority))
         {
             LasCredentials = credentials;
-            var uri = new Uri(LasCredentials.ApiEndpoint);
-            RestSharpClient = new RestClient(uri.GetLeftPart(UriPartial.Authority));
         }
 
         /// <summary>
@@ -78,7 +76,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.POST, "/appClients", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary> List available appClients, calls the GET /appClients endpoint. </summary>
@@ -106,7 +104,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.GET, "/appClients", null, queryParams);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Updates an existing appClient, calls the PATCH /appClients/{appClientId} endpoint.</summary>
@@ -126,10 +124,10 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.PATCH, $"/appClients/{appClientId}", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
-        /// <summary>Delete an appClient, calls the DELETE /appClients/{appClientId} endpoint.
+        /// <summary>Delete an appClient, calls the DELETE /appClients/{appClientId} endpoint.</summary>
         /// <example>
         /// <code>
         /// var response = client.DeleteAppClient("&lt;appClientId&gt;");
@@ -139,7 +137,7 @@ namespace Lucidtech.Las
         /// <returns>AppClient response from REST API</returns>
         public object DeleteAppClient(string appClientId) {
             var request = ClientRestRequest(Method.DELETE, $"/appClients/{appClientId}");
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
 
@@ -166,7 +164,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.POST, "/assets", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary> List available assets, calls the GET /assets endpoint. </summary>
@@ -194,7 +192,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.GET, "/assets", null, queryParams);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Get asset from the REST API, calls the GET /assets/{assetId} endpoint.</summary>
@@ -207,7 +205,7 @@ namespace Lucidtech.Las
         /// <returns>Asset object</returns>
         public object GetAsset(string assetId) {
             RestRequest request = ClientRestRequest(Method.GET, $"/assets/{assetId}");
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Updates an asset, calls the PATCH /assets/{assetId} endpoint.</summary>
@@ -236,10 +234,10 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.PATCH, $"/assets/{assetId}", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
-        /// <summary>Delete an asset, calls the DELETE /assets/{assetId} endpoint.
+        /// <summary>Delete an asset, calls the DELETE /assets/{assetId} endpoint.</summary>
         /// <example>
         /// <code>
         /// var response = client.DeleteAsset("&lt;assetId&gt;");
@@ -249,7 +247,7 @@ namespace Lucidtech.Las
         /// <returns>Asset response from REST API</returns>
         public object DeleteAsset(string assetId) {
             var request = ClientRestRequest(Method.DELETE, $"/assets/{assetId}");
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>
@@ -295,7 +293,7 @@ namespace Lucidtech.Las
             object bodyObject = JsonConvert.DeserializeObject(bodyString);
 
             RestRequest request = ClientRestRequest(Method.POST, "/documents", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>
@@ -337,7 +335,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.GET, "/documents", null, queryParams);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>
@@ -353,7 +351,7 @@ namespace Lucidtech.Las
         /// <returns> Document information from REST API </returns>
         public object GetDocument(string documentId) {
             RestRequest request = ClientRestRequest(Method.GET, $"/documents/{documentId}");
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>
@@ -386,7 +384,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.PATCH, $"/documents/{documentId}", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>
@@ -433,7 +431,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.DELETE, "/documents", null, queryParams);
-            var objectResponse = ExecuteRequestResilient(RestSharpClient, request);
+            var objectResponse = ExecuteRequestResilient(this, request);
             var response = JsonSerialPublisher.ObjectToDict<Dictionary<string, object>>(objectResponse);
 
             if (deleteAll) {
@@ -442,7 +440,7 @@ namespace Lucidtech.Las
                 while (response["nextToken"] != null) {
                     queryParams["nextToken"] = response["nextToken"].ToString();
                     request = ClientRestRequest(Method.DELETE, "/documents", null, queryParams);
-                    var intermediateObjectResponse = ExecuteRequestResilient(RestSharpClient, request);
+                    var intermediateObjectResponse = ExecuteRequestResilient(this, request);
                     response = JsonSerialPublisher.ObjectToDict<Dictionary<string, object>>(intermediateObjectResponse);
                     documentsDeleted.AddRange(JsonSerialPublisher.ObjectToDict<List<object>>(response["documents"]));
                     Console.WriteLine($"Deleted {documentsDeleted.Count} documents so far");
@@ -460,7 +458,7 @@ namespace Lucidtech.Las
         /// <returns>Document response from REST API</returns>
         public object DeleteDocument(string documentId) {
             var request = ClientRestRequest(Method.DELETE, $"/documents/{documentId}");
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>
@@ -492,7 +490,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.POST, "/datasets", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>List datasets available, calls the GET /datasets endpoint.</summary>
@@ -520,7 +518,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.GET, "/datasets", null, queryParams);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Updates an existing dataset, calls the PATCH /datasets/{datasetId} endpoint.</summary>
@@ -540,10 +538,10 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.PATCH, $"/datasets/{datasetId}", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
-        /// <summary>Delete a dataset, calls the DELETE /datasets/{datasetId} endpoint.
+        /// <summary>Delete a dataset, calls the DELETE /datasets/{datasetId} endpoint.</summary>
         /// <example>
         /// <code>
         /// var response = client.DeleteDataset("&lt;datasetId&gt;");
@@ -559,7 +557,7 @@ namespace Lucidtech.Las
             }
 
             var request = ClientRestRequest(Method.DELETE, $"/datasets/{datasetId}");
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>
@@ -578,7 +576,8 @@ namespace Lucidtech.Las
         /// <param name="maxPages"> Maximum number of pages to run predictions on </param>
         /// <param name="autoRotate"> Whether or not to let the API try different
         /// rotations on the document when running </param>
-        /// <param name="extras"> Extra information to add to json body </param>
+        /// <param name="imageQuality">Image quality used for conversion. Must be either LOW (default) or HIGH.</param>
+        /// <param name="postprocessConfig">Postprocessing-related options.</param>
         /// <returns>
         /// A deserialized object that can be interpreted as a Dictionary with the fields documentId and predictions,
         /// the value of predictions is the output from the model.
@@ -600,7 +599,7 @@ namespace Lucidtech.Las
             if (postprocessConfig != null) { body.Add("postprocessConfig", postprocessConfig);}
 
             RestRequest request = ClientRestRequest(Method.POST, "/predictions", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>List predictions available, calls the GET /predictions endpoint.</summary>
@@ -628,7 +627,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.GET, "/predictions", null, queryParams);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>List logs, calls the GET /logs endpoint.</summary>
@@ -679,7 +678,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.GET, "/logs", null, queryParams);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Creates a model, calls the POST /models endpoint.</summary>
@@ -725,7 +724,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.POST, "/models", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>List models available, calls the GET /models endpoint.</summary>
@@ -753,7 +752,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.GET, "/models", null, queryParams);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Get information about a specific model, calls the GET /models/{modelId} endpoint.</summary>
@@ -761,7 +760,7 @@ namespace Lucidtech.Las
         /// <returns>Model response from REST API</returns>
         public object GetModel(string modelId) {
             var request = ClientRestRequest(Method.GET, $"/models/{modelId}");
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Updates a model, calls the PATCH /models/{modelId} endpoint.</summary>
@@ -823,14 +822,14 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.PATCH, $"/models/{modelId}", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>
         /// Create a data bundle handle, calls the POST /models/{modelId}/dataBundles endpoint.
         /// </summary>
         /// <param name="modelId">Id of the model </param>
-        /// <param name="datasetIds">List of Dataset Ids that will be included in the data bundle
+        /// <param name="datasetIds">List of Dataset Ids that will be included in the data bundle</param>
         /// <param name="name">Name of the data bundle</param>
         /// <param name="description">A brief description of the data bundle </param>
         /// <returns>Data Bundle response from REST API</returns>
@@ -853,7 +852,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.POST, $"/models/{modelId}/dataBundles", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>List data bundles available, calls the GET /models/{modelId}/dataBundles endpoint.</summary>
@@ -877,7 +876,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.GET, $"/models/{modelId}/dataBundles", null, queryParams);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Updates an existing data bundle, calls the PATCH /models/{modelId}/dataBundles/{dataBundleId} endpoint.</summary>
@@ -899,7 +898,7 @@ namespace Lucidtech.Las
             }
             string url = $"/models/{modelId}/dataBundles/{dataBundleId}";
             RestRequest request = ClientRestRequest(Method.PATCH, url, body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>
@@ -910,7 +909,7 @@ namespace Lucidtech.Las
         /// <returns>Data Bundle response from REST API</returns>
         public object DeleteDataBundle(string modelId, string dataBundleId) {
             var request = ClientRestRequest(Method.DELETE, $"/models/{modelId}/dataBundles/{dataBundleId}");
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Creates an secret, calls the POST /secrets endpoint.</summary>
@@ -937,7 +936,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.POST, "/secrets", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>List secrets available, calls the GET /secrets endpoint.</summary>
@@ -965,7 +964,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.GET, "/secrets", null, queryParams);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Updates a secret, calls the PATCH /secrets/secretId endpoint.</summary>
@@ -998,10 +997,10 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.PATCH, $"/secrets/{secretId}", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
-        /// <summary>Delete a secret, calls the DELETE /secrets/{secretId} endpoint.
+        /// <summary>Delete a secret, calls the DELETE /secrets/{secretId} endpoint.</summary>
         /// <example>
         /// <code>
         /// var response = client.DeleteSecret("&lt;secretId&gt;");
@@ -1011,7 +1010,7 @@ namespace Lucidtech.Las
         /// <returns>Secret response from REST API</returns>
         public object DeleteSecret(string secretId) {
             var request = ClientRestRequest(Method.DELETE, $"/secrets/{secretId}");
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Creates a transition, calls the POST /transitions endpoint.</summary>
@@ -1071,7 +1070,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.POST, "/transitions", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>List transitions, calls the GET /transitions endpoint.</summary>
@@ -1096,7 +1095,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.GET, "/transitions", null, queryParams);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Get information about a specific transition,
@@ -1110,7 +1109,7 @@ namespace Lucidtech.Las
         /// <returns>Transition response from REST API</returns>
         public object GetTransition(string transitionId) {
             var request = ClientRestRequest(Method.GET, $"/transitions/{transitionId}");
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Delete a transition, calls the DELETE /transitions/{transition_id} endpoint.
@@ -1124,7 +1123,7 @@ namespace Lucidtech.Las
         /// <returns>Transition response from REST API</returns>
         public object DeleteTransition(string transitionId) {
             var request = ClientRestRequest(Method.DELETE, $"/transitions/{transitionId}");
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Get an execution of a transition, calls the GET /transitions/{transitionId}/executions/{executionId} endpoint</summary>
@@ -1138,7 +1137,7 @@ namespace Lucidtech.Las
         /// <returns>Transition execution response from REST API</returns>
         public object GetTransitionExecution(string transitionId, string executionId) {
             RestRequest request = ClientRestRequest(Method.GET, $"/transitions/{transitionId}/executions/{executionId}");
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Updates an existing transition, calls the PATCH /transitions/{transitionId} endpoint.</summary>
@@ -1190,7 +1189,7 @@ namespace Lucidtech.Las
             }
 
             RestRequest request = ClientRestRequest(Method.PATCH, $"/transitions/{transitionId}", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Start executing a manual transition, calls the POST /transitions/{transitionId}/executions endpoint.</summary>
@@ -1203,7 +1202,7 @@ namespace Lucidtech.Las
         /// <returns>Transition exexution response from REST API</returns>
         public object ExecuteTransition(string transitionId) {
             var request = ClientRestRequest(Method.POST, $"/transitions/{transitionId}/executions");
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>List executions in a transition, calls the GET /transitions/{transitionId}/executions endpoint.</summary>
@@ -1286,7 +1285,7 @@ namespace Lucidtech.Las
             }
 
             var request = ClientRestRequest(Method.GET, $"/transitions/{transitionId}/executions", null, queryParams);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Ends the processing of the transition execution,
@@ -1330,7 +1329,7 @@ namespace Lucidtech.Las
             }
 
             var request = ClientRestRequest(Method.PATCH, url, body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Send heartbeat for a manual execution,
@@ -1346,7 +1345,7 @@ namespace Lucidtech.Las
         public object SendHeartbeat(string transitionId, string executionId) {
             var url = $"/transitions/{transitionId}/executions/{executionId}/heartbeats";
             var request = ClientRestRequest(Method.POST, url);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Creates a new user, calls the POST /users endpoint.</summary>
@@ -1370,7 +1369,7 @@ namespace Lucidtech.Las
             }
 
             var request = ClientRestRequest(Method.POST, "/users", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>List users, calls the GET /users endpoint.</summary>
@@ -1394,7 +1393,7 @@ namespace Lucidtech.Las
             }
 
             var request = ClientRestRequest(Method.GET, "/users", null, queryParams);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Get information about a specific user, calls the GET /users/{user_id} endpoint.</summary>
@@ -1407,7 +1406,7 @@ namespace Lucidtech.Las
         /// <returns>User response from REST API</returns>
         public object GetUser(string userId) {
             var request = ClientRestRequest(Method.GET, $"/users/{userId}");
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Delete the user with the provided user_id, calls the DELETE /users/{userId} endpoint.</summary>
@@ -1420,7 +1419,7 @@ namespace Lucidtech.Las
         /// <returns>User response from REST API</returns>
         public object DeleteUser(string userId) {
             var request = ClientRestRequest(Method.DELETE, $"/users/{userId}");
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Updates a user, calls the PATCH /users/{userId} endpoint.</summary>
@@ -1448,7 +1447,7 @@ namespace Lucidtech.Las
             }
 
             var request = ClientRestRequest(Method.PATCH, $"/users/{userId}", body: body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>
@@ -1511,7 +1510,7 @@ namespace Lucidtech.Las
             }
 
             var request = ClientRestRequest(Method.POST, "/workflows", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>List workflows, calls the GET /workflows endpoint.</summary>
@@ -1535,7 +1534,7 @@ namespace Lucidtech.Las
             }
 
             var request = ClientRestRequest(Method.GET, "/workflows", null, queryParams);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Creates a workflow handle, calls the PATCH /workflows/{workflowId} endpoint.</summary>
@@ -1574,7 +1573,7 @@ namespace Lucidtech.Las
             }
 
             var request = ClientRestRequest(Method.PATCH, $"/workflows/{workflowId}", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Get information about a specific workflow,
@@ -1588,7 +1587,7 @@ namespace Lucidtech.Las
         /// <returns>Workflow response from REST API</returns>
         public object GetWorkflow(string workflowId) {
             var request = ClientRestRequest(Method.GET, $"/workflows/{workflowId}");
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Delete the workflow with the provided workflow_id,
@@ -1599,10 +1598,10 @@ namespace Lucidtech.Las
         /// </code>
         /// </example>
         /// <param name="workflowId">Id of the workflow</param>
-        /// <returns>Workflow response from REST API</param>
+        /// <returns>Workflow response from REST API</returns>
         public object DeleteWorkflow(string workflowId) {
             var request = ClientRestRequest(Method.DELETE, $"/workflows/{workflowId}");
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Start a workflow execution, calls the POST /workflows/{workflowId}/executions endpoint.</summary>
@@ -1620,7 +1619,7 @@ namespace Lucidtech.Las
                 {"input", content}
             };
             var request = ClientRestRequest(Method.POST, $"/workflows/{workflowId}/executions", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>List executions in a workflow, calls the GET /workflows/{workflowId}/executions endpoint.</summary>
@@ -1689,7 +1688,7 @@ namespace Lucidtech.Las
             }
 
             var request = ClientRestRequest(Method.GET, $"/workflows/{workflowId}/executions", null, queryParams);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>Get an execution of a workflow, calls the GET /workflows/{workflowId}/executions/{executionId} endpoint</summary>
@@ -1703,7 +1702,7 @@ namespace Lucidtech.Las
         /// <returns>Workflow execution response from REST API</returns>
         public object GetWorkflowExecution(string workflowId, string executionId) {
             RestRequest request = ClientRestRequest(Method.GET, $"/workflows/{workflowId}/executions/{executionId}");
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>
@@ -1725,7 +1724,7 @@ namespace Lucidtech.Las
                 {"nextTransitionId", nextTransitionId}
             };
             var request = ClientRestRequest(Method.PATCH, $"/workflows/{workflowId}/executions/{executionId}", body);
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>
@@ -1742,7 +1741,7 @@ namespace Lucidtech.Las
         /// <returns>WorkflowExecution response from REST API</returns>
         public object DeleteWorkflowExecution(string workflowId, string executionId) {
             var request = ClientRestRequest(Method.DELETE, $"/workflows/{workflowId}/executions/{executionId}");
-            return ExecuteRequestResilient(RestSharpClient, request);
+            return ExecuteRequestResilient(this, request);
         }
 
         /// <summary>
