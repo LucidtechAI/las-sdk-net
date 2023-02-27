@@ -142,7 +142,7 @@ namespace Lucidtech.Las.Core
             AuthEndpoint = envCred["AuthEndpoint"];
             ApiEndpoint = envCred["ApiEndpoint"];
             
-            if (credentialsPath != null)
+            if (credentialsPath != null && File.Exists(credentialsPath))
             {
                 var pathCred = ReadCredentials(credentialsPath);
                 ClientId = envCred["ClientId"] != null ? envCred["ClientId"] : pathCred["ClientId"];
