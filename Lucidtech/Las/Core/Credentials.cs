@@ -121,13 +121,19 @@ namespace Lucidtech.Las.Core
             string clientSecret,
             string authEndpoint,
             string apiEndpoint
-        ) : this()
+        )
         {
             ClientId = clientId;
             ClientSecret = clientSecret;
             AuthEndpoint = authEndpoint;
             ApiEndpoint = apiEndpoint;
+            
+            RestSharpClient = new RestClient($"https://{AuthEndpoint}");
+            RestSharpClient.Authenticator = new HttpBasicAuthenticator(ClientId, ClientSecret);
+            ExpirationTime = DateTime.UtcNow;
+            AccessToken = null;
         }
+
 
         /// <summary>
         /// Credentials constructor where the path to the credentials config is provided.
