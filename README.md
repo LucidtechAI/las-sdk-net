@@ -44,7 +44,7 @@ Download the following packages:
 
 ### Prerequisites for Arch Users
 Download the following packages: 
-* The latest and greatest stable version of [MSBuild](https://aur.archlinux.org/packages/msbuild-git/)
+* The latest and greatest stable version of [MSBuild](https://aur.archlinux.org/packages/mono-msbuild-git)
 * The latest and greatest version of [NuGet](https://aur.archlinux.org/packages/nuget3/)
 * [nunit](https://aur.archlinux.org/packages/nunit3-console/) version 3.9.0 or higher to run tests from command line
 * [.NET-SDK](https://www.archlinux.org/packages/community/x86_64/dotnet-sdk/) version 2.2.105
