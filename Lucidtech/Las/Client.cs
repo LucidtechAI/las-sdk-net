@@ -16,11 +16,7 @@ namespace Lucidtech.Las
     /// </summary>
     public class Client : RestClient
     {
-<<<<<<< HEAD
         public Credentials LasCredentials { get; }
-=======
-        private Credentials LasCredentials { get; }
->>>>>>> master
 
         /// <summary>
         /// Client constructor.
