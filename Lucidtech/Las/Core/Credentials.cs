@@ -58,7 +58,7 @@ namespace Lucidtech.Las.Core
         /// <summary>
         /// RestClient for making request to the authorization endpoint.
         /// </summary>
-        private RestClient? RestSharpClient { get; set; }
+        public RestClient? RestSharpClient { get; set; }
 
         protected virtual (string, DateTime) GetClientCredentials()
         {
