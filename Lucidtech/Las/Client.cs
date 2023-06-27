@@ -270,12 +270,7 @@ namespace Lucidtech.Las
             List<Dictionary<string, string>>? groundTruth = null,
             string? datasetId = null
         ) {
-            string base64Content = System.Convert.ToBase64String(content);
-            var body = new Dictionary<string, object>
-            {
-                {"content", base64Content},
-                {"contentType", contentType},
-            };
+            var body = new Dictionary<string, object>();
 
             if (consentId != null) {
                 body.Add("consentId", consentId);
@@ -288,12 +283,21 @@ namespace Lucidtech.Las
             if (groundTruth != null) {
                 body.Add("groundTruth", groundTruth);
             }
-
+            
             string bodyString = JsonConvert.SerializeObject(body);
             object bodyObject = JsonConvert.DeserializeObject(bodyString);
+            
+            RestRequest createDocument = ClientRestRequest(Method.POST, "/documents", body);
+            dynamic response = ExecuteRequestResilient(this, createDocument);
+            string fileUrl = response.fileUrl;
 
-            RestRequest request = ClientRestRequest(Method.POST, "/documents", body);
-            return ExecuteRequestResilient(this, request);
+            var putRequest = PutFileRequest(fileUrl, content);
+
+            var fileServerClient = new RestClient(new Uri(fileUrl));
+            fileServerClient.Proxy = this.Proxy;
+            ExecuteRequestResilient(fileServerClient, putRequest);
+            
+            return response;
         }
 
         /// <summary>
@@ -1801,6 +1805,19 @@ namespace Lucidtech.Las
             return request;
         }
 
+        private RestRequest PutFileRequest(string path, byte[] content)
+        {
+            string contentType = "application/octet-stream";
+            RestRequest request = new RestRequest(new Uri(path), Method.PUT);
+            request.AddParameter(contentType, content, contentType, ParameterType.RequestBody);
+
+            var headers = CreateSigningHeaders();
+            foreach (var entry in headers) {
+                request.AddHeader(entry.Key, entry.Value);
+            }
+
+            return request;
+        }
 
         private Dictionary<string, string> CreateSigningHeaders()
         {
