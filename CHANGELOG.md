@@ -1,5 +1,13 @@
 # Changelog 
 
+## Version 4.2.0 - 2023-12-18
+
+- Added status UpdateWorkflowExecution
+
+## Version 4.1.0 - 2023-06-27
+
+- Added support for uploading document to file server
+
 ## Version 3.1.0 - 2022-03-28
 
 - Added postprocessConfig to CreatePrediction
