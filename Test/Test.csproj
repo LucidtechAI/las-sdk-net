@@ -13,6 +13,7 @@
     <AssemblyName>Test</AssemblyName>
     <EnableDefaultCompileItems>False</EnableDefaultCompileItems>
     <TargetFramework>netcoreapp5.0</TargetFramework>
+    <TargetFrameworks>net461;net47;net472</TargetFrameworks>
     <FileAlignment>512</FileAlignment>
     <Nullable>enable</Nullable>
   </PropertyGroup>
