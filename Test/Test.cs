@@ -685,7 +685,7 @@ namespace Test
         [TestCase(null, null)]
         [TestCase("name", "avatar")]
         public void TestUpdateUser(string? name, string? avatar) {
-            var parameters = new Dictionary<string, object?> {
+            tar parameters = new Dictionary<string, object?> {
                 {"name", name},
                 {"avatar", avatar},
             };
@@ -797,6 +797,12 @@ namespace Test
         [Test]
         public void TestUpdateWorkflowExecution() {
             var response = Toby.UpdateWorkflowExecution(Util.ResourceId("workflow"), Util.ResourceId("workflow-execution"), Util.ResourceId("transition"));
+            CheckKeys(Util.ExpectedKeys("workflow-execution"), response);
+        }
+
+        [Test]
+        public void TestUpdateWorkflowExecutionWithStatus() {
+            var response = Toby.UpdateWorkflowExecution(Util.ResourceId("workflow"), Util.ResourceId("workflow-execution"), status: "completed");
             CheckKeys(Util.ExpectedKeys("workflow-execution"), response);
         }
 

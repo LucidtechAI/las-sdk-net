@@ -1710,23 +1710,31 @@ namespace Lucidtech.Las
         }
 
         /// <summary>
-        /// Retry or end the processing of a workflow execution,
+        /// Change the processing of a workflow execution. Retry, end or mark as completed. 
         /// calls the PATCH /workflows/{workflowId}/executions/{executionId} endpoint.
         /// </summary>
         /// <example>
         /// <code>
-        /// var response = client.UpdateWorkflowExecution("&lt;workflow_id&gt;", "&lt;execution_id&gt;", "&lt;next_transition_id&gt;");
+        /// var response = client.UpdateWorkflowExecution("&lt;workflow_id&gt;", "&lt;execution_id&gt;", nextTransitionId: "&lt;next_transition_id&gt;");
         /// </code>
         /// </example>
         /// <param name="workflowId">Id of the workflow</param>
         /// <param name="executionId">Id of the execution</param>
         /// <param name="nextTransitionId">The next transition to transition into, to end the workflow-execution,
         /// use: las:transition:commons-failed</param>
+        /// <param name="status">Update the execution with this status, can only update from succeeded to completed and vice versa.
         /// <returns>WorkflowExecution response from REST API</returns>
-        public object UpdateWorkflowExecution(string workflowId, string executionId, string nextTransitionId) {
-            var body = new Dictionary<string, string> {
-                {"nextTransitionId", nextTransitionId}
-            };
+        public object UpdateWorkflowExecution(string workflowId, string executionId, string? nextTransitionId = null, string? status = null) {
+            var body = new Dictionary<string, string> {};
+
+            if (nextTransitionId != null) {
+                body.Add("nextTransitionId", nextTransitionId);
+            }
+
+            if (status != null) {
+                body.Add("status", status);
+            }
+
             var request = ClientRestRequest(Method.PATCH, $"/workflows/{workflowId}/executions/{executionId}", body);
             return ExecuteRequestResilient(this, request);
         }
