@@ -12,7 +12,7 @@
     <RootNamespace>Test</RootNamespace>
     <AssemblyName>Test</AssemblyName>
     <EnableDefaultCompileItems>False</EnableDefaultCompileItems>
-    <TargetFramework>netcoreapp7.0</TargetFramework>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
     <FileAlignment>512</FileAlignment>
     <Nullable>enable</Nullable>
   </PropertyGroup>
