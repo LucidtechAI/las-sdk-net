@@ -685,7 +685,7 @@ namespace Test
         [TestCase(null, null)]
         [TestCase("name", "avatar")]
         public void TestUpdateUser(string? name, string? avatar) {
-            tar parameters = new Dictionary<string, object?> {
+            var parameters = new Dictionary<string, object?> {
                 {"name", name},
                 {"avatar", avatar},
             };
