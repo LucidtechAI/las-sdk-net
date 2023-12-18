@@ -17,9 +17,9 @@ build-test: restore-test
 	msbuild Test/Test.csproj
 
 test: build-test
-	mono $(HOME)/.nuget/packages/nunit.consolerunner/3.11.1/tools/nunit3-console.exe --stoponerror ./Test/bin/Debug/net461/Test.dll
-	mono $(HOME)/.nuget/packages/nunit.consolerunner/3.11.1/tools/nunit3-console.exe --stoponerror ./Test/bin/Debug/net47/Test.dll
-	mono $(HOME)/.nuget/packages/nunit.consolerunner/3.11.1/tools/nunit3-console.exe --stoponerror ./Test/bin/Debug/net472/Test.dll
+	nunit3-console --stoponerror ./Test/bin/Debug/net461/Test.dll
+	nunit3-console --stoponerror ./Test/bin/Debug/net47/Test.dll
+	nunit3-console --stoponerror ./Test/bin/Debug/net472/Test.dll 
 
 single-test: build-test
 	if [ -z "$(name)" ]; then echo 'you need to specify the name of your test ex. name=TestDeleteBatch' && exit 1; fi
