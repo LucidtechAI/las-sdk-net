@@ -34,7 +34,7 @@ namespace Test.Service
                 case "logs":
                     return new[] {"logs", "nextToken"};
                 case "model":
-                    return new[] {"modelId", "name", "description", "height", "width", "preprocessConfig", "fieldConfig", "status", "createdTime", "updatedTime"};
+                    return new[] {"modelId", "name", "description", "preprocessConfig", "fieldConfig", "status", "createdTime", "updatedTime"};
                 case "models":
                     return new[] {"models", "nextToken"};
                 case "dataBundle":

@@ -686,8 +686,6 @@ namespace Lucidtech.Las
         }
 
         /// <summary>Creates a model, calls the POST /models endpoint.</summary>
-        /// <param name="width">The number of pixels to be used for the input image width of your model</param>
-        /// <param name="height">The number of pixels to be used for the input image height of your model</param>
         /// <param name="fieldConfig">Specification of the fields that the model is going to predict</param>
         /// <param name="preprocessConfig">Specification of the processing steps prior to the prediction of an image</param>
         /// <param name="name">Name of the model</param>
@@ -695,8 +693,6 @@ namespace Lucidtech.Las
         /// <param name="attributes">Additional attributes</param>
         /// <returns>Model response from REST API</returns>
         public object CreateModel(
-            int width,
-            int height,
             Dictionary<string, object> fieldConfig,
             Dictionary<string, object>? preprocessConfig = null,
             string? name = null,
@@ -704,8 +700,6 @@ namespace Lucidtech.Las
             Dictionary<string, string?>? attributes = null
         ) {
             var body = new Dictionary<string, object?> {
-                {"width", width},
-                {"height", height},
                 {"fieldConfig", fieldConfig}
             };
 
@@ -769,8 +763,6 @@ namespace Lucidtech.Las
 
         /// <summary>Updates a model, calls the PATCH /models/{modelId} endpoint.</summary>
         /// <param name="modelId">Id of the model</param>
-        /// <param name="width">The number of pixels to be used for the input image width of your model</param>
-        /// <param name="height">The number of pixels to be used for the input image height of your model</param>
         /// <param name="fieldConfig">Specification of the fields that the model is going to predict</param>
         /// <param name="preprocessConfig">Specification of the processing steps prior to the prediction of an image</param>
         /// <param name="name">Name of the model</param>
@@ -780,8 +772,6 @@ namespace Lucidtech.Las
         /// <returns>Model response from REST API</returns>
         public object UpdateModel(
             string modelId,
-            int? width = null,
-            int? height = null,
             Dictionary<string, object>? fieldConfig = null,
             Dictionary<string, object>? preprocessConfig = null,
             string? name = null,
@@ -790,14 +780,6 @@ namespace Lucidtech.Las
             Dictionary<string, string?>? attributes = null
         ) {
             var body = new Dictionary<string, object?>();
-
-            if (width != null) {
-                body.Add("width", width);
-            }
-
-            if (height != null) {
-                body.Add("height", height);
-            }
 
             if (fieldConfig != null) {
                 body.Add("fieldConfig", fieldConfig);

@@ -343,8 +343,6 @@ namespace Test
         [TestCase(null, "description")]
         public void TestCreateModel(string name, string description) {
             var response = Toby.CreateModel(
-                width: 501,
-                height: 501,
                 fieldConfig: Util.FieldConfig(),
                 preprocessConfig: Util.PreprocessConfig(),
                 name: name,
@@ -356,8 +354,6 @@ namespace Test
         [Test]
         public void TestCreateModelSimple() {
             var response = Toby.CreateModel(
-                width: 501,
-                height: 501,
                 fieldConfig: Util.FieldConfig()
             );
             CheckKeys(Util.ExpectedKeys("model"), response);
@@ -370,8 +366,6 @@ namespace Test
         public void TestUpdateModel(string? name, string? description) {
             var response = Toby.UpdateModel(
                 modelId: Util.ResourceId("model"),
-                width: 501,
-                height: 501,
                 fieldConfig: Util.FieldConfig(),
                 preprocessConfig: Util.PreprocessConfig(),
                 name: name,
@@ -382,7 +376,7 @@ namespace Test
         }
 
         public void TestUpdateModelSimple() {
-            var response = Toby.UpdateModel(modelId: Util.ResourceId("model"), width: 501);
+            var response = Toby.UpdateModel(modelId: Util.ResourceId("model"));
             CheckKeys(Util.ExpectedKeys("model"), response);
         }
 
