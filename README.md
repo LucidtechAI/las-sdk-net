@@ -47,7 +47,8 @@ Download the following packages:
 * The latest and greatest stable version of [MSBuild](https://aur.archlinux.org/packages/mono-msbuild-git)
 * The latest and greatest version of [NuGet](https://aur.archlinux.org/packages/nuget3/)
 * [nunit](https://aur.archlinux.org/packages/nunit3-console/) version 3.9.0 or higher to run tests from command line
-* [.NET-SDK](https://www.archlinux.org/packages/community/x86_64/dotnet-sdk/) version 2.2.105
+* [.NET-SDK](https://wiki.archlinux.org/title/.NET) version 7.0.113
+
 
 ### Build and run tests
 Clone repo and install the necessary packages manually for the las-sdk-net.
