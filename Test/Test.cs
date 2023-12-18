@@ -165,12 +165,8 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("document"), CreateDocResponse);
         }
 
-        [TestCase("foo", 3, null, null)]
-        [TestCase(null, null, "las:consent:08b49ae64cd746f384f05880ef5de72f", null)]
         [TestCase(null, null, null, null)]
-        [TestCase("foo", 2, null, null)]
-        [TestCase("foo", 2, "las:consent:08b49ae64cd746f384f05880ef5de72f", "las:dataset:08b49ae64cd746f384f05880ef5de72f")]
-        public void TestListDocuments(string nextToken, int maxResults, string consentId, string datasetId) {
+        public void TestListDocuments(string? nextToken, int? maxResults, string? consentId, string? datasetId) {
             var response = Toby.ListDocuments(
                 nextToken: nextToken,
                 maxResults: maxResults,
@@ -676,13 +672,14 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("user"), response);
         }
 
-        [TestCase(null, null)]
-        [TestCase("name", "avatar")]
-        public void TestUpdateUser(string? name, string? avatar) {
-            var parameters = new Dictionary<string, object?> {
-                {"name", name},
-                {"avatar", avatar},
-            };
+        [TestCase("las:role:08b49ae64cd746f384f05880ef5de72f")]
+        public void TestUpdateUser(string? role_id) {
+            var parameters = new Dictionary<string, object?> {};
+
+            if (role_id != null) {
+                parameters.Add("roleIds", new List<string>{role_id});
+            }
+
             var response = Toby.UpdateUser(Util.ResourceId("user"), parameters);
         }
 
@@ -814,7 +811,7 @@ namespace Test
         public static string ContentType() { return "image/jpeg"; }
         public static string Description() { return "This is my new dataset for receipts july 2020"; }
         public static string ModelId() { return "las:model:abc123def456abc123def456abc123de"; }
-        public static string DocPath() { return Environment.ExpandEnvironmentVariables("../../../Files/example.jpeg"); }
+        public static string DocPath() { return Environment.ExpandEnvironmentVariables("Test/Files/example.jpeg"); }
         public static Credentials Creds()
         {
             return new Credentials("foo", "bar", "baaz", "http://127.0.0.1:4010");

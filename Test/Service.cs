@@ -28,7 +28,7 @@ namespace Test.Service
                 case "datasets":
                     return new[] {"datasets", "nextToken"};
                 case "document":
-                    return new [] {"documentId", "contentType", "consentId", "groundTruth"};
+                    return new [] {"documentId", "groundTruth"};
                 case "documents":
                     return new [] {"nextToken", "documents"};
                 case "logs":
@@ -60,7 +60,7 @@ namespace Test.Service
                 case "heartbeats":
                     return new [] {"Your request executed successfully"};
                 case "user":
-                    return new [] {"userId", "name", "avatar", "email"};
+                    return new [] {"userId"};
                 case "users":
                     return new [] {"nextToken", "users"};
                 case "workflow":

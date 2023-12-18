@@ -3,6 +3,8 @@
 ## Version 4.2.0 - 2023-12-18
 
 - Added status UpdateWorkflowExecution
+- remove width and height from CreateModel
+- remove width and height from UpdateModel
 
 ## Version 4.1.0 - 2023-06-27
 
