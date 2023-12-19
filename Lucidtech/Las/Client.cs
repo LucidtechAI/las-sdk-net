@@ -254,7 +254,6 @@ namespace Lucidtech.Las
         /// Creates a document handle, calls the POST /documents endpoint
         /// </summary>
         /// <param name="content"> Content to POST </param>
-        /// <param name="contentType"> A mime type for the document handle </param>
         /// <param name="consentId"> An identifier to mark the owner of the document handle </param>
         /// <param name="datasetId"> Specifies the dataset to which the document will be associated with </param>
         /// <param name="groundTruth"> A list of items {label: value},
@@ -265,7 +264,6 @@ namespace Lucidtech.Las
         /// </returns>
         public object CreateDocument(
             byte[] content,
-            string contentType,
             string? consentId = null,
             List<Dictionary<string, string>>? groundTruth = null,
             string? datasetId = null
@@ -299,6 +297,27 @@ namespace Lucidtech.Las
             
             return response;
         }
+
+        /// <summary>
+        /// Creates a document handle, calls the POST /documents endpoint
+        /// </summary>
+        /// <param name="content"> Content to POST </param>
+        /// <param name="contentType"> A mime type for the document handle </param>
+        /// <param name="consentId"> An identifier to mark the owner of the document handle </param>
+        /// <param name="datasetId"> Specifies the dataset to which the document will be associated with </param>
+        /// <param name="groundTruth"> A list of items {label: value},
+        /// representing the ground truth values for the document </param>
+        /// <returns>
+        /// A deserialized object that can be interpreted as a Dictionary with the fields
+        /// with documentId, contentType and consentId
+        /// </returns>
+        public object CreateDocument(
+            byte[] content,
+            string contentType,
+            string? consentId = null,
+            List<Dictionary<string, string>>? groundTruth = null,
+            string? datasetId = null
+        ) => CreateDocument(content, consentId, groundTruth, datasetId);
 
         /// <summary>
         /// Get documents from the REST API, calls the GET /documents endpoint.
