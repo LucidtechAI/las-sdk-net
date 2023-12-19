@@ -1,10 +1,12 @@
 # Changelog 
 
-## Version 4.2.0 - 2023-12-18
+## Version 5.0.0 - 2023-12-19
 
 - Added status UpdateWorkflowExecution
-- remove width and height from CreateModel
-- remove width and height from UpdateModel
+- Remove width and height from CreateModel
+- Remove width and height from UpdateModel
+- Remove status from UpdateModel
+- Remove contentType from CreateDocument
 
 ## Version 4.1.0 - 2023-06-27
 
