@@ -18,6 +18,8 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Setup Prism
         run: make prism-start
+      - name: Restore Tests
+        run: dotnet restore Test
       - name: Run Tests
-        run: make test
+        run: dotnet test Test/Test.csproj
         
