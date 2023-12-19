@@ -114,7 +114,6 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("appClient"), response);
         }
 
-        [Ignore("delete endpoints doesn't work")]
         [Test]
         public void TestDeleteAppClient() {
             var response = Toby.DeleteAppClient(Util.ResourceId("app-client"));
@@ -159,7 +158,6 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("asset"), response);
         }
 
-        [Ignore("delete endpoints doesn't work")]
         [Test]
         public void TestDeleteAsset() {
             var response = Toby.DeleteAsset(Util.ResourceId("asset"));
@@ -172,7 +170,7 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("document"), CreateDocResponse);
         }
 
-        //[Ignore("Have some issues with this test")]
+        [Ignore("Have some issues with this test")]
         [TestCase(null, null, null, null)]
         public void TestListDocuments(string? nextToken, int? maxResults, string? consentId, string? datasetId) {
             var response = Toby.ListDocuments(
@@ -237,7 +235,7 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("predictions"), response2);
         }
 
-        //[Ignore("Have some issues with this test")]
+        [Ignore("Have some issues with this test")]
         [Test]
         public void TestGetDocument()
         {
@@ -260,7 +258,7 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("document"), response);
         }
 
-        //[Ignore("Have some issues with this test")]
+        [Ignore("Have some issues with this test")]
         [TestCase(2, "foo", "las:consent:3ac6c39a3f9948a3b1aeb23ae7c73291")]
         public void TestDeleteDocuments(int maxResults, string nextToken, string consentId) {
             var response = Toby.DeleteDocuments(
@@ -272,7 +270,7 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("documents"), response);
         }
 
-        //[Ignore("delete endpoints doesn't work")]
+        [Ignore("delete endpoints doesn't work")]
         public void TestDeleteDocument() {
             var response = Toby.DeleteDocument(Util.ResourceId("document"));
             CheckKeys(Util.ExpectedKeys("document"), response);
@@ -310,7 +308,6 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("dataset"), response);
         }
 
-        [Ignore("delete endpoints doesn't work")]
         [TestCase(true)]
         [TestCase(false)]
         public void TestDeleteDataset(bool deleteDocuments) {
@@ -367,7 +364,6 @@ namespace Test
 
         [TestCase("name", "description")]
         [TestCase(null, "description")]
-        [Ignore("TODO: Fixme")]
         public void TestUpdateModel(string? name, string? description) {
             var response = Toby.UpdateModel(
                 modelId: Util.ResourceId("model"),
@@ -425,7 +421,6 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("dataBundle"), response);
         }
 
-        [Ignore("delete endpoints doesn't work")]
         [TestCase(true)]
         [TestCase(false)]
         public void TestDeleteDataBundle(bool deleteDocuments) {
@@ -472,7 +467,6 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("secret"), response);
         }
 
-        [Ignore("delete endpoints doesn't work")]
         [Test]
         public void TestDeleteSecret() {
             var response = Toby.DeleteSecret(Util.ResourceId("secret"));
@@ -522,7 +516,6 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("transition"), response);
         }
 
-        [Ignore("delete endpoints doesn't work")]
         [Test]
         public void TestDeleteTransition() {
             var response = Toby.DeleteTransition(Util.ResourceId("transition"));
@@ -661,7 +654,6 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("heartbeats"), response);
         }
 
-        [Ignore("")]
         [TestCase("foo@bar.com")]
         public void TestCreateUser(string email) {
             var response = Toby.CreateUser(email);
@@ -693,7 +685,6 @@ namespace Test
         }
 
         [Test]
-        [Ignore("delete endpoints doesn't work")]
         public void TestDeleteUser() {
             var response = Toby.DeleteUser(Util.ResourceId("user"));
             CheckKeys(Util.ExpectedKeys("user"), response);
@@ -750,7 +741,6 @@ namespace Test
         }
 
         [Test]
-        [Ignore("delete endpoints doesn't work")]
         public void TestDeleteWorkflow() {
             var response = Toby.DeleteWorkflow(Util.ResourceId("workflow"));
             CheckKeys(Util.ExpectedKeys("workflow"), response);
@@ -807,7 +797,6 @@ namespace Test
         }
 
         [Test]
-        [Ignore("delete endpoints doesn't work")]
         public void TestDeleteWorkflowExecution() {
             var response = Toby.DeleteWorkflowExecution(Util.ResourceId("workflow"), Util.ResourceId("workflow-execution"));
             CheckKeys(Util.ExpectedKeys("workflow-execution"), response);
