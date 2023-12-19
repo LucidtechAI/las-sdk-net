@@ -820,7 +820,7 @@ namespace Test
         public static string ContentType() { return "image/jpeg"; }
         public static string Description() { return "This is my new dataset for receipts july 2020"; }
         public static string ModelId() { return "las:model:abc123def456abc123def456abc123de"; }
-        public static string DocPath() { return Environment.ExpandEnvironmentVariables("Test/Files/example.jpeg"); }
+        public static string DocPath() { return Environment.ExpandEnvironmentVariables("Files/example.jpeg"); }
         public static Credentials Creds()
         {
             return new Credentials("foo", "bar", "baaz", "http://127.0.0.1:4010");
