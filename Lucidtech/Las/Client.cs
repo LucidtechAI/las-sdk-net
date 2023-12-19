@@ -786,7 +786,6 @@ namespace Lucidtech.Las
         /// <param name="preprocessConfig">Specification of the processing steps prior to the prediction of an image</param>
         /// <param name="name">Name of the model</param>
         /// <param name="description">Description of the model</param>
-        /// <param name="status">New status for the model</param>
         /// <param name="attributes">Additional attributes</param>
         /// <returns>Model response from REST API</returns>
         public object UpdateModel(
@@ -795,7 +794,6 @@ namespace Lucidtech.Las
             Dictionary<string, object>? preprocessConfig = null,
             string? name = null,
             string? description = null,
-            string? status = null,
             Dictionary<string, string?>? attributes = null
         ) {
             var body = new Dictionary<string, object?>();
@@ -814,10 +812,6 @@ namespace Lucidtech.Las
 
             if (description != null) {
                 body.Add("description", description);
-            }
-
-            if (status != null) {
-                body.Add("status", status);
             }
 
             if (attributes != null) {
