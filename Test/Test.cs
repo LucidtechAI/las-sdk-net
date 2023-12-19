@@ -170,7 +170,6 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("document"), CreateDocResponse);
         }
 
-        [Ignore("TODO: Fix this test")]
         [TestCase("foo", 2, "las:consent:08b49ae64cd746f384f05880ef5de72f", "las:dataset:08b49ae64cd746f384f05880ef5de72f")]
         [TestCase("foo", 2, null, null)]
         [TestCase("foo", 3, null, null)]
@@ -239,7 +238,6 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("predictions"), response2);
         }
 
-        [Ignore("TODO: Fix this test")]
         [Test]
         public void TestGetDocument()
         {
@@ -247,7 +245,6 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("document"), response);
         }
 
-        [Ignore("TODO: Fix this test")]
         [TestCase("54.50", "2007-07-30")]
         public void TestUpdateDocument(string total_amount, string purchase_date)
         {
@@ -263,7 +260,6 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("document"), response);
         }
 
-        [Ignore("TODO: Fix this test")]
         [TestCase(2, "foo", "las:consent:3ac6c39a3f9948a3b1aeb23ae7c73291")]
         public void TestDeleteDocuments(int maxResults, string nextToken, string consentId) {
             var response = Toby.DeleteDocuments(
@@ -275,7 +271,6 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("documents"), response);
         }
 
-        [Ignore("delete endpoints doesn't work")]
         public void TestDeleteDocument() {
             var response = Toby.DeleteDocument(Util.ResourceId("document"));
             CheckKeys(Util.ExpectedKeys("document"), response);
