@@ -369,8 +369,7 @@ namespace Test
             var response = Toby.UpdateModel(
                 modelId: Util.ResourceId("model"),
                 name: name,
-                description: description,
-                status: "training"
+                description: description
             );
             CheckKeys(Util.ExpectedKeys("model"), response);
         }
