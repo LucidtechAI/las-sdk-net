@@ -170,7 +170,11 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("document"), CreateDocResponse);
         }
 
-        [Ignore("Have some issues with this test")]
+        [Ignore("TODO: Fix this test")]
+        [TestCase("foo", 2, "las:consent:08b49ae64cd746f384f05880ef5de72f", "las:dataset:08b49ae64cd746f384f05880ef5de72f")]
+        [TestCase("foo", 2, null, null)]
+        [TestCase("foo", 3, null, null)]
+        [TestCase(null, null, "las:consent:08b49ae64cd746f384f05880ef5de72f", null)]
         [TestCase(null, null, null, null)]
         public void TestListDocuments(string? nextToken, int? maxResults, string? consentId, string? datasetId) {
             var response = Toby.ListDocuments(
@@ -235,7 +239,7 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("predictions"), response2);
         }
 
-        [Ignore("Have some issues with this test")]
+        [Ignore("TODO: Fix this test")]
         [Test]
         public void TestGetDocument()
         {
@@ -259,7 +263,7 @@ namespace Test
             CheckKeys(Util.ExpectedKeys("document"), response);
         }
 
-        [Ignore("Have some issues with this test")]
+        [Ignore("TODO: Fix this test")]
         [TestCase(2, "foo", "las:consent:3ac6c39a3f9948a3b1aeb23ae7c73291")]
         public void TestDeleteDocuments(int maxResults, string nextToken, string consentId) {
             var response = Toby.DeleteDocuments(
