@@ -2,7 +2,7 @@
 
 ## Documentation
 
-[Link to docs](https://docs.lucidtech.ai/reference/dotnet/latest)
+[Link to docs](https://docs.cradl.ai/reference/sdks/dotnet)
 
 
 Create documents by using doxygen.
@@ -31,7 +31,7 @@ nuget install Lucidtech.Las
 - Necessary keys and credentials to an endpoint on the form: "https://<your prefix>.api.lucidtech.ai/<version>".
 
 ### Quick start
-See [docs](https://docs.lucidtech.ai/getting-started/dev/net).
+See [docs](https://docs.cradl.ai/get-started/parse-invoices-and-receipts).
 
 ## Contributing
 
